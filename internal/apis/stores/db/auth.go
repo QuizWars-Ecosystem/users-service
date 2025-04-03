@@ -72,8 +72,8 @@ func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*mode
 		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
 		Join("stats s ON s.user_id = u.id").
-		Where(squirrel.Eq{"username": username}).
-		Where(squirrel.Eq{"deleted_at": nil})
+		Where(squirrel.Eq{"u.username": username}).
+		Where(squirrel.Eq{"u.deleted_at": nil})
 
 	query, args, err := builder.ToSql()
 	if err != nil {
@@ -114,8 +114,8 @@ func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*models.Pro
 		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
 		Join("stats s ON s.user_id = u.id").
-		Where(squirrel.Eq{"email": email}).
-		Where(squirrel.Eq{"deleted_at": nil})
+		Where(squirrel.Eq{"u.email": email}).
+		Where(squirrel.Eq{"u.deleted_at": nil})
 
 	query, args, err := builder.ToSql()
 	if err != nil {
