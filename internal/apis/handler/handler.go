@@ -10,10 +10,12 @@ import (
 
 var Empty = &emptypb.Empty{}
 
-var _ userspb.UsersAdminServiceServer = (*Handler)(nil)
-var _ userspb.UsersAuthServiceServer = (*Handler)(nil)
-var _ userspb.UsersProfileServiceServer = (*Handler)(nil)
-var _ userspb.UsersSocialServiceServer = (*Handler)(nil)
+var (
+	_ userspb.UsersAdminServiceServer   = (*Handler)(nil)
+	_ userspb.UsersAuthServiceServer    = (*Handler)(nil)
+	_ userspb.UsersProfileServiceServer = (*Handler)(nil)
+	_ userspb.UsersSocialServiceServer  = (*Handler)(nil)
+)
 
 type Handler struct {
 	service *service.Service

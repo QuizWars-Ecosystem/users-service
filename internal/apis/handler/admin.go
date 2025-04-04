@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
