@@ -1,7 +1,9 @@
 package profile
 
 import (
+	"errors"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
+	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 )
 
@@ -88,4 +90,21 @@ func (f *Friend) Request(req *userspb.Friend) (*Friend, error) {
 	f.Status = statusFromGRPCEnum(req.GetStatus())
 
 	return f, nil
+}
+
+var _ abstractions.Requestable[UpdateProfile, *userspb.UpdateProfileRequest] = (*UpdateProfile)(nil)
+
+func (u UpdateProfile) Request(req *userspb.UpdateProfileRequest) (*UpdateProfile, error) {
+	flag := false
+
+	if req.Username != nil {
+		u.Username = req.Username
+		flag = true
+	}
+
+	if !flag {
+		return nil, apperrors.BadRequest(errors.New("data to change not provided"))
+	}
+
+	return &u, nil
 }
