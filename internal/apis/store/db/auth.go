@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"github.com/QuizWars-Ecosystem/users-service/internal/models/auth"
 	"time"
 
 	"github.com/Masterminds/squirrel"
@@ -24,7 +25,7 @@ func NewAuth(db *pgxpool.Pool, logger *zap.Logger) *Auth {
 	}
 }
 
-func (a *Auth) SaveProfile(ctx context.Context, p *profile.WithCredentials) (*profile.Profile, error) {
+func (a *Auth) SaveProfile(ctx context.Context, p *auth.ProfileWithCredentials) (*profile.Profile, error) {
 	builder := dbx.StatementBuilder.
 		Insert("users").
 		Columns("username", "email", "pass_hash", "avatar_id").
@@ -67,7 +68,7 @@ func (a *Auth) SaveProfile(ctx context.Context, p *profile.WithCredentials) (*pr
 	return p.Profile, nil
 }
 
-func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*profile.WithCredentials, error) {
+func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*auth.ProfileWithCredentials, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.role", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -80,7 +81,7 @@ func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*prof
 		return nil, apperrors.Internal(err)
 	}
 
-	p := profile.WithCredentials{
+	p := auth.ProfileWithCredentials{
 		Profile: &profile.Profile{
 			User: &profile.User{},
 		},
@@ -110,7 +111,7 @@ func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*prof
 	return &p, nil
 }
 
-func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*profile.WithCredentials, error) {
+func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*auth.ProfileWithCredentials, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.role", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -123,7 +124,7 @@ func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*profile.Wi
 		return nil, apperrors.Internal(err)
 	}
 
-	p := profile.WithCredentials{
+	p := auth.ProfileWithCredentials{
 		Profile: &profile.Profile{
 			User: &profile.User{},
 		},

@@ -12,12 +12,6 @@ type Profile struct {
 	Coins int64  `json:"coins"`
 }
 
-type WithCredentials struct {
-	Profile  *Profile
-	Password string
-	Role     string
-}
-
 type User struct {
 	ID          string     `json:"id"`
 	AvatarID    int32      `json:"avatar_id"`
