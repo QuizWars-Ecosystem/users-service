@@ -2,8 +2,9 @@ package db
 
 import (
 	"context"
-	"github.com/QuizWars-Ecosystem/users-service/internal/models/auth"
 	"time"
+
+	"github.com/QuizWars-Ecosystem/users-service/internal/models/auth"
 
 	"github.com/Masterminds/squirrel"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/dbx"

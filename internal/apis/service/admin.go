@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/admin"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 	"go.uber.org/zap"
