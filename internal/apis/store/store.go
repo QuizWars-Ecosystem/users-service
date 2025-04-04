@@ -1,7 +1,7 @@
-package handlers
+package store
 
 import (
-	"github.com/QuizWars-Ecosystem/users-service/internal/apis/stores/db"
+	"github.com/QuizWars-Ecosystem/users-service/internal/apis/store/db"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"go.uber.org/zap"
 )

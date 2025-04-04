@@ -39,14 +39,46 @@ type SearchFilter struct {
 
 type Order string
 
-func (s Order) String() string {
-	return string(s)
+func (o Order) String() string {
+	return string(o)
 }
 
 type Sort string
 
 func (s Sort) String() string {
 	return string(s)
+}
+
+func (o Order) ToGRPCEnum() userspb.Order {
+	switch o {
+	case ID:
+		return userspb.Order_ORDER_ID
+	case Username:
+		return userspb.Order_ORDER_USERNAME
+	case Email:
+		return userspb.Order_ORDER_EMAIL
+	case Rating:
+		return userspb.Order_ORDER_RATING
+	case Coins:
+		return userspb.Order_ORDER_COINS
+	case CreatedAt:
+		return userspb.Order_ORDER_CREATED_AT
+	case DeletedAt:
+		return userspb.Order_ORDER_DELETED_AT
+	default:
+		return userspb.Order_ORDER_USERNAME
+	}
+}
+
+func (s Sort) ToGRPCEnum() userspb.Sort {
+	switch s {
+	case ASC:
+		return userspb.Sort_SORT_ASC
+	case DESC:
+		return userspb.Sort_SORT_DESC
+	default:
+		return userspb.Sort_SORT_DESC
+	}
 }
 
 func orderFromGRPCEnum(status userspb.Order) Order {

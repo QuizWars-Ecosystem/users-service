@@ -69,7 +69,7 @@ func (a *Auth) SaveProfile(ctx context.Context, p *profile.WithCredentials) (*pr
 
 func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*profile.WithCredentials, error) {
 	builder := dbx.StatementBuilder.
-		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
+		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.role", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
 		Join("stats s ON s.user_id = u.id").
 		Where(squirrel.Eq{"u.username": username}).
@@ -92,6 +92,7 @@ func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*prof
 			&p.Profile.User.Username,
 			&p.Profile.Email,
 			&p.Password,
+			&p.Role,
 			&p.Profile.User.AvatarID,
 			&p.Profile.User.Rating,
 			&p.Profile.Coins,
@@ -111,7 +112,7 @@ func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*prof
 
 func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*profile.WithCredentials, error) {
 	builder := dbx.StatementBuilder.
-		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
+		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.role", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
 		Join("stats s ON s.user_id = u.id").
 		Where(squirrel.Eq{"u.email": email}).
@@ -134,6 +135,7 @@ func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*profile.Wi
 			&p.Profile.User.Username,
 			&p.Profile.Email,
 			&p.Password,
+			&p.Role,
 			&p.Profile.User.AvatarID,
 			&p.Profile.User.Rating,
 			&p.Profile.Coins,

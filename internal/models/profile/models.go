@@ -15,6 +15,7 @@ type Profile struct {
 type WithCredentials struct {
 	Profile  *Profile
 	Password string
+	Role     string
 }
 
 type User struct {
