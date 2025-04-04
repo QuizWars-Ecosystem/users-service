@@ -2,14 +2,15 @@ package main
 
 import (
 	"context"
-	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
-	"github.com/QuizWars-Ecosystem/go-common/pkg/config"
-	users "github.com/QuizWars-Ecosystem/users-service/internal/config"
-	"github.com/QuizWars-Ecosystem/users-service/internal/server"
 	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
+	"github.com/QuizWars-Ecosystem/go-common/pkg/config"
+	users "github.com/QuizWars-Ecosystem/users-service/internal/config"
+	"github.com/QuizWars-Ecosystem/users-service/internal/server"
 )
 
 func main() {
@@ -48,5 +49,4 @@ func main() {
 	if err = srv.Start(); err != nil {
 		slog.Error("Server failed to start", "error", err)
 	}
-
 }

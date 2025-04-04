@@ -3,6 +3,8 @@ package server
 import (
 	"context"
 	"fmt"
+	"net"
+
 	"github.com/DavidMovas/gopherbox/pkg/closer"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/consul"
@@ -12,7 +14,6 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
 	"google.golang.org/grpc/health/grpc_health_v1"
-	"net"
 )
 
 var _ abstractions.Server = (*Server)(nil)

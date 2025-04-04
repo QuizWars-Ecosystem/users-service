@@ -2,13 +2,14 @@ package db
 
 import (
 	"context"
+	"time"
+
 	"github.com/Masterminds/squirrel"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/dbx"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
-	"github.com/QuizWars-Ecosystem/users-service/internal/models"
+	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"go.uber.org/zap"
-	"time"
 )
 
 type Profile struct {
@@ -23,7 +24,7 @@ func NewProfile(db *pgxpool.Pool, logger *zap.Logger) *Profile {
 	}
 }
 
-func (p *Profile) GetProfile(ctx context.Context, userID string) (*models.Profile, error) {
+func (p *Profile) GetProfile(ctx context.Context, userID string) (*profile.Profile, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -36,18 +37,20 @@ func (p *Profile) GetProfile(ctx context.Context, userID string) (*models.Profil
 		return nil, apperrors.Internal(err)
 	}
 
-	var profile models.Profile
+	prof := profile.Profile{
+		User: &profile.User{},
+	}
 
 	err = p.db.QueryRow(ctx, query, args...).
 		Scan(
-			&profile.User.ID,
-			&profile.User.Username,
-			&profile.Email,
-			&profile.User.AvatarID,
-			&profile.User.Rating,
-			&profile.Coins,
-			&profile.User.CreatedAt,
-			&profile.User.LastLoginAt,
+			&prof.User.ID,
+			&prof.User.Username,
+			&prof.Email,
+			&prof.User.AvatarID,
+			&prof.User.Rating,
+			&prof.Coins,
+			&prof.User.CreatedAt,
+			&prof.User.LastLoginAt,
 		)
 
 	switch {
@@ -57,10 +60,10 @@ func (p *Profile) GetProfile(ctx context.Context, userID string) (*models.Profil
 		return nil, apperrors.Internal(err)
 	}
 
-	return &profile, nil
+	return &prof, nil
 }
 
-func (p *Profile) GetUserByID(ctx context.Context, userID string) (*models.User, error) {
+func (p *Profile) GetUserByID(ctx context.Context, userID string) (*profile.User, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.avatar_id", "s.rating", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -73,7 +76,7 @@ func (p *Profile) GetUserByID(ctx context.Context, userID string) (*models.User,
 		return nil, apperrors.Internal(err)
 	}
 
-	var user models.User
+	var user profile.User
 
 	err = p.db.QueryRow(ctx, query, args...).
 		Scan(
@@ -95,7 +98,7 @@ func (p *Profile) GetUserByID(ctx context.Context, userID string) (*models.User,
 	return &user, nil
 }
 
-func (p *Profile) GetUserByUsername(ctx context.Context, username string) (*models.User, error) {
+func (p *Profile) GetUserByUsername(ctx context.Context, username string) (*profile.User, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.avatar_id", "s.rating", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -108,7 +111,7 @@ func (p *Profile) GetUserByUsername(ctx context.Context, username string) (*mode
 		return nil, apperrors.Internal(err)
 	}
 
-	var user models.User
+	var user profile.User
 
 	err = p.db.QueryRow(ctx, query, args...).
 		Scan(
@@ -130,7 +133,7 @@ func (p *Profile) GetUserByUsername(ctx context.Context, username string) (*mode
 	return &user, nil
 }
 
-func (p *Profile) UpdateProfile(ctx context.Context, userID string, request *models.UpdateProfile) error {
+func (p *Profile) UpdateProfile(ctx context.Context, userID string, request *profile.UpdateProfile) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Where(squirrel.Eq{"id": userID}).

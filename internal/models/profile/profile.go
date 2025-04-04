@@ -1,8 +1,9 @@
-package models
+package profile
 
 import (
-	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 	"time"
+
+	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 )
 
 type Profile struct {
@@ -11,7 +12,7 @@ type Profile struct {
 	Coins int64  `json:"coins"`
 }
 
-type ProfileWithCredits struct {
+type WithCredentials struct {
 	Profile  *Profile
 	Password string
 }
@@ -65,7 +66,7 @@ func (s Status) ToGRPCEnum() userspb.Status {
 	}
 }
 
-func FromGRPCEnum(status userspb.Status) Status {
+func statusFromGRPCEnum(status userspb.Status) Status {
 	switch status {
 	case userspb.Status_STATUS_PENDING:
 		return Pending

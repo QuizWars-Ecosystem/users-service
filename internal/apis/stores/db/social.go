@@ -2,10 +2,11 @@ package db
 
 import (
 	"context"
+
 	"github.com/Masterminds/squirrel"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/dbx"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
-	"github.com/QuizWars-Ecosystem/users-service/internal/models"
+	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"go.uber.org/zap"
@@ -63,7 +64,7 @@ func (s *Social) AcceptFriend(ctx context.Context, userId string, friendId strin
 
 	builder := dbx.StatementBuilder.
 		Update("friends").
-		Set("status", models.Accepted).
+		Set("status", profile.Accepted).
 		Where(squirrel.Eq{"user_id": userId, "friend_id": friendId})
 
 	if err := dbx.QueryBatch(b, builder); err != nil {
@@ -72,7 +73,7 @@ func (s *Social) AcceptFriend(ctx context.Context, userId string, friendId strin
 
 	builder = dbx.StatementBuilder.
 		Update("friends").
-		Set("status", models.Accepted).
+		Set("status", profile.Accepted).
 		Where(squirrel.Eq{"user_id": friendId, "friend_id": userId})
 
 	if err := dbx.QueryBatch(b, builder); err != nil {
@@ -85,7 +86,6 @@ func (s *Social) AcceptFriend(ctx context.Context, userId string, friendId strin
 	}
 
 	return nil
-
 }
 
 func (s *Social) RemoveFriend(ctx context.Context, userId string, friendId string) error {
@@ -123,7 +123,7 @@ func (s *Social) BanFriend(ctx context.Context, userId string, friendId string) 
 
 	builder := dbx.StatementBuilder.
 		Update("friends").
-		Set("status", models.Blocked).
+		Set("status", profile.Blocked).
 		Where(squirrel.Eq{"user_id": userId, "friend_id": friendId})
 
 	if err := dbx.QueryBatch(b, builder); err != nil {
@@ -132,7 +132,7 @@ func (s *Social) BanFriend(ctx context.Context, userId string, friendId string) 
 
 	builder = dbx.StatementBuilder.
 		Update("friends").
-		Set("status", models.Blocked).
+		Set("status", profile.Blocked).
 		Where(squirrel.Eq{"user_id": friendId, "friend_id": userId})
 
 	if err := dbx.QueryBatch(b, builder); err != nil {
@@ -145,7 +145,6 @@ func (s *Social) BanFriend(ctx context.Context, userId string, friendId string) 
 	}
 
 	return nil
-
 }
 
 func (s *Social) UnbanFriend(ctx context.Context, userId string, friendId string) error {
@@ -153,7 +152,7 @@ func (s *Social) UnbanFriend(ctx context.Context, userId string, friendId string
 
 	builder := dbx.StatementBuilder.
 		Update("friends").
-		Set("status", models.Accepted).
+		Set("status", profile.Accepted).
 		Where(squirrel.Eq{"user_id": userId, "friend_id": friendId})
 
 	if err := dbx.QueryBatch(b, builder); err != nil {
@@ -162,7 +161,7 @@ func (s *Social) UnbanFriend(ctx context.Context, userId string, friendId string
 
 	builder = dbx.StatementBuilder.
 		Update("friends").
-		Set("status", models.Accepted).
+		Set("status", profile.Accepted).
 		Where(squirrel.Eq{"user_id": friendId, "friend_id": userId})
 
 	if err := dbx.QueryBatch(b, builder); err != nil {
@@ -175,5 +174,4 @@ func (s *Social) UnbanFriend(ctx context.Context, userId string, friendId string
 	}
 
 	return nil
-
 }

@@ -2,13 +2,14 @@ package db
 
 import (
 	"context"
+	"time"
+
 	"github.com/Masterminds/squirrel"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/dbx"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
-	"github.com/QuizWars-Ecosystem/users-service/internal/models"
+	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"go.uber.org/zap"
-	"time"
 )
 
 type Auth struct {
@@ -23,11 +24,11 @@ func NewAuth(db *pgxpool.Pool, logger *zap.Logger) *Auth {
 	}
 }
 
-func (a *Auth) SaveProfile(ctx context.Context, profile *models.ProfileWithCredits) (*models.Profile, error) {
+func (a *Auth) SaveProfile(ctx context.Context, p *profile.WithCredentials) (*profile.Profile, error) {
 	builder := dbx.StatementBuilder.
 		Insert("users").
 		Columns("username", "email", "pass_hash", "avatar_id").
-		Values(profile.Profile.User.Username, profile.Profile.Email, profile.Password, profile.Profile.User.AvatarID).
+		Values(p.Profile.User.Username, p.Profile.Email, p.Password, p.Profile.User.AvatarID).
 		Suffix("RETURNING id, created_at")
 
 	query, args, err := builder.ToSql()
@@ -36,13 +37,12 @@ func (a *Auth) SaveProfile(ctx context.Context, profile *models.ProfileWithCredi
 	}
 
 	err = a.db.QueryRow(ctx, query, args...).
-		Scan(profile.Profile.User.ID, profile.Profile.User.CreatedAt)
-
+		Scan(p.Profile.User.ID, p.Profile.User.CreatedAt)
 	if err != nil {
 		builder = dbx.StatementBuilder.
 			Insert("stats").
 			Columns("user_id").
-			Values(profile.Profile.User.ID)
+			Values(p.Profile.User.ID)
 
 		query, args, err = builder.ToSql()
 		if err != nil {
@@ -64,10 +64,10 @@ func (a *Auth) SaveProfile(ctx context.Context, profile *models.ProfileWithCredi
 		return nil, apperrors.Internal(err)
 	}
 
-	return profile.Profile, nil
+	return p.Profile, nil
 }
 
-func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*models.ProfileWithCredits, error) {
+func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*profile.WithCredentials, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -80,23 +80,23 @@ func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*mode
 		return nil, apperrors.Internal(err)
 	}
 
-	profile := models.ProfileWithCredits{
-		Profile: &models.Profile{
-			User: &models.User{},
+	p := profile.WithCredentials{
+		Profile: &profile.Profile{
+			User: &profile.User{},
 		},
 	}
 
 	err = a.db.QueryRow(ctx, query, args...).
 		Scan(
-			&profile.Profile.User.ID,
-			&profile.Profile.User.Username,
-			&profile.Profile.Email,
-			&profile.Password,
-			&profile.Profile.User.AvatarID,
-			&profile.Profile.User.Rating,
-			&profile.Profile.Coins,
-			&profile.Profile.User.CreatedAt,
-			&profile.Profile.User.LastLoginAt,
+			&p.Profile.User.ID,
+			&p.Profile.User.Username,
+			&p.Profile.Email,
+			&p.Password,
+			&p.Profile.User.AvatarID,
+			&p.Profile.User.Rating,
+			&p.Profile.Coins,
+			&p.Profile.User.CreatedAt,
+			&p.Profile.User.LastLoginAt,
 		)
 
 	switch {
@@ -106,10 +106,10 @@ func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*mode
 		return nil, apperrors.Internal(err)
 	}
 
-	return &profile, nil
+	return &p, nil
 }
 
-func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*models.ProfileWithCredits, error) {
+func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*profile.WithCredentials, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -122,23 +122,23 @@ func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*models.Pro
 		return nil, apperrors.Internal(err)
 	}
 
-	profile := models.ProfileWithCredits{
-		Profile: &models.Profile{
-			User: &models.User{},
+	p := profile.WithCredentials{
+		Profile: &profile.Profile{
+			User: &profile.User{},
 		},
 	}
 
 	err = a.db.QueryRow(ctx, query, args...).
 		Scan(
-			&profile.Profile.User.ID,
-			&profile.Profile.User.Username,
-			&profile.Profile.Email,
-			&profile.Password,
-			&profile.Profile.User.AvatarID,
-			&profile.Profile.User.Rating,
-			&profile.Profile.Coins,
-			&profile.Profile.User.CreatedAt,
-			&profile.Profile.User.LastLoginAt,
+			&p.Profile.User.ID,
+			&p.Profile.User.Username,
+			&p.Profile.Email,
+			&p.Password,
+			&p.Profile.User.AvatarID,
+			&p.Profile.User.Rating,
+			&p.Profile.Coins,
+			&p.Profile.User.CreatedAt,
+			&p.Profile.User.LastLoginAt,
 		)
 
 	switch {
@@ -148,7 +148,7 @@ func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*models.Pro
 		return nil, apperrors.Internal(err)
 	}
 
-	return &profile, nil
+	return &p, nil
 }
 
 func (a *Auth) SetLastLogin(ctx context.Context, userID string) error {
