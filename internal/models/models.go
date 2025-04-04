@@ -35,6 +35,10 @@ type Friend struct {
 	Status Status `json:"status"`
 }
 
+type UpdateProfile struct {
+	Username *string `json:"username"`
+}
+
 type Status string
 
 func (s Status) String() string {
@@ -43,9 +47,9 @@ func (s Status) String() string {
 
 const (
 	Unknown  Status = "unknown"
-	Pending  Status = "Pending"
-	Accepted Status = "Accepted"
-	Blocked  Status = "Blocked"
+	Pending  Status = "pending"
+	Accepted Status = "accepted"
+	Blocked  Status = "blocked"
 )
 
 func (s Status) ToGRPCEnum() userspb.Status {
