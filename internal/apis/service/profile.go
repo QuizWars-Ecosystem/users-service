@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 	"golang.org/x/crypto/bcrypt"

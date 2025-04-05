@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
@@ -46,7 +47,7 @@ func (h *Handler) ListFriends(ctx context.Context, request *userspb.ListFriendsR
 		return nil, err
 	}
 
-	var friends = make([]*userspb.Friend, len(res))
+	friends := make([]*userspb.Friend, len(res))
 	for i, f := range res {
 		var friend *userspb.Friend
 

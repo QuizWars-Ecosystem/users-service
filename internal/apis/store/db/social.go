@@ -143,7 +143,7 @@ func (s *Social) GetFriends(ctx context.Context, userID string) ([]*profile.Frie
 	defer rows.Close()
 
 	for rows.Next() {
-		var f = profile.Friend{
+		f := profile.Friend{
 			User: &profile.User{},
 		}
 

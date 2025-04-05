@@ -2,6 +2,7 @@ package profile
 
 import (
 	"errors"
+
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"

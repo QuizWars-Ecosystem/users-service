@@ -3,13 +3,14 @@ package server
 import (
 	"context"
 	"fmt"
+	"net"
+
 	"github.com/QuizWars-Ecosystem/go-common/pkg/clients"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 	"github.com/QuizWars-Ecosystem/users-service/internal/apis/handler"
 	"github.com/QuizWars-Ecosystem/users-service/internal/apis/service"
 	"github.com/QuizWars-Ecosystem/users-service/internal/apis/store"
-	"net"
 
 	"github.com/DavidMovas/gopherbox/pkg/closer"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"

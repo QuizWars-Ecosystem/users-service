@@ -7,11 +7,11 @@ import (
 )
 
 type Store struct {
-	*db.Admin
-	*db.Auth
-	*db.Profile
-	*db.Social
-	logger *zap.Logger
+	Admin   *db.Admin
+	Auth    *db.Auth
+	Profile *db.Profile
+	Social  *db.Social
+	logger  *zap.Logger
 }
 
 func NewStore(pool *pgxpool.Pool, logger *zap.Logger) *Store {
