@@ -10,8 +10,8 @@ github.com/DavidMovas/gopherbox v0.0.0-20250329141646-145b4e0827ef h1:X3T8jXTK7e
 github.com/DavidMovas/gopherbox v0.0.0-20250329141646-145b4e0827ef/go.mod h1:SS2j3swG57zrRmuVXbdOXJvHV7wgLsj3OewEPclDOBI=
 github.com/Masterminds/squirrel v1.5.4 h1:uUcX/aBc8O7Fg9kaISIUsHXdKuqehiXAMQTYX8afzqM=
 github.com/Masterminds/squirrel v1.5.4/go.mod h1:NNaOrjSoIDfDA40n7sr2tPNZRfjzjA400rg+riTZj10=
-github.com/QuizWars-Ecosystem/go-common v0.0.0-20250403171830-7437ddfce87d h1:qIXPSa9UTQ35mqhEZ7vsi8BPpW2CmUrt4UrHaAtWoDM=
-github.com/QuizWars-Ecosystem/go-common v0.0.0-20250403171830-7437ddfce87d/go.mod h1:OzQy0EjVqH9mVqnR1B1btiZZsdgcDdzKqDK/Hs/ITtc=
+github.com/QuizWars-Ecosystem/go-common v0.0.0-20250404213648-ce0cad745a62 h1:vAuIh1losyJzhqY30KRRFjGHIaVmRtD9e25tMTBzrpQ=
+github.com/QuizWars-Ecosystem/go-common v0.0.0-20250404213648-ce0cad745a62/go.mod h1:OzQy0EjVqH9mVqnR1B1btiZZsdgcDdzKqDK/Hs/ITtc=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=

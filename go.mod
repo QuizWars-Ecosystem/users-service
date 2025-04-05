@@ -5,7 +5,7 @@ go 1.24.2
 require (
 	github.com/DavidMovas/gopherbox v0.0.0-20250329141646-145b4e0827ef
 	github.com/Masterminds/squirrel v1.5.4
-	github.com/QuizWars-Ecosystem/go-common v0.0.0-20250403171830-7437ddfce87d
+	github.com/QuizWars-Ecosystem/go-common v0.0.0-20250404213648-ce0cad745a62
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3
 	github.com/jackc/pgx/v5 v5.7.4
 	go.uber.org/zap v1.27.0
