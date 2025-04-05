@@ -3,7 +3,6 @@ package integration_tests
 import (
 	"context"
 	"fmt"
-	"golang.org/x/sync/errgroup"
 	"testing"
 	"time"
 
@@ -29,9 +28,10 @@ func runServer(t *testing.T, cfg *config.TestConfig) {
 	srv, err := server.NewTestServer(t.Context(), cfg.ServiceConfig)
 	require.NoError(t, err)
 
-	group := errgroup.Group{}
-
-	group.Go(srv.Start)
+	go func() {
+		err = srv.Start()
+		require.NoError(t, err)
+	}()
 
 	t.Log("Server started")
 
@@ -63,9 +63,6 @@ func runServer(t *testing.T, cfg *config.TestConfig) {
 	defer cancel()
 
 	err = srv.Shutdown(stopCtx)
-	require.NoError(t, err)
-
-	err = group.Wait()
 	require.NoError(t, err)
 
 	t.Log("Server shut down")

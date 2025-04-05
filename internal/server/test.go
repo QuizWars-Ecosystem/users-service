@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net"
 	"time"
@@ -78,12 +79,22 @@ func (s *TestServer) Start() error {
 
 func (s *TestServer) Shutdown(ctx context.Context) error {
 	z := s.logger.Zap()
+	z.Info("Shutting down server gracefully", zap.String("name", s.cfg.Name))
 
-	z.Info("Shutting down server", zap.String("name", s.cfg.Name))
+	stopChan := make(chan struct{})
+	go func() {
+		s.grpcServer.GracefulStop()
+		close(stopChan)
+	}()
 
-	s.grpcServer.GracefulStop()
+	select {
+	case <-stopChan:
+	case <-ctx.Done():
+		z.Warn("Graceful shutdown timed out, forcing stop")
+		s.grpcServer.Stop()
+	}
 
-	if err := s.listener.Close(); err != nil {
+	if err := s.listener.Close(); err != nil && !errors.Is(err, net.ErrClosed) {
 		return fmt.Errorf("shutting down listener: %w", err)
 	}
 
