@@ -5,51 +5,39 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"strings"
+	"time"
 
+	"github.com/DavidMovas/gopherbox/pkg/closer"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/clients"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
+	"github.com/QuizWars-Ecosystem/go-common/pkg/log"
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 	"github.com/QuizWars-Ecosystem/users-service/internal/apis/handler"
 	"github.com/QuizWars-Ecosystem/users-service/internal/apis/service"
 	"github.com/QuizWars-Ecosystem/users-service/internal/apis/store"
-
-	"github.com/DavidMovas/gopherbox/pkg/closer"
-	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
-	"github.com/QuizWars-Ecosystem/go-common/pkg/consul"
-	"github.com/QuizWars-Ecosystem/go-common/pkg/log"
 	"github.com/QuizWars-Ecosystem/users-service/internal/config"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/health"
-	"google.golang.org/grpc/health/grpc_health_v1"
 )
 
-var _ abstractions.Server = (*Server)(nil)
-
-type Server struct {
+type TestServer struct {
 	grpcServer *grpc.Server
 	listener   net.Listener
-	consul     *consul.Consul
 	logger     *log.Logger
 	cfg        *config.Config
 	closer     *closer.Closer
 }
 
-func NewServer(ctx context.Context, cfg *config.Config) (*Server, error) {
+func NewTestServer(ctx context.Context, cfg *config.Config) (*TestServer, error) {
 	cl := closer.NewCloser()
 
 	logger := log.NewLogger(cfg.Local, cfg.LogLevel)
-	cl.PushIO(logger)
 
-	consulManager, err := consul.NewConsul(cfg.ConsulURL, cfg.Name, cfg.Address, cfg.GRPCPort, logger)
-	if err != nil {
-		logger.Zap().Error("error initializing consul manager", zap.Error(err))
-		return nil, fmt.Errorf("error initializing consul manager: %w", err)
-	}
+	dbOpts := clients.NewPostgresOptions(cfg.Postgres.URL)
+	dbOpts.WithConnectTimeout(time.Second * 20)
 
-	cl.Push(consulManager.Stop)
-
-	db, err := clients.NewPostgresClient(ctx, cfg.Postgres.URL, nil)
+	db, err := clients.NewPostgresClient(ctx, cfg.Postgres.URL, dbOpts)
 	if err != nil {
 		logger.Zap().Error("error initializing postgres client", zap.Error(err))
 		return nil, fmt.Errorf("error initializing postgres client: %w", err)
@@ -62,27 +50,20 @@ func NewServer(ctx context.Context, cfg *config.Config) (*Server, error) {
 
 	grpcServer := grpc.NewServer(grpc.ChainUnaryInterceptor())
 
-	healthServer := health.NewServer()
-	healthServer.SetServingStatus(fmt.Sprintf("%s-%d", cfg.Name, cfg.GRPCPort), grpc_health_v1.HealthCheckResponse_SERVING)
-	grpc_health_v1.RegisterHealthServer(grpcServer, healthServer)
-
-	cl.PushNE(healthServer.Shutdown)
-
 	userspb.RegisterUsersAdminServiceServer(grpcServer, hand)
 	userspb.RegisterUsersAuthServiceServer(grpcServer, hand)
 	userspb.RegisterUsersProfileServiceServer(grpcServer, hand)
 	userspb.RegisterUsersSocialServiceServer(grpcServer, hand)
 
-	return &Server{
+	return &TestServer{
 		grpcServer: grpcServer,
-		consul:     consulManager,
 		logger:     logger,
 		cfg:        cfg,
 		closer:     cl,
 	}, nil
 }
 
-func (s *Server) Start() error {
+func (s *TestServer) Start() error {
 	z := s.logger.Zap()
 
 	z.Info("Starting server", zap.String("name", s.cfg.Name), zap.Int("port", s.cfg.GRPCPort))
@@ -94,18 +75,10 @@ func (s *Server) Start() error {
 		return err
 	}
 
-	s.closer.PushIO(s.listener)
-
-	err = s.consul.RegisterService()
-	if err != nil {
-		z.Error("Failed to register service in consul registry", zap.String("name", s.cfg.Name), zap.Error(err))
-		return err
-	}
-
 	return s.grpcServer.Serve(s.listener)
 }
 
-func (s *Server) Shutdown(ctx context.Context) error {
+func (s *TestServer) Shutdown(ctx context.Context) error {
 	z := s.logger.Zap()
 	z.Info("Shutting down server gracefully", zap.String("name", s.cfg.Name))
 
@@ -126,9 +99,13 @@ func (s *Server) Shutdown(ctx context.Context) error {
 		return fmt.Errorf("shutting down listener: %w", err)
 	}
 
-	if err := s.logger.Close(); err != nil {
+	if err := s.logger.Close(); err != nil && !isStdoutSyncErr(err) {
 		return fmt.Errorf("error closing logger: %w", err)
 	}
 
 	return s.closer.Close(ctx)
+}
+
+func isStdoutSyncErr(err error) bool {
+	return strings.Contains(err.Error(), "sync")
 }
