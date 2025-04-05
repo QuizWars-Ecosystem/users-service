@@ -3,18 +3,20 @@ package config
 import (
 	"time"
 
+	test "github.com/QuizWars-Ecosystem/go-common/pkg/testing/config"
+
 	def "github.com/QuizWars-Ecosystem/go-common/pkg/config"
 	"github.com/QuizWars-Ecosystem/users-service/internal/config"
-	"github.com/testcontainers/testcontainers-go"
 )
 
 type TestConfig struct {
 	ServiceConfig *config.Config
-	Postgres      *PostgresConfig
-	Network       *testcontainers.DockerNetwork
+	Postgres      *test.PostgresConfig
 }
 
 func NewTestConfig() *TestConfig {
+	postgresCfg := test.DefaultPostgresConfig()
+
 	return &TestConfig{
 		ServiceConfig: &config.Config{
 			DefaultServiceConfig: def.DefaultServiceConfig{
@@ -32,31 +34,7 @@ func NewTestConfig() *TestConfig {
 				AccessExpiration:  time.Hour,
 				RefreshExpiration: time.Hour,
 			},
-			Postgres: config.PostgresConfig{
-				URL: "postgres:5432",
-			},
-			Redis: config.RedisConfig{
-				URL: "redis:6379",
-			},
 		},
-		Postgres: &PostgresConfig{
-			Name:     "postgres",
-			Image:    "postgres:17.2-alpine",
-			Username: "user",
-			Password: "pass",
-			DBName:   "users",
-			Host:     "localhost",
-			Port:     5432,
-		},
+		Postgres: &postgresCfg,
 	}
-}
-
-type PostgresConfig struct {
-	Name     string
-	Image    string
-	Username string
-	Password string
-	DBName   string
-	Host     string
-	Port     int
 }

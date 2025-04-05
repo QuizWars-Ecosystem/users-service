@@ -12,3 +12,8 @@ go-lint:
 
 test:
 	go test -v ./tests/integration_tests
+
+before-push:
+	go mod tidy
+	gofumpt -l -w .
+	golangci-lint run ./...
