@@ -29,22 +29,22 @@ func NewAuth(db *pgxpool.Pool, logger *zap.Logger) *Auth {
 func (a *Auth) SaveProfile(ctx context.Context, p *auth.ProfileWithCredentials) (*profile.Profile, error) {
 	builder := dbx.StatementBuilder.
 		Insert("users").
-		Columns("username", "email", "pass_hash", "avatar_id").
-		Values(p.Profile.User.Username, p.Profile.Email, p.Password, p.Profile.User.AvatarID).
-		Suffix("RETURNING id, created_at")
+		Columns("id", "username", "email", "pass_hash", "avatar_id", "created_at").
+		Values(p.Profile.User.ID, p.Profile.User.Username, p.Profile.Email, p.Password, p.Profile.User.AvatarID, time.Now())
 
 	query, args, err := builder.ToSql()
 	if err != nil {
 		return nil, apperrors.Internal(err)
 	}
 
-	err = a.db.QueryRow(ctx, query, args...).
-		Scan(p.Profile.User.ID, p.Profile.User.CreatedAt)
-	if err != nil {
+	_, err = a.db.Exec(ctx, query, args...)
+
+	if err == nil {
 		builder = dbx.StatementBuilder.
 			Insert("stats").
 			Columns("user_id").
-			Values(p.Profile.User.ID)
+			Values(p.Profile.User.ID).
+			Suffix("ON CONFLICT DO NOTHING")
 
 		query, args, err = builder.ToSql()
 		if err != nil {
@@ -52,7 +52,10 @@ func (a *Auth) SaveProfile(ctx context.Context, p *auth.ProfileWithCredentials) 
 		}
 
 		_, err = a.db.Exec(ctx, query, args...)
-		if err != nil {
+		switch {
+		case dbx.IsForeignKeyViolation(err, "user_id"):
+			return nil, apperrors.BadRequestHidden(err, "user already exists")
+		case err != nil:
 			return nil, apperrors.Internal(err)
 		}
 	}

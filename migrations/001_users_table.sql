@@ -3,7 +3,7 @@
 CREATE TYPE user_role AS ENUM ('user', 'admin');
 
 CREATE TABLE IF NOT EXISTS users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id VARCHAR(36) PRIMARY KEY,
     username VARCHAR(32) UNIQUE NOT NULL,
     email VARCHAR(128) UNIQUE NOT NULL,
     pass_hash VARCHAR(64) NOT NULL,

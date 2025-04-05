@@ -22,7 +22,7 @@ func (h *Handler) Register(ctx context.Context, request *userspb.RegisterRequest
 
 	res, err := h.service.Register(ctx, req)
 	if err != nil {
-		return nil, apperrors.Internal(err)
+		return nil, err
 	}
 
 	token, err := h.jwt.GenerateToken(res.User.ID, string(jwt.User))
@@ -32,7 +32,7 @@ func (h *Handler) Register(ctx context.Context, request *userspb.RegisterRequest
 
 	result, err := abstractions.MakeResponse(res)
 	if err != nil {
-		return nil, apperrors.Internal(err)
+		return nil, err
 	}
 
 	h.logger.Debug("new user registered", zap.String("id", result.Id))
@@ -65,7 +65,7 @@ func (h *Handler) Login(ctx context.Context, request *userspb.LoginRequest) (*us
 
 	result, err := abstractions.MakeResponse(credits.Profile)
 	if err != nil {
-		return nil, apperrors.Internal(err)
+		return nil, err
 	}
 
 	return &userspb.LoginResponse{
