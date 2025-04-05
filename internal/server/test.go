@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"strings"
 	"time"
 
 	"github.com/DavidMovas/gopherbox/pkg/closer"
@@ -98,9 +99,13 @@ func (s *TestServer) Shutdown(ctx context.Context) error {
 		return fmt.Errorf("shutting down listener: %w", err)
 	}
 
-	if err := s.logger.Close(); err != nil {
+	if err := s.logger.Close(); err != nil && !isStdoutSyncErr(err) {
 		return fmt.Errorf("error closing logger: %w", err)
 	}
 
 	return s.closer.Close(ctx)
+}
+
+func isStdoutSyncErr(err error) bool {
+	return strings.Contains(err.Error(), "sync")
 }
