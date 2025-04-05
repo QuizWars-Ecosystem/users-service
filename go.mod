@@ -6,7 +6,6 @@ require (
 	github.com/DavidMovas/gopherbox v0.0.0-20250329141646-145b4e0827ef
 	github.com/Masterminds/squirrel v1.5.4
 	github.com/QuizWars-Ecosystem/go-common v0.0.0-20250404213648-ce0cad745a62
-	github.com/docker/go-connections v0.5.0
 	github.com/google/uuid v1.6.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3
 	github.com/jackc/pgx/v4 v4.18.3
@@ -14,8 +13,10 @@ require (
 	github.com/jackc/tern v1.10.2
 	github.com/stretchr/testify v1.10.0
 	github.com/testcontainers/testcontainers-go v0.36.0
+	github.com/testcontainers/testcontainers-go/modules/postgres v0.36.0
 	go.uber.org/zap v1.27.0
 	golang.org/x/crypto v0.36.0
+	golang.org/x/sync v0.12.0
 	google.golang.org/grpc v1.71.1
 	google.golang.org/protobuf v1.36.6
 )
@@ -40,6 +41,7 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/distribution/reference v0.6.0 // indirect
 	github.com/docker/docker v28.0.4+incompatible // indirect
+	github.com/docker/go-connections v0.5.0 // indirect
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/ebitengine/purego v0.8.2 // indirect
 	github.com/fatih/color v1.18.0 // indirect
@@ -96,7 +98,6 @@ require (
 	github.com/shirou/gopsutil/v4 v4.25.3 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
-	github.com/testcontainers/testcontainers-go/modules/postgres v0.36.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.15 // indirect
 	github.com/tklauser/numcpus v0.10.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
@@ -108,7 +109,6 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394 // indirect
 	golang.org/x/net v0.38.0 // indirect
-	golang.org/x/sync v0.12.0 // indirect
 	golang.org/x/sys v0.32.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20250324211829-b45e905df463 // indirect
