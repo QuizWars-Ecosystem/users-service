@@ -1,11 +1,21 @@
 package config
 
-import "github.com/QuizWars-Ecosystem/go-common/pkg/config"
+import (
+	"github.com/QuizWars-Ecosystem/go-common/pkg/config"
+	"time"
+)
 
 type Config struct {
 	config.DefaultServiceConfig
-	PostgresConfig `envPrefix:"POSTGRES_"`
-	RedisConfig    `envPrefix:"REDIS_"`
+	JWT      JWTConfig      `envPrefix:"JWT_"`
+	Postgres PostgresConfig `envPrefix:"POSTGRES_"`
+	Redis    RedisConfig    `envPrefix:"REDIS_"`
+}
+
+type JWTConfig struct {
+	Secret            string        `env:"SECRET"`
+	AccessExpiration  time.Duration `env:"ACCESS_EXPIRATION"`
+	RefreshExpiration time.Duration `env:"REFRESH_EXPIRATION"`
 }
 
 type PostgresConfig struct {

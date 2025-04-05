@@ -83,10 +83,10 @@ func (h *Handler) Logout(ctx context.Context, request *userspb.LogoutRequest) (*
 	return Empty, nil
 }
 
-func (h *Handler) OAuthLogin(ctx context.Context, request *userspb.OAuthLoginRequest) (*userspb.OAuthLoginResponse, error) {
+func (h *Handler) OAuthLogin(_ context.Context, _ *userspb.OAuthLoginRequest) (*userspb.OAuthLoginResponse, error) {
 	return nil, apperrors.Internal(errors.New("not implemented"))
 }
 
-func (h *Handler) LinkOAuthProvider(ctx context.Context, request *userspb.LinkOAuthProviderRequest) (*emptypb.Empty, error) {
+func (h *Handler) LinkOAuthProvider(_ context.Context, _ *userspb.LinkOAuthProviderRequest) (*emptypb.Empty, error) {
 	return Empty, apperrors.Internal(errors.New("not implemented"))
 }
