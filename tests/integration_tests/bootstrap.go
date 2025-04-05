@@ -4,10 +4,10 @@ import (
 	"context"
 	"testing"
 
+	"github.com/QuizWars-Ecosystem/go-common/pkg/testing/migrations"
+
+	"github.com/QuizWars-Ecosystem/go-common/pkg/testing/containers"
 	"github.com/QuizWars-Ecosystem/users-service/tests/integration_tests/config"
-	"github.com/QuizWars-Ecosystem/users-service/tests/integration_tests/containers"
-	"github.com/jackc/pgx/v4"
-	"github.com/jackc/tern/migrate"
 	"github.com/stretchr/testify/require"
 	"github.com/testcontainers/testcontainers-go"
 )
@@ -20,7 +20,7 @@ func prepareInfrastructure(
 	cfg *config.TestConfig,
 	runServerFn runServerFn,
 ) {
-	postgres, err := containers.NewPostgres(ctx, cfg.Postgres)
+	postgres, err := containers.NewPostgresContainer(ctx, cfg.Postgres)
 	require.NoError(t, err)
 
 	defer testcontainers.CleanupContainer(t, postgres)
@@ -30,21 +30,7 @@ func prepareInfrastructure(
 
 	cfg.ServiceConfig.Postgres.URL = postgresUrl
 
-	runMigrations(t, postgresUrl)
+	migrations.RunMigrations(t, postgresUrl, "../../migrations")
 
 	runServerFn(t, cfg)
-}
-
-func runMigrations(t *testing.T, pgConnString string) {
-	conn, err := pgx.Connect(t.Context(), pgConnString)
-	require.NoError(t, err)
-
-	migrator, err := migrate.NewMigrator(t.Context(), conn, "migrations")
-	require.NoError(t, err)
-
-	err = migrator.LoadMigrations("../../migrations")
-	require.NoError(t, err)
-
-	err = migrator.Migrate(t.Context())
-	require.NoError(t, err)
 }

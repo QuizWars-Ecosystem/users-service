@@ -1,4 +1,4 @@
-package services
+package modules
 
 import (
 	"testing"
@@ -7,6 +7,6 @@ import (
 	"github.com/QuizWars-Ecosystem/users-service/tests/integration_tests/config"
 )
 
-func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ *config.TestConfig) {
+func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *config.TestConfig) {
 	return
 }
