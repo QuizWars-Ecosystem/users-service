@@ -6,5 +6,5 @@ import (
 )
 
 func NewServiceContainer(cfg *config.TestConfig) (testcontainers.Container, error) {
-
+	return nil, nil
 }
