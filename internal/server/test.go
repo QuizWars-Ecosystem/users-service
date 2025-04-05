@@ -31,7 +31,6 @@ func NewTestServer(ctx context.Context, cfg *config.Config) (*TestServer, error)
 	cl := closer.NewCloser()
 
 	logger := log.NewLogger(cfg.Local, cfg.LogLevel)
-	cl.PushIO(logger)
 
 	dbOpts := clients.NewPostgresOptions(cfg.Postgres.URL)
 	dbOpts.WithConnectTimeout(time.Second * 20)
@@ -84,9 +83,12 @@ func (s *TestServer) Shutdown(ctx context.Context) error {
 
 	s.grpcServer.GracefulStop()
 
-	err := s.listener.Close()
-	if err != nil {
-		z.Error("Error shutting down listener", zap.String("name", s.cfg.Name), zap.Error(err))
+	if err := s.listener.Close(); err != nil {
+		return fmt.Errorf("shutting down listener: %w", err)
+	}
+
+	if err := s.logger.Close(); err != nil {
+		return fmt.Errorf("error closing logger: %w", err)
 	}
 
 	return s.closer.Close(ctx)
