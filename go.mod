@@ -6,6 +6,7 @@ require (
 	github.com/DavidMovas/gopherbox v0.0.0-20250329141646-145b4e0827ef
 	github.com/Masterminds/squirrel v1.5.4
 	github.com/QuizWars-Ecosystem/go-common v0.0.0-20250404213648-ce0cad745a62
+	github.com/google/uuid v1.6.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3
 	github.com/jackc/pgx/v5 v5.7.4
 	go.uber.org/zap v1.27.0
@@ -27,7 +28,6 @@ require (
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 	github.com/google/cel-go v0.24.1 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/consul/api v1.32.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
