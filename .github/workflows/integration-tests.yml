@@ -1,29 +1,29 @@
-name: Integration Tests
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
 jobs:
-
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.24.2'
 
+      - name: Install Buf
+        uses: bufbuild/buf-setup-action@v1
+        with:
+          version: "v1.51.0"
+
+      - name: Generate proto files
+        run: |
+          make buf-gen
+
       - name: Ensure go mod tidy has zero output
         run: go mod tidy -v && git diff --exit-code
 
-      - name: Run integration integration_tests
+      - name: Run integration tests
         run: go test -v ./tests/integration_tests
