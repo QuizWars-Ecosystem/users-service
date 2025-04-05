@@ -1,3 +1,4 @@
 [submodule "protobuf"]
 	path = protobuf
 	url = https://github.com/QuizWars-Ecosystem/protobuf
+	ignore = dirty
