@@ -9,8 +9,6 @@
 *.dylib
 gen
 .idea
-protobuf
-.gitmodules
 
 # Test binary, built with `go test -c`
 *.test
