@@ -2,13 +2,14 @@ package integration_tests
 
 import (
 	"context"
+	"testing"
+
 	"github.com/QuizWars-Ecosystem/users-service/tests/integration_tests/config"
 	"github.com/QuizWars-Ecosystem/users-service/tests/integration_tests/containers"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/tern/migrate"
 	"github.com/stretchr/testify/require"
 	"github.com/testcontainers/testcontainers-go"
-	"testing"
 )
 
 type runServerFn func(t *testing.T, cfg *config.TestConfig)
