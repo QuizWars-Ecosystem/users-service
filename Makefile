@@ -9,3 +9,6 @@ go-fmt:
 
 go-lint:
 	golangci-lint run ./...
+
+test:
+	go test -v ./tests/integration_tests
