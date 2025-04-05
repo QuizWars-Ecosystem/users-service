@@ -20,9 +20,6 @@ func prepareInfrastructure(
 	cfg *config.TestConfig,
 	runServerFn runServerFn,
 ) {
-	t.Log("Prepare infrastructure...")
-
-	t.Log("Initialize postgres container...")
 	postgres, err := containers.NewPostgres(ctx, cfg.Postgres)
 	require.NoError(t, err)
 
@@ -33,7 +30,6 @@ func prepareInfrastructure(
 
 	cfg.ServiceConfig.Postgres.URL = postgresUrl
 
-	t.Log("Running postgres migrations...")
 	runMigrations(t, postgresUrl)
 
 	runServerFn(t, cfg)

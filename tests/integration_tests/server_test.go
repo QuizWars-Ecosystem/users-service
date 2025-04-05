@@ -23,8 +23,6 @@ func Test(t *testing.T) {
 }
 
 func runServer(t *testing.T, cfg *config.TestConfig) {
-	t.Log("Starting server")
-
 	srv, err := server.NewTestServer(t.Context(), cfg.ServiceConfig)
 	require.NoError(t, err)
 
@@ -32,8 +30,6 @@ func runServer(t *testing.T, cfg *config.TestConfig) {
 		err = srv.Start()
 		require.NoError(t, err)
 	}()
-
-	t.Log("Server started")
 
 	opts := []grpc.DialOption{
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -47,8 +43,6 @@ func runServer(t *testing.T, cfg *config.TestConfig) {
 	socialClient := userspb.NewUsersSocialServiceClient(conn)
 	adminClient := userspb.NewUsersAdminServiceClient(conn)
 
-	t.Log("Clients created")
-
 	services.AuthServiceTest(t, authService, cfg)
 	services.ProfileServiceTest(t, profileClient, cfg)
 	services.SocialServiceTest(t, socialClient, cfg)
@@ -57,13 +51,9 @@ func runServer(t *testing.T, cfg *config.TestConfig) {
 	err = conn.Close()
 	require.NoError(t, err)
 
-	t.Log("Shutting down server")
-
 	stopCtx, cancel := context.WithTimeout(t.Context(), time.Second*10)
 	defer cancel()
 
 	err = srv.Shutdown(stopCtx)
 	require.NoError(t, err)
-
-	t.Log("Server shut down")
 }
