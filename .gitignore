@@ -7,7 +7,6 @@
 *.dll
 *.so
 *.dylib
-gen
 .idea
 
 # Test binary, built with `go test -c`
