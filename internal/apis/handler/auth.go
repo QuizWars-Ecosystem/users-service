@@ -38,7 +38,7 @@ func (h *Handler) Register(ctx context.Context, request *userspb.RegisterRequest
 	h.logger.Debug("new user registered", zap.String("id", result.Id))
 
 	return &userspb.RegisterResponse{
-		Token:   jwt.Bearer + token,
+		Token:   "Bearer " + token,
 		Profile: result,
 	}, nil
 }
@@ -69,7 +69,7 @@ func (h *Handler) Login(ctx context.Context, request *userspb.LoginRequest) (*us
 	}
 
 	return &userspb.LoginResponse{
-		Token:   jwt.Bearer + token,
+		Token:   "Bearer " + token,
 		Profile: result,
 	}, nil
 }
