@@ -6,8 +6,8 @@ import (
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 )
 
-func (s *Service) AddFriend(ctx context.Context, userID, friendID string) error {
-	err := s.store.Social.AddFriend(ctx, userID, friendID)
+func (s *Service) AddFriend(ctx context.Context, requesterID, recipientID string) error {
+	err := s.store.Social.AddFriend(ctx, requesterID, recipientID)
 	if err != nil {
 		return err
 	}
@@ -15,8 +15,17 @@ func (s *Service) AddFriend(ctx context.Context, userID, friendID string) error 
 	return nil
 }
 
-func (s *Service) AcceptFriend(ctx context.Context, userID, friendID string) error {
-	err := s.store.Social.AcceptFriend(ctx, userID, friendID)
+func (s *Service) AcceptFriend(ctx context.Context, recipientID, requesterID string) error {
+	err := s.store.Social.AcceptFriend(ctx, recipientID, requesterID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *Service) RejectFriend(ctx context.Context, recipientID, requesterID string) error {
+	err := s.store.Social.RejectFriend(ctx, recipientID, requesterID)
 	if err != nil {
 		return err
 	}

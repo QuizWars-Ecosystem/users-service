@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	UsersSocialService_AddFriend_FullMethodName     = "/usersservice.v1.UsersSocialService/AddFriend"
 	UsersSocialService_AcceptFriend_FullMethodName  = "/usersservice.v1.UsersSocialService/AcceptFriend"
+	UsersSocialService_RejectFriend_FullMethodName  = "/usersservice.v1.UsersSocialService/RejectFriend"
 	UsersSocialService_RemoveFriend_FullMethodName  = "/usersservice.v1.UsersSocialService/RemoveFriend"
 	UsersSocialService_ListFriends_FullMethodName   = "/usersservice.v1.UsersSocialService/ListFriends"
 	UsersSocialService_BlockFriend_FullMethodName   = "/usersservice.v1.UsersSocialService/BlockFriend"
@@ -34,6 +35,7 @@ const (
 type UsersSocialServiceClient interface {
 	AddFriend(ctx context.Context, in *AddFriendRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	AcceptFriend(ctx context.Context, in *AcceptFriendRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	RejectFriend(ctx context.Context, in *RejectFriendRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RemoveFriend(ctx context.Context, in *RemoveFriendRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ListFriends(ctx context.Context, in *ListFriendsRequest, opts ...grpc.CallOption) (*FriendsList, error)
 	BlockFriend(ctx context.Context, in *BlockFriendRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
@@ -62,6 +64,16 @@ func (c *usersSocialServiceClient) AcceptFriend(ctx context.Context, in *AcceptF
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, UsersSocialService_AcceptFriend_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersSocialServiceClient) RejectFriend(ctx context.Context, in *RejectFriendRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, UsersSocialService_RejectFriend_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -114,6 +126,7 @@ func (c *usersSocialServiceClient) UnblockFriend(ctx context.Context, in *Unbloc
 type UsersSocialServiceServer interface {
 	AddFriend(context.Context, *AddFriendRequest) (*emptypb.Empty, error)
 	AcceptFriend(context.Context, *AcceptFriendRequest) (*emptypb.Empty, error)
+	RejectFriend(context.Context, *RejectFriendRequest) (*emptypb.Empty, error)
 	RemoveFriend(context.Context, *RemoveFriendRequest) (*emptypb.Empty, error)
 	ListFriends(context.Context, *ListFriendsRequest) (*FriendsList, error)
 	BlockFriend(context.Context, *BlockFriendRequest) (*emptypb.Empty, error)
@@ -132,6 +145,9 @@ func (UnimplementedUsersSocialServiceServer) AddFriend(context.Context, *AddFrie
 }
 func (UnimplementedUsersSocialServiceServer) AcceptFriend(context.Context, *AcceptFriendRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AcceptFriend not implemented")
+}
+func (UnimplementedUsersSocialServiceServer) RejectFriend(context.Context, *RejectFriendRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RejectFriend not implemented")
 }
 func (UnimplementedUsersSocialServiceServer) RemoveFriend(context.Context, *RemoveFriendRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveFriend not implemented")
@@ -197,6 +213,24 @@ func _UsersSocialService_AcceptFriend_Handler(srv interface{}, ctx context.Conte
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UsersSocialServiceServer).AcceptFriend(ctx, req.(*AcceptFriendRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UsersSocialService_RejectFriend_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RejectFriendRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersSocialServiceServer).RejectFriend(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UsersSocialService_RejectFriend_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersSocialServiceServer).RejectFriend(ctx, req.(*RejectFriendRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -287,6 +321,10 @@ var UsersSocialService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AcceptFriend",
 			Handler:    _UsersSocialService_AcceptFriend_Handler,
+		},
+		{
+			MethodName: "RejectFriend",
+			Handler:    _UsersSocialService_RejectFriend_Handler,
 		},
 		{
 			MethodName: "RemoveFriend",

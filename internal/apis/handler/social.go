@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
@@ -10,7 +9,7 @@ import (
 )
 
 func (h *Handler) AddFriend(ctx context.Context, request *userspb.AddFriendRequest) (*emptypb.Empty, error) {
-	err := h.service.AddFriend(ctx, request.GetUserId(), request.GetFriendId())
+	err := h.service.AddFriend(ctx, request.GetRequesterId(), request.GetRecipientId())
 	if err != nil {
 		return nil, err
 	}
@@ -19,7 +18,16 @@ func (h *Handler) AddFriend(ctx context.Context, request *userspb.AddFriendReque
 }
 
 func (h *Handler) AcceptFriend(ctx context.Context, request *userspb.AcceptFriendRequest) (*emptypb.Empty, error) {
-	err := h.service.AcceptFriend(ctx, request.GetUserId(), request.GetFriendId())
+	err := h.service.AcceptFriend(ctx, request.GetRecipientId(), request.GetRequesterId())
+	if err != nil {
+		return nil, err
+	}
+
+	return Empty, nil
+}
+
+func (h *Handler) RejectFriend(ctx context.Context, request *userspb.RejectFriendRequest) (*emptypb.Empty, error) {
+	err := h.service.RejectFriend(ctx, request.GetRecipientId(), request.GetRequesterId())
 	if err != nil {
 		return nil, err
 	}
@@ -28,12 +36,12 @@ func (h *Handler) AcceptFriend(ctx context.Context, request *userspb.AcceptFrien
 }
 
 func (h *Handler) RemoveFriend(ctx context.Context, request *userspb.RemoveFriendRequest) (*emptypb.Empty, error) {
-	err := h.jwt.ValidateUserIDToken(request.GetToken(), request.GetUserId())
+	err := h.jwt.ValidateUserIDToken(request.GetToken(), request.GetRequesterId())
 	if err != nil {
 		return nil, err
 	}
 
-	err = h.service.RemoveFriend(ctx, request.GetUserId(), request.GetFriendId())
+	err = h.service.RemoveFriend(ctx, request.GetRequesterId(), request.GetFriendId())
 	if err != nil {
 		return nil, err
 	}
