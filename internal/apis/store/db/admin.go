@@ -49,8 +49,14 @@ func (a *Admin) SearchUsers(ctx context.Context, filter *admin.SearchFilter) ([]
 
 	if filter.CreatedAtFilter != nil {
 		builder = builder.
-			Where(squirrel.GtOrEq{"u.coins": filter.CreatedAtFilter.From}).
-			Where(squirrel.LtOrEq{"u.coins": filter.CreatedAtFilter.To})
+			Where(squirrel.GtOrEq{"u.created_at": filter.CreatedAtFilter.From}).
+			Where(squirrel.LtOrEq{"u.created_at": filter.CreatedAtFilter.To})
+	}
+
+	if filter.DeletedAtFilter != nil {
+		builder = builder.
+			Where(squirrel.GtOrEq{"u.deleted_at": filter.DeletedAtFilter.From}).
+			Where(squirrel.LtOrEq{"u.deleted_at": filter.DeletedAtFilter.To})
 	}
 
 	countQuery := dbx.StatementBuilder.Select("COUNT(*)").From("users")

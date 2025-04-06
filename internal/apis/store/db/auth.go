@@ -62,9 +62,9 @@ func (a *Auth) SaveProfile(ctx context.Context, p *auth.ProfileWithCredentials) 
 
 	switch {
 	case dbx.IsUniqueViolation(err, "username"):
-		return nil, apperrors.BadRequestHidden(err, "username is already taken")
+		return nil, apperrors.AlreadyExists("user", "username", p.Profile.User.Username)
 	case dbx.IsUniqueViolation(err, "email"):
-		return nil, apperrors.BadRequestHidden(err, "email is already taken")
+		return nil, apperrors.AlreadyExists("user", "email", p.Profile.Email)
 	case err != nil:
 		return nil, apperrors.Internal(err)
 	}
@@ -170,12 +170,12 @@ func (a *Auth) SetLastLogin(ctx context.Context, userID string) error {
 		return apperrors.Internal(err)
 	}
 
-	_, err = a.db.Exec(ctx, query, args...)
+	cmd, err := a.db.Exec(ctx, query, args...)
 	switch {
-	case dbx.IsNoRows(err):
-		return apperrors.NotFound("user", "id", userID)
 	case err != nil:
 		return apperrors.Internal(err)
+	case cmd.RowsAffected() == 0:
+		return apperrors.NotFound("user", "id", userID)
 	}
 
 	return nil
