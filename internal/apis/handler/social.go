@@ -37,7 +37,7 @@ func (h *Handler) RejectFriend(ctx context.Context, request *userspb.RejectFrien
 }
 
 func (h *Handler) RemoveFriend(ctx context.Context, request *userspb.RemoveFriendRequest) (*emptypb.Empty, error) {
-	err := h.jwt.ValidateUserIDToken(request.GetToken(), request.GetRequesterId())
+	err := h.jwt.ValidateUserIDWithContext(ctx, request.GetRequesterId())
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func (h *Handler) ListFriends(ctx context.Context, request *userspb.ListFriendsR
 }
 
 func (h *Handler) BlockFriend(ctx context.Context, request *userspb.BlockFriendRequest) (*emptypb.Empty, error) {
-	err := h.jwt.ValidateUserIDToken(request.GetToken(), request.GetUserId())
+	err := h.jwt.ValidateUserIDWithContext(ctx, request.GetUserId())
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (h *Handler) BlockFriend(ctx context.Context, request *userspb.BlockFriendR
 }
 
 func (h *Handler) UnblockFriend(ctx context.Context, request *userspb.UnblockFriendRequest) (*emptypb.Empty, error) {
-	err := h.jwt.ValidateUserIDToken(request.GetToken(), request.GetUserId())
+	err := h.jwt.ValidateUserIDWithContext(ctx, request.GetUserId())
 	if err != nil {
 		return nil, err
 	}

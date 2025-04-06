@@ -12,7 +12,7 @@ import (
 )
 
 func (h *Handler) GetProfile(ctx context.Context, request *userspb.GetProfileRequest) (*userspb.GetProfileResponse, error) {
-	claims, err := h.jwt.ValidateToken(request.GetToken())
+	claims, err := h.jwt.ValidateTokenWithContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +71,7 @@ func (h *Handler) GetProfile(ctx context.Context, request *userspb.GetProfileReq
 }
 
 func (h *Handler) UpdateProfile(ctx context.Context, request *userspb.UpdateProfileRequest) (*emptypb.Empty, error) {
-	err := h.jwt.ValidateUserIDToken(request.GetToken(), request.GetUserId())
+	err := h.jwt.ValidateUserIDWithContext(ctx, request.GetUserId())
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ func (h *Handler) UpdateProfile(ctx context.Context, request *userspb.UpdateProf
 }
 
 func (h *Handler) UpdateAvatar(ctx context.Context, request *userspb.UpdateAvatarRequest) (*emptypb.Empty, error) {
-	err := h.jwt.ValidateUserIDToken(request.GetToken(), request.GetUserId())
+	err := h.jwt.ValidateUserIDWithContext(ctx, request.GetUserId())
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +104,7 @@ func (h *Handler) UpdateAvatar(ctx context.Context, request *userspb.UpdateAvata
 }
 
 func (h *Handler) ChangePassword(ctx context.Context, request *userspb.ChangePasswordRequest) (*emptypb.Empty, error) {
-	err := h.jwt.ValidateUserIDToken(request.GetToken(), request.GetUserId())
+	err := h.jwt.ValidateUserIDWithContext(ctx, request.GetUserId())
 	if err != nil {
 		return nil, err
 	}
@@ -118,7 +118,7 @@ func (h *Handler) ChangePassword(ctx context.Context, request *userspb.ChangePas
 }
 
 func (h *Handler) DeleteAccount(ctx context.Context, request *userspb.DeleteAccountRequest) (*emptypb.Empty, error) {
-	err := h.jwt.ValidateUserIDToken(request.GetToken(), request.GetUserId())
+	err := h.jwt.ValidateUserIDWithContext(ctx, request.GetUserId())
 	if err != nil {
 		return nil, err
 	}

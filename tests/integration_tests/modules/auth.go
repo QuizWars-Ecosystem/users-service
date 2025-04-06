@@ -1,6 +1,7 @@
 package modules
 
 import (
+	"context"
 	"testing"
 
 	jw "github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
@@ -17,6 +18,8 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 	ctx := t.Context()
 
 	jwt = jw.NewService(cfg.ServiceConfig.JWT.Secret, cfg.ServiceConfig.JWT.AccessExpiration, cfg.ServiceConfig.JWT.RefreshExpiration)
+	emptyCtx = jwt.SetTokenInContext(ctx, "")
+	invalidCtx = jwt.SetTokenInContext(ctx, "invalid token")
 
 	t.Run("auth.Register: successful", func(t *testing.T) {
 		res, err := client.Register(ctx, &userspb.RegisterRequest{
@@ -44,6 +47,7 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 
 		johnToken = res.GetToken()
 		john = profile
+		johnCtx = jwt.SetTokenInContext(ctx, johnToken)
 	})
 
 	t.Run("auth.Register: username already taken", func(t *testing.T) {
@@ -137,6 +141,7 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 
 		martinToken = res.GetToken()
 		martin = profile
+		martinCtx = jwt.SetTokenInContext(ctx, martinToken)
 	})
 
 	t.Run("auth.Login: login by email: successful", func(t *testing.T) {
@@ -165,6 +170,7 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 
 		martinToken = res.GetToken()
 		martin = profile
+		martinCtx = jwt.SetTokenInContext(ctx, martinToken)
 	})
 
 	t.Run("auth.Login: login by username: successful", func(t *testing.T) {
@@ -193,6 +199,7 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 
 		johnToken = res.GetToken()
 		john = profile
+		johnCtx = jwt.SetTokenInContext(ctx, johnToken)
 	})
 
 	t.Run("auth.Register: successful", func(t *testing.T) {
@@ -221,13 +228,15 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 
 		lukasToken = res.GetToken()
 		lukas = profile
+		lukasCtx = jwt.SetTokenInContext(ctx, lukasToken)
 	})
 
 	t.Run("auth.Register: by list: successful", func(t *testing.T) {
 		reqs := []struct {
-			data  *userspb.RegisterRequest
-			owner **userspb.Profile
-			token *string
+			data    *userspb.RegisterRequest
+			ownerFn func(data *userspb.Profile)
+			token   *string
+			ctxFn   func(ctx context.Context)
 		}{
 			{
 				data: &userspb.RegisterRequest{
@@ -236,8 +245,13 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 					Email:    sonia.Email,
 					Password: soniaPassword,
 				},
-				owner: &sonia,
+				ownerFn: func(data *userspb.Profile) {
+					sonia = data
+				},
 				token: &soniaToken,
+				ctxFn: func(ctx context.Context) {
+					soniaCtx = ctx
+				},
 			},
 			{
 				data: &userspb.RegisterRequest{
@@ -246,8 +260,13 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 					Email:    masha.Email,
 					Password: mashaPassword,
 				},
-				owner: &masha,
+				ownerFn: func(data *userspb.Profile) {
+					masha = data
+				},
 				token: &mashaToken,
+				ctxFn: func(ctx context.Context) {
+					mashaCtx = ctx
+				},
 			},
 		}
 
@@ -258,21 +277,24 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 
 			profile := res.GetProfile()
 
+			require.NotEqual(t, "", res.GetToken())
+			require.NotEqual(t, "", profile.GetId())
 			require.Equal(t, req.data.GetUsername(), profile.GetUsername())
 			require.Equal(t, req.data.GetEmail(), profile.GetEmail())
 			require.Equal(t, req.data.GetAvatarId(), profile.GetAvatarId())
-			require.NotEqual(t, "", profile.GetId())
-			require.NotEqual(t, "", res.GetToken())
 
 			token := res.GetToken()
-			req.owner = &profile
+
 			req.token = &token
+			req.ownerFn(profile)
+			req.ctxFn(jwt.SetTokenInContext(ctx, *req.token))
 		}
 	})
 
 	var err error
 	johnAdminToken, err = jwt.GenerateToken(john.GetId(), "admin")
 	require.NoError(t, err)
+	johnAdminCtx = jwt.SetTokenInContext(ctx, johnAdminToken)
 }
 
 var (
@@ -283,7 +305,9 @@ var (
 	}
 	johnPassword   = "pass123PASS!"
 	johnToken      string
+	johnCtx        context.Context
 	johnAdminToken string
+	johnAdminCtx   context.Context
 )
 
 var (
@@ -294,6 +318,7 @@ var (
 	}
 	martinPassword = "pass123PASS!"
 	martinToken    string
+	martinCtx      context.Context
 )
 
 var (
@@ -304,6 +329,7 @@ var (
 	}
 	lukasPassword = "pass123PASS!"
 	lukasToken    string
+	lukasCtx      context.Context
 )
 
 var (
@@ -314,6 +340,7 @@ var (
 	}
 	soniaPassword = "pass123PASS!"
 	soniaToken    string
+	soniaCtx      context.Context
 )
 
 var (
@@ -324,4 +351,10 @@ var (
 	}
 	mashaPassword = "pass123PASS!"
 	mashaToken    string
+	mashaCtx      context.Context
+)
+
+var (
+	emptyCtx   context.Context
+	invalidCtx context.Context
 )

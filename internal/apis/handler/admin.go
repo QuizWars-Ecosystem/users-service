@@ -12,7 +12,7 @@ import (
 )
 
 func (h *Handler) SearchUsers(ctx context.Context, request *userspb.SearchUsersRequest) (*userspb.SearchUsersResponse, error) {
-	err := h.jwt.ValidateRoleToken(request.GetToken(), string(jwt.Admin))
+	err := h.jwt.ValidateRoleWithContext(ctx, string(jwt.Admin))
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func (h *Handler) SearchUsers(ctx context.Context, request *userspb.SearchUsersR
 }
 
 func (h *Handler) GetUserByIdentifier(ctx context.Context, request *userspb.GetUserByIdentifierRequest) (*userspb.UserAdmin, error) {
-	err := h.jwt.ValidateRoleToken(request.GetToken(), string(jwt.Admin))
+	err := h.jwt.ValidateRoleWithContext(ctx, string(jwt.Admin))
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (h *Handler) GetUserByIdentifier(ctx context.Context, request *userspb.GetU
 }
 
 func (h *Handler) BanUser(ctx context.Context, request *userspb.BanUserRequest) (*emptypb.Empty, error) {
-	err := h.jwt.ValidateRoleToken(request.GetToken(), string(jwt.Admin))
+	err := h.jwt.ValidateRoleWithContext(ctx, string(jwt.Admin))
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +79,7 @@ func (h *Handler) BanUser(ctx context.Context, request *userspb.BanUserRequest) 
 }
 
 func (h *Handler) UnbanUser(ctx context.Context, request *userspb.UnbanUserRequest) (*emptypb.Empty, error) {
-	err := h.jwt.ValidateRoleToken(request.GetToken(), string(jwt.Admin))
+	err := h.jwt.ValidateRoleWithContext(ctx, string(jwt.Admin))
 	if err != nil {
 		return nil, err
 	}

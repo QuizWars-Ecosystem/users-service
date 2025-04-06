@@ -12,11 +12,8 @@ import (
 )
 
 func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, _ *config.TestConfig) {
-	ctx := t.Context()
-
 	t.Run("profile.GetProfile: by user id: token not provided", func(t *testing.T) {
-		res, err := client.GetProfile(ctx, &userspb.GetProfileRequest{
-			Token: "",
+		res, err := client.GetProfile(emptyCtx, &userspb.GetProfileRequest{
 			Identifier: &userspb.GetProfileRequest_UserId{
 				UserId: lukas.Id,
 			},
@@ -28,8 +25,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.GetProfile: by user id: invalid token", func(t *testing.T) {
-		res, err := client.GetProfile(ctx, &userspb.GetProfileRequest{
-			Token: "invalid token",
+		res, err := client.GetProfile(invalidCtx, &userspb.GetProfileRequest{
 			Identifier: &userspb.GetProfileRequest_UserId{
 				UserId: lukas.Id,
 			},
@@ -42,8 +38,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.GetProfile: by user id: not found", func(t *testing.T) {
 		testData := "test_id"
-		res, err := client.GetProfile(ctx, &userspb.GetProfileRequest{
-			Token: johnToken,
+		res, err := client.GetProfile(johnCtx, &userspb.GetProfileRequest{
 			Identifier: &userspb.GetProfileRequest_UserId{
 				UserId: testData,
 			},
@@ -56,8 +51,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.GetProfile: by user username: not found", func(t *testing.T) {
 		testData := "test_username"
-		res, err := client.GetProfile(ctx, &userspb.GetProfileRequest{
-			Token: johnToken,
+		res, err := client.GetProfile(johnCtx, &userspb.GetProfileRequest{
 			Identifier: &userspb.GetProfileRequest_Username{
 				Username: testData,
 			},
@@ -69,8 +63,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.GetProfile: self: successful", func(t *testing.T) {
-		res, err := client.GetProfile(ctx, &userspb.GetProfileRequest{
-			Token: johnToken,
+		res, err := client.GetProfile(johnCtx, &userspb.GetProfileRequest{
 			Identifier: &userspb.GetProfileRequest_UserId{
 				UserId: john.Id,
 			},
@@ -90,8 +83,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.GetProfile: by id: successful", func(t *testing.T) {
-		res, err := client.GetProfile(ctx, &userspb.GetProfileRequest{
-			Token: johnToken,
+		res, err := client.GetProfile(johnCtx, &userspb.GetProfileRequest{
 			Identifier: &userspb.GetProfileRequest_UserId{
 				UserId: lukas.Id,
 			},
@@ -109,8 +101,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.GetProfile: by username: successful", func(t *testing.T) {
-		res, err := client.GetProfile(ctx, &userspb.GetProfileRequest{
-			Token: johnToken,
+		res, err := client.GetProfile(johnCtx, &userspb.GetProfileRequest{
 			Identifier: &userspb.GetProfileRequest_Username{
 				Username: lukas.Username,
 			},
@@ -129,8 +120,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.UpdateProfile: token not provided", func(t *testing.T) {
 		testData := "lukas_new"
-		_, err := client.UpdateProfile(ctx, &userspb.UpdateProfileRequest{
-			Token:    "",
+		_, err := client.UpdateProfile(emptyCtx, &userspb.UpdateProfileRequest{
 			UserId:   lukas.Id,
 			Username: &testData,
 		})
@@ -141,8 +131,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.UpdateProfile: invalid token", func(t *testing.T) {
 		testData := "lukas_new"
-		_, err := client.UpdateProfile(ctx, &userspb.UpdateProfileRequest{
-			Token:    "invalid token",
+		_, err := client.UpdateProfile(invalidCtx, &userspb.UpdateProfileRequest{
 			UserId:   lukas.Id,
 			Username: &testData,
 		})
@@ -153,8 +142,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.UpdateProfile: permission denied", func(t *testing.T) {
 		testData := "lukas_new"
-		_, err := client.UpdateProfile(ctx, &userspb.UpdateProfileRequest{
-			Token:    martinToken,
+		_, err := client.UpdateProfile(martinCtx, &userspb.UpdateProfileRequest{
 			UserId:   lukas.Id,
 			Username: &testData,
 		})
@@ -165,8 +153,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.UpdateProfile: by admin token: successful", func(t *testing.T) {
 		testData := "lukas_new"
-		_, err := client.UpdateProfile(ctx, &userspb.UpdateProfileRequest{
-			Token:    johnAdminToken,
+		_, err := client.UpdateProfile(johnAdminCtx, &userspb.UpdateProfileRequest{
 			UserId:   lukas.Id,
 			Username: &testData,
 		})
@@ -177,8 +164,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.UpdateProfile: by self: successful", func(t *testing.T) {
 		testData := "lukas_new"
-		_, err := client.UpdateProfile(ctx, &userspb.UpdateProfileRequest{
-			Token:    lukasToken,
+		_, err := client.UpdateProfile(lukasCtx, &userspb.UpdateProfileRequest{
 			UserId:   lukas.Id,
 			Username: &testData,
 		})
@@ -188,8 +174,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.UpdateAvatar: token not provided", func(t *testing.T) {
-		_, err := client.UpdateAvatar(ctx, &userspb.UpdateAvatarRequest{
-			Token:    "",
+		_, err := client.UpdateAvatar(emptyCtx, &userspb.UpdateAvatarRequest{
 			UserId:   lukas.Id,
 			AvatarId: 5,
 		})
@@ -199,8 +184,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.UpdateAvatar: invalid token", func(t *testing.T) {
-		_, err := client.UpdateAvatar(ctx, &userspb.UpdateAvatarRequest{
-			Token:    "invalid token",
+		_, err := client.UpdateAvatar(invalidCtx, &userspb.UpdateAvatarRequest{
 			UserId:   lukas.Id,
 			AvatarId: 5,
 		})
@@ -210,8 +194,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.UpdateAvatar: permission denied", func(t *testing.T) {
-		_, err := client.UpdateAvatar(ctx, &userspb.UpdateAvatarRequest{
-			Token:    martinToken,
+		_, err := client.UpdateAvatar(martinCtx, &userspb.UpdateAvatarRequest{
 			UserId:   lukas.Id,
 			AvatarId: 5,
 		})
@@ -222,8 +205,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.UpdateAvatar: not found", func(t *testing.T) {
 		testData := "test_id"
-		_, err := client.UpdateAvatar(ctx, &userspb.UpdateAvatarRequest{
-			Token:    johnAdminToken,
+		_, err := client.UpdateAvatar(johnAdminCtx, &userspb.UpdateAvatarRequest{
 			UserId:   testData,
 			AvatarId: 5,
 		})
@@ -234,8 +216,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.UpdateAvatar: successful", func(t *testing.T) {
 		var testData int32 = 5
-		_, err := client.UpdateAvatar(ctx, &userspb.UpdateAvatarRequest{
-			Token:    lukasToken,
+		_, err := client.UpdateAvatar(lukasCtx, &userspb.UpdateAvatarRequest{
 			UserId:   lukas.Id,
 			AvatarId: testData,
 		})
@@ -246,8 +227,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.ChangePassword: token not provided", func(t *testing.T) {
 		testData := "new_password"
-		_, err := client.ChangePassword(ctx, &userspb.ChangePasswordRequest{
-			Token:    "",
+		_, err := client.ChangePassword(emptyCtx, &userspb.ChangePasswordRequest{
 			UserId:   lukas.Id,
 			Password: testData,
 		})
@@ -258,8 +238,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.ChangePassword: invalid token", func(t *testing.T) {
 		testData := "new_password"
-		_, err := client.ChangePassword(ctx, &userspb.ChangePasswordRequest{
-			Token:    "invalid token",
+		_, err := client.ChangePassword(invalidCtx, &userspb.ChangePasswordRequest{
 			UserId:   lukas.Id,
 			Password: testData,
 		})
@@ -270,8 +249,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.ChangePassword: permission denied", func(t *testing.T) {
 		testData := "new_password"
-		_, err := client.ChangePassword(ctx, &userspb.ChangePasswordRequest{
-			Token:    martinToken,
+		_, err := client.ChangePassword(martinCtx, &userspb.ChangePasswordRequest{
 			UserId:   lukas.Id,
 			Password: testData,
 		})
@@ -283,8 +261,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	t.Run("profile.ChangePassword: not found", func(t *testing.T) {
 		testData := "new_password"
 		testDataID := "test_id"
-		_, err := client.ChangePassword(ctx, &userspb.ChangePasswordRequest{
-			Token:    johnAdminToken,
+		_, err := client.ChangePassword(johnAdminCtx, &userspb.ChangePasswordRequest{
 			UserId:   testDataID,
 			Password: testData,
 		})
@@ -295,8 +272,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.ChangePassword: by admin: successful", func(t *testing.T) {
 		testData := "new_password"
-		_, err := client.ChangePassword(ctx, &userspb.ChangePasswordRequest{
-			Token:    johnAdminToken,
+		_, err := client.ChangePassword(johnAdminCtx, &userspb.ChangePasswordRequest{
 			UserId:   lukas.Id,
 			Password: testData,
 		})
@@ -307,8 +283,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.ChangePassword: successful", func(t *testing.T) {
 		testData := "new_password"
-		_, err := client.ChangePassword(ctx, &userspb.ChangePasswordRequest{
-			Token:    martinToken,
+		_, err := client.ChangePassword(martinCtx, &userspb.ChangePasswordRequest{
 			UserId:   martin.Id,
 			Password: testData,
 		})
@@ -318,8 +293,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.DeleteAccount: token not provided", func(t *testing.T) {
-		_, err := client.DeleteAccount(ctx, &userspb.DeleteAccountRequest{
-			Token:  "",
+		_, err := client.DeleteAccount(emptyCtx, &userspb.DeleteAccountRequest{
 			UserId: sonia.Id,
 		})
 
@@ -328,8 +302,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.DeleteAccount: invalid token", func(t *testing.T) {
-		_, err := client.DeleteAccount(ctx, &userspb.DeleteAccountRequest{
-			Token:  "invalid token",
+		_, err := client.DeleteAccount(invalidCtx, &userspb.DeleteAccountRequest{
 			UserId: sonia.Id,
 		})
 
@@ -338,8 +311,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.DeleteAccount: permission denied", func(t *testing.T) {
-		_, err := client.DeleteAccount(ctx, &userspb.DeleteAccountRequest{
-			Token:  martinToken,
+		_, err := client.DeleteAccount(martinCtx, &userspb.DeleteAccountRequest{
 			UserId: sonia.Id,
 		})
 
@@ -349,8 +321,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 
 	t.Run("profile.DeleteAccount: not found", func(t *testing.T) {
 		testData := "test_id"
-		_, err := client.DeleteAccount(ctx, &userspb.DeleteAccountRequest{
-			Token:  johnAdminToken,
+		_, err := client.DeleteAccount(johnAdminCtx, &userspb.DeleteAccountRequest{
 			UserId: testData,
 		})
 
@@ -359,8 +330,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.DeleteAccount: by admin: successful", func(t *testing.T) {
-		_, err := client.DeleteAccount(ctx, &userspb.DeleteAccountRequest{
-			Token:  johnAdminToken,
+		_, err := client.DeleteAccount(johnAdminCtx, &userspb.DeleteAccountRequest{
 			UserId: lukas.Id,
 		})
 
@@ -368,8 +338,7 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.DeleteAccount: successful", func(t *testing.T) {
-		_, err := client.DeleteAccount(ctx, &userspb.DeleteAccountRequest{
-			Token:  martinToken,
+		_, err := client.DeleteAccount(martinCtx, &userspb.DeleteAccountRequest{
 			UserId: martin.Id,
 		})
 

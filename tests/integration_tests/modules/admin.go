@@ -16,11 +16,8 @@ var (
 )
 
 func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *config.TestConfig) {
-	ctx := t.Context()
-
 	t.Run("admin.GetUserByIdentifier: access token not provided", func(t *testing.T) {
-		_, err := client.GetUserByIdentifier(ctx, &userspb.GetUserByIdentifierRequest{
-			Token: "",
+		_, err := client.GetUserByIdentifier(emptyCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_Email{
 				Email: martin.Email,
 			},
@@ -31,8 +28,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.GetUserByIdentifier: invalid token", func(t *testing.T) {
-		_, err := client.GetUserByIdentifier(ctx, &userspb.GetUserByIdentifierRequest{
-			Token: "invalid token",
+		_, err := client.GetUserByIdentifier(invalidCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_Email{
 				Email: martin.Email,
 			},
@@ -43,8 +39,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.GetUserByIdentifier: permission denied", func(t *testing.T) {
-		_, err := client.GetUserByIdentifier(ctx, &userspb.GetUserByIdentifierRequest{
-			Token: johnToken,
+		_, err := client.GetUserByIdentifier(johnCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_Email{
 				Email: martin.Email,
 			},
@@ -56,8 +51,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 
 	t.Run("admin.GetUserByIdentifier: get by email: not found", func(t *testing.T) {
 		testData := "test@mail.com"
-		_, err := client.GetUserByIdentifier(ctx, &userspb.GetUserByIdentifierRequest{
-			Token: johnAdminToken,
+		_, err := client.GetUserByIdentifier(johnAdminCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_Email{
 				Email: testData,
 			},
@@ -69,8 +63,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 
 	t.Run("admin.GetUserByIdentifier: get by username: not found", func(t *testing.T) {
 		testData := "test"
-		_, err := client.GetUserByIdentifier(ctx, &userspb.GetUserByIdentifierRequest{
-			Token: johnAdminToken,
+		_, err := client.GetUserByIdentifier(johnAdminCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_Username{
 				Username: testData,
 			},
@@ -82,8 +75,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 
 	t.Run("admin.GetUserByIdentifier: get by id: not found", func(t *testing.T) {
 		testData := "test_id"
-		_, err := client.GetUserByIdentifier(ctx, &userspb.GetUserByIdentifierRequest{
-			Token: johnAdminToken,
+		_, err := client.GetUserByIdentifier(johnAdminCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_UserId{
 				UserId: testData,
 			},
@@ -94,8 +86,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.GetUserByIdentifier: get by id: successful", func(t *testing.T) {
-		res, err := client.GetUserByIdentifier(ctx, &userspb.GetUserByIdentifierRequest{
-			Token: johnAdminToken,
+		res, err := client.GetUserByIdentifier(johnAdminCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_UserId{
 				UserId: martin.Id,
 			},
@@ -114,8 +105,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.GetUserByIdentifier: get by username: successful", func(t *testing.T) {
-		res, err := client.GetUserByIdentifier(ctx, &userspb.GetUserByIdentifierRequest{
-			Token: johnAdminToken,
+		res, err := client.GetUserByIdentifier(johnAdminCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_Username{
 				Username: martin.Username,
 			},
@@ -134,8 +124,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.GetUserByIdentifier: get by email: successful", func(t *testing.T) {
-		res, err := client.GetUserByIdentifier(ctx, &userspb.GetUserByIdentifierRequest{
-			Token: johnAdminToken,
+		res, err := client.GetUserByIdentifier(johnAdminCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_Email{
 				Email: martin.Email,
 			},
@@ -154,8 +143,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.BanUser: access token not provided", func(t *testing.T) {
-		_, err := client.BanUser(ctx, &userspb.BanUserRequest{
-			Token:  "",
+		_, err := client.BanUser(emptyCtx, &userspb.BanUserRequest{
 			UserId: martin.Id,
 		})
 
@@ -164,8 +152,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.BanUser: invalid token", func(t *testing.T) {
-		_, err := client.BanUser(ctx, &userspb.BanUserRequest{
-			Token:  "invalid token",
+		_, err := client.BanUser(invalidCtx, &userspb.BanUserRequest{
 			UserId: martin.Id,
 		})
 
@@ -174,8 +161,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.BanUser: permission denied", func(t *testing.T) {
-		_, err := client.BanUser(ctx, &userspb.BanUserRequest{
-			Token:  johnToken,
+		_, err := client.BanUser(johnCtx, &userspb.BanUserRequest{
 			UserId: martin.Id,
 		})
 
@@ -185,9 +171,8 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 
 	t.Run("admin.BanUser: not found", func(t *testing.T) {
 		testData := "test_id"
-		_, err := client.BanUser(ctx, &userspb.BanUserRequest{
+		_, err := client.BanUser(johnAdminCtx, &userspb.BanUserRequest{
 			UserId: testData,
-			Token:  johnAdminToken,
 		})
 
 		require.Error(t, err)
@@ -195,8 +180,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.BanUser: successful", func(t *testing.T) {
-		_, err := client.BanUser(ctx, &userspb.BanUserRequest{
-			Token:  johnAdminToken,
+		_, err := client.BanUser(johnAdminCtx, &userspb.BanUserRequest{
 			UserId: martin.Id,
 		})
 
@@ -204,8 +188,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.GetUserByIdentifier: banned: successful", func(t *testing.T) {
-		res, err := client.GetUserByIdentifier(ctx, &userspb.GetUserByIdentifierRequest{
-			Token: johnAdminToken,
+		res, err := client.GetUserByIdentifier(johnAdminCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_UserId{
 				UserId: martin.Id,
 			},
@@ -218,8 +201,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.UnbanUser: access token not provided", func(t *testing.T) {
-		_, err := client.UnbanUser(ctx, &userspb.UnbanUserRequest{
-			Token:  "",
+		_, err := client.UnbanUser(emptyCtx, &userspb.UnbanUserRequest{
 			UserId: martin.Id,
 		})
 
@@ -228,8 +210,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.UnbanUser: invalid token", func(t *testing.T) {
-		_, err := client.UnbanUser(ctx, &userspb.UnbanUserRequest{
-			Token:  "invalid token",
+		_, err := client.UnbanUser(invalidCtx, &userspb.UnbanUserRequest{
 			UserId: martin.Id,
 		})
 
@@ -238,8 +219,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.UnbanUser: permission denied", func(t *testing.T) {
-		_, err := client.UnbanUser(ctx, &userspb.UnbanUserRequest{
-			Token:  johnToken,
+		_, err := client.UnbanUser(johnCtx, &userspb.UnbanUserRequest{
 			UserId: martin.Id,
 		})
 
@@ -249,8 +229,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 
 	t.Run("admin.UnbanUser: not found", func(t *testing.T) {
 		testData := "test_id"
-		_, err := client.UnbanUser(ctx, &userspb.UnbanUserRequest{
-			Token:  johnAdminToken,
+		_, err := client.UnbanUser(johnAdminCtx, &userspb.UnbanUserRequest{
 			UserId: testData,
 		})
 
@@ -259,8 +238,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.UnbanUser: successful", func(t *testing.T) {
-		_, err := client.UnbanUser(ctx, &userspb.UnbanUserRequest{
-			Token:  johnAdminToken,
+		_, err := client.UnbanUser(johnAdminCtx, &userspb.UnbanUserRequest{
 			UserId: martin.Id,
 		})
 
@@ -268,8 +246,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.GetUserByIdentifier: unbanned: successful", func(t *testing.T) {
-		res, err := client.GetUserByIdentifier(ctx, &userspb.GetUserByIdentifierRequest{
-			Token: johnAdminToken,
+		res, err := client.GetUserByIdentifier(johnAdminCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_UserId{
 				UserId: martin.Id,
 			},
@@ -282,9 +259,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.SearchUsers: access token not provided", func(t *testing.T) {
-		res, err := client.SearchUsers(ctx, &userspb.SearchUsersRequest{
-			Token: "",
-		})
+		res, err := client.SearchUsers(emptyCtx, &userspb.SearchUsersRequest{})
 
 		require.Error(t, err)
 		require.Nil(t, res)
@@ -292,9 +267,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.SearchUsers: invalid token", func(t *testing.T) {
-		res, err := client.SearchUsers(ctx, &userspb.SearchUsersRequest{
-			Token: "invalid token",
-		})
+		res, err := client.SearchUsers(invalidCtx, &userspb.SearchUsersRequest{})
 
 		require.Error(t, err)
 		require.Nil(t, res)
@@ -302,9 +275,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.SearchUsers: permission denied", func(t *testing.T) {
-		res, err := client.SearchUsers(ctx, &userspb.SearchUsersRequest{
-			Token: johnToken,
-		})
+		res, err := client.SearchUsers(johnCtx, &userspb.SearchUsersRequest{})
 
 		require.Error(t, err)
 		require.Nil(t, res)
@@ -314,8 +285,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	t.Run("admin.SearchUsers: order by username: sort by desc", func(t *testing.T) {
 		order := userspb.Order_ORDER_USERNAME
 		sort := userspb.Sort_SORT_DESC
-		res, err := client.SearchUsers(ctx, &userspb.SearchUsersRequest{
-			Token: johnAdminToken,
+		res, err := client.SearchUsers(johnAdminCtx, &userspb.SearchUsersRequest{
 			Page:  1,
 			Size:  10,
 			Order: &order,
@@ -332,8 +302,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	t.Run("admin.SearchUsers: order by username: sort by  asc", func(t *testing.T) {
 		order := userspb.Order_ORDER_USERNAME
 		sort := userspb.Sort_SORT_ASC
-		res, err := client.SearchUsers(ctx, &userspb.SearchUsersRequest{
-			Token: johnAdminToken,
+		res, err := client.SearchUsers(johnAdminCtx, &userspb.SearchUsersRequest{
 			Page:  1,
 			Size:  10,
 			Order: &order,
@@ -350,8 +319,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	t.Run("admin.SearchUsers: filter by rating: not found", func(t *testing.T) {
 		order := userspb.Order_ORDER_USERNAME
 		sort := userspb.Sort_SORT_DESC
-		res, err := client.SearchUsers(ctx, &userspb.SearchUsersRequest{
-			Token: johnAdminToken,
+		res, err := client.SearchUsers(johnAdminCtx, &userspb.SearchUsersRequest{
 			Page:  1,
 			Size:  10,
 			Order: &order,
@@ -369,8 +337,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	t.Run("admin.SearchUsers: filter by rating: successful", func(t *testing.T) {
 		order := userspb.Order_ORDER_USERNAME
 		sort := userspb.Sort_SORT_DESC
-		res, err := client.SearchUsers(ctx, &userspb.SearchUsersRequest{
-			Token: johnAdminToken,
+		res, err := client.SearchUsers(johnAdminCtx, &userspb.SearchUsersRequest{
 			Page:  1,
 			Size:  10,
 			Order: &order,
@@ -391,8 +358,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	t.Run("admin.SearchUsers: filter by coins: not found", func(t *testing.T) {
 		order := userspb.Order_ORDER_USERNAME
 		sort := userspb.Sort_SORT_DESC
-		res, err := client.SearchUsers(ctx, &userspb.SearchUsersRequest{
-			Token: johnAdminToken,
+		res, err := client.SearchUsers(johnAdminCtx, &userspb.SearchUsersRequest{
 			Page:  1,
 			Size:  10,
 			Order: &order,
@@ -410,8 +376,7 @@ func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *c
 	t.Run("admin.SearchUsers: filter by coins: successful", func(t *testing.T) {
 		order := userspb.Order_ORDER_USERNAME
 		sort := userspb.Sort_SORT_DESC
-		res, err := client.SearchUsers(ctx, &userspb.SearchUsersRequest{
-			Token: johnAdminToken,
+		res, err := client.SearchUsers(johnAdminCtx, &userspb.SearchUsersRequest{
 			Page:  page,
 			Size:  size,
 			Order: &order,

@@ -25,20 +25,20 @@ func (h *Handler) Register(ctx context.Context, request *userspb.RegisterRequest
 		return nil, err
 	}
 
-	token, err := h.jwt.GenerateToken(res.User.ID, string(jwt.User))
-	if err != nil {
-		return nil, apperrors.Internal(err)
-	}
-
 	result, err := abstractions.MakeResponse(res)
 	if err != nil {
 		return nil, err
 	}
 
+	token, err := h.jwt.GenerateToken(res.User.ID, string(jwt.User))
+	if err != nil {
+		return nil, apperrors.Internal(err)
+	}
+
 	h.logger.Debug("new user registered", zap.String("id", result.Id))
 
 	return &userspb.RegisterResponse{
-		Token:   token,
+		Token:   jwt.Bearer + token,
 		Profile: result,
 	}, nil
 }
@@ -58,18 +58,18 @@ func (h *Handler) Login(ctx context.Context, request *userspb.LoginRequest) (*us
 		return nil, err
 	}
 
-	token, err := h.jwt.GenerateToken(credits.Profile.User.ID, credits.Role)
-	if err != nil {
-		return nil, apperrors.Internal(err)
-	}
-
 	result, err := abstractions.MakeResponse(credits.Profile)
 	if err != nil {
 		return nil, err
 	}
 
+	token, err := h.jwt.GenerateToken(credits.Profile.User.ID, credits.Role)
+	if err != nil {
+		return nil, apperrors.Internal(err)
+	}
+
 	return &userspb.LoginResponse{
-		Token:   token,
+		Token:   jwt.Bearer + token,
 		Profile: result,
 	}, nil
 }

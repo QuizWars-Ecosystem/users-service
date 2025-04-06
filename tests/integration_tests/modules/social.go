@@ -92,8 +92,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.ListFriends: not found", func(t *testing.T) {
-		res, err := client.ListFriends(ctx, &userspb.ListFriendsRequest{
-			Token:  soniaToken,
+		res, err := client.ListFriends(soniaCtx, &userspb.ListFriendsRequest{
 			UserId: sonia.Id,
 		})
 
@@ -103,8 +102,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.ListFriends: by requester id: successful", func(t *testing.T) {
-		res, err := client.ListFriends(ctx, &userspb.ListFriendsRequest{
-			Token:  johnToken,
+		res, err := client.ListFriends(johnCtx, &userspb.ListFriendsRequest{
 			UserId: john.Id,
 		})
 
@@ -114,8 +112,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.ListFriends: by recipient id: successful", func(t *testing.T) {
-		res, err := client.ListFriends(ctx, &userspb.ListFriendsRequest{
-			Token:  martinToken,
+		res, err := client.ListFriends(martinCtx, &userspb.ListFriendsRequest{
 			UserId: martin.Id,
 		})
 
@@ -125,8 +122,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.BlockFriend: token not provided", func(t *testing.T) {
-		_, err := client.BlockFriend(ctx, &userspb.BlockFriendRequest{
-			Token:    "",
+		_, err := client.BlockFriend(emptyCtx, &userspb.BlockFriendRequest{
 			UserId:   martin.Id,
 			FriendId: john.Id,
 		})
@@ -136,8 +132,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.BlockFriend: invalid token", func(t *testing.T) {
-		_, err := client.BlockFriend(ctx, &userspb.BlockFriendRequest{
-			Token:    "invalid token",
+		_, err := client.BlockFriend(invalidCtx, &userspb.BlockFriendRequest{
 			UserId:   martin.Id,
 			FriendId: john.Id,
 		})
@@ -147,8 +142,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.BlockFriend: permission denied", func(t *testing.T) {
-		_, err := client.BlockFriend(ctx, &userspb.BlockFriendRequest{
-			Token:    lukasToken,
+		_, err := client.BlockFriend(lukasCtx, &userspb.BlockFriendRequest{
 			UserId:   martin.Id,
 			FriendId: john.Id,
 		})
@@ -159,8 +153,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 
 	t.Run("social.BlockFriend: not found", func(t *testing.T) {
 		testData := "test_id"
-		_, err := client.BlockFriend(ctx, &userspb.BlockFriendRequest{
-			Token:    martinToken,
+		_, err := client.BlockFriend(martinCtx, &userspb.BlockFriendRequest{
 			UserId:   martin.Id,
 			FriendId: testData,
 		})
@@ -170,8 +163,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.BlockFriend: successful", func(t *testing.T) {
-		_, err := client.BlockFriend(ctx, &userspb.BlockFriendRequest{
-			Token:    martinToken,
+		_, err := client.BlockFriend(martinCtx, &userspb.BlockFriendRequest{
 			UserId:   martin.Id,
 			FriendId: john.Id,
 		})
@@ -180,8 +172,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.UnblockFriend: token not provided", func(t *testing.T) {
-		_, err := client.UnblockFriend(ctx, &userspb.UnblockFriendRequest{
-			Token:    "",
+		_, err := client.UnblockFriend(emptyCtx, &userspb.UnblockFriendRequest{
 			UserId:   martin.Id,
 			FriendId: john.Id,
 		})
@@ -191,8 +182,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.UnblockFriend: invalid token", func(t *testing.T) {
-		_, err := client.BlockFriend(ctx, &userspb.BlockFriendRequest{
-			Token:    "invalid token",
+		_, err := client.BlockFriend(invalidCtx, &userspb.BlockFriendRequest{
 			UserId:   martin.Id,
 			FriendId: john.Id,
 		})
@@ -202,8 +192,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.UnblockFriend: permission denied", func(t *testing.T) {
-		_, err := client.BlockFriend(ctx, &userspb.BlockFriendRequest{
-			Token:    lukasToken,
+		_, err := client.BlockFriend(lukasCtx, &userspb.BlockFriendRequest{
 			UserId:   martin.Id,
 			FriendId: john.Id,
 		})
@@ -214,8 +203,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 
 	t.Run("social.UnblockFriend: not found", func(t *testing.T) {
 		testData := "test_id"
-		_, err := client.BlockFriend(ctx, &userspb.BlockFriendRequest{
-			Token:    martinToken,
+		_, err := client.BlockFriend(martinCtx, &userspb.BlockFriendRequest{
 			UserId:   martin.Id,
 			FriendId: testData,
 		})
@@ -225,8 +213,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.UnblockFriend: successful", func(t *testing.T) {
-		_, err := client.BlockFriend(ctx, &userspb.BlockFriendRequest{
-			Token:    martinToken,
+		_, err := client.BlockFriend(martinCtx, &userspb.BlockFriendRequest{
 			UserId:   martin.Id,
 			FriendId: john.Id,
 		})
@@ -235,8 +222,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.RemoveFriend: token not provided", func(t *testing.T) {
-		_, err := client.RemoveFriend(ctx, &userspb.RemoveFriendRequest{
-			Token:       "",
+		_, err := client.RemoveFriend(emptyCtx, &userspb.RemoveFriendRequest{
 			RequesterId: martin.Id,
 			FriendId:    john.Id,
 		})
@@ -246,8 +232,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.RemoveFriend: invalid token", func(t *testing.T) {
-		_, err := client.RemoveFriend(ctx, &userspb.RemoveFriendRequest{
-			Token:       "invalid token",
+		_, err := client.RemoveFriend(invalidCtx, &userspb.RemoveFriendRequest{
 			RequesterId: martin.Id,
 			FriendId:    john.Id,
 		})
@@ -257,8 +242,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.RemoveFriend: permission denied", func(t *testing.T) {
-		_, err := client.RemoveFriend(ctx, &userspb.RemoveFriendRequest{
-			Token:       lukasToken,
+		_, err := client.RemoveFriend(lukasCtx, &userspb.RemoveFriendRequest{
 			RequesterId: martin.Id,
 			FriendId:    john.Id,
 		})
@@ -269,8 +253,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 
 	t.Run("social.RemoveFriend: not found", func(t *testing.T) {
 		testData := "test_id"
-		_, err := client.RemoveFriend(ctx, &userspb.RemoveFriendRequest{
-			Token:       martinToken,
+		_, err := client.RemoveFriend(martinCtx, &userspb.RemoveFriendRequest{
 			RequesterId: martin.Id,
 			FriendId:    testData,
 		})
@@ -280,8 +263,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.RemoveFriend: successful", func(t *testing.T) {
-		_, err := client.RemoveFriend(ctx, &userspb.RemoveFriendRequest{
-			Token:       johnToken,
+		_, err := client.RemoveFriend(johnCtx, &userspb.RemoveFriendRequest{
 			RequesterId: john.Id,
 			FriendId:    martin.Id,
 		})
@@ -290,8 +272,7 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.ListFriends: by requester id: successful", func(t *testing.T) {
-		res, err := client.ListFriends(ctx, &userspb.ListFriendsRequest{
-			Token:  johnToken,
+		res, err := client.ListFriends(johnCtx, &userspb.ListFriendsRequest{
 			UserId: john.Id,
 		})
 
