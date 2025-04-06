@@ -12,6 +12,7 @@ import (
 )
 
 func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, _ *config.TestConfig) {
+
 	t.Run("profile.GetProfile: by user id: token not provided", func(t *testing.T) {
 		res, err := client.GetProfile(emptyCtx, &userspb.GetProfileRequest{
 			Identifier: &userspb.GetProfileRequest_UserId{
