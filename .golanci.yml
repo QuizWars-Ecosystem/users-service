@@ -20,3 +20,10 @@ linters-settings:
 
   misspell:
     locale: US
+
+run:
+  skip-dirs:
+    - "gen"
+    - "tests"
+  skip-files:
+    - ".*\\.pb\\.go
