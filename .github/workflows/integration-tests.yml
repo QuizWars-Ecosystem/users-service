@@ -33,7 +33,7 @@ jobs:
       - name: Run integration tests with coverage
         run: |
           mkdir -p docs
-          COVERPKG=$(go list ./internal/... | paste -sd, -)
+          COVERPKG=$(go list ./internal/... | grep -v '/server/server.go$' | paste -sd, -)
           go test -v -coverpkg=$COVERPKG -coverprofile=cover.out ./tests/integration_tests
           go-cover-treemap -percent=true -w=1080 -h=360 -coverprofile=cover.out > docs/coverage.svg
 
