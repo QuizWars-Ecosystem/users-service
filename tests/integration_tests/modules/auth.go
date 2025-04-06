@@ -14,37 +14,6 @@ var (
 	jwt *jw.Service
 )
 
-var (
-	john = &userspb.Profile{
-		AvatarId: 1,
-		Username: "john",
-		Email:    "john@gmail.com",
-	}
-	johnPassword   = "pass123PASS!"
-	johnToken      string
-	johnAdminToken string
-)
-
-var (
-	martin = &userspb.Profile{
-		AvatarId: 2,
-		Username: "martin",
-		Email:    "martin@mail.com",
-	}
-	martinPassword = "pass123PASS!"
-	martinToken    string
-)
-
-var (
-	lukas = &userspb.Profile{
-		AvatarId: 3,
-		Username: "lukas",
-		Email:    "lukas@outlook.com",
-	}
-	lukasPassword = "pass123PASS!"
-	lukasToken    string
-)
-
 func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *config.TestConfig) {
 	ctx := t.Context()
 
@@ -255,7 +224,105 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 		lukas = profile
 	})
 
+	t.Run("auth.Register: by list: successful", func(t *testing.T) {
+		reqs := []struct {
+			data  *userspb.RegisterRequest
+			owner **userspb.Profile
+			token *string
+		}{
+			{
+				data: &userspb.RegisterRequest{
+					AvatarId: sonia.AvatarId,
+					Username: sonia.Username,
+					Email:    sonia.Email,
+					Password: soniaPassword,
+				},
+				owner: &sonia,
+				token: &soniaToken,
+			},
+			{
+				data: &userspb.RegisterRequest{
+					AvatarId: masha.AvatarId,
+					Username: masha.Username,
+					Email:    masha.Email,
+					Password: mashaPassword,
+				},
+				owner: &masha,
+				token: &mashaToken,
+			},
+		}
+
+		for _, req := range reqs {
+			res, err := client.Register(ctx, req.data)
+
+			require.NoError(t, err)
+
+			profile := res.GetProfile()
+
+			require.Equal(t, req.data.GetUsername(), profile.GetUsername())
+			require.Equal(t, req.data.GetEmail(), profile.GetEmail())
+			require.Equal(t, req.data.GetAvatarId(), profile.GetAvatarId())
+			require.NotEqual(t, "", profile.GetId())
+			require.NotEqual(t, "", res.GetToken())
+
+			token := res.GetToken()
+			req.owner = &profile
+			req.token = &token
+		}
+	})
+
 	var err error
 	johnAdminToken, err = jwt.GenerateToken(john.GetId(), "admin")
 	require.NoError(t, err)
 }
+
+var (
+	john = &userspb.Profile{
+		AvatarId: 1,
+		Username: "john",
+		Email:    "john@gmail.com",
+	}
+	johnPassword   = "pass123PASS!"
+	johnToken      string
+	johnAdminToken string
+)
+
+var (
+	martin = &userspb.Profile{
+		AvatarId: 2,
+		Username: "martin",
+		Email:    "martin@mail.com",
+	}
+	martinPassword = "pass123PASS!"
+	martinToken    string
+)
+
+var (
+	lukas = &userspb.Profile{
+		AvatarId: 3,
+		Username: "lukas",
+		Email:    "lukas@outlook.com",
+	}
+	lukasPassword = "pass123PASS!"
+	lukasToken    string
+)
+
+var (
+	sonia = &userspb.Profile{
+		AvatarId: 2,
+		Username: "sonia",
+		Email:    "sonia@outlook.com",
+	}
+	soniaPassword = "pass123PASS!"
+	soniaToken    string
+)
+
+var (
+	masha = &userspb.Profile{
+		AvatarId: 2,
+		Username: "masha",
+		Email:    "masha@outlook.com",
+	}
+	mashaPassword = "pass123PASS!"
+	mashaToken    string
+)

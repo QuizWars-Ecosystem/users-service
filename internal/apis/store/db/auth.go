@@ -30,7 +30,7 @@ func (a *Auth) SaveProfile(ctx context.Context, p *auth.ProfileWithCredentials) 
 	builder := dbx.StatementBuilder.
 		Insert("users").
 		Columns("id", "username", "email", "pass_hash", "avatar_id", "created_at").
-		Values(p.Profile.User.ID, p.Profile.User.Username, p.Profile.Email, p.Password, p.Profile.User.AvatarID, time.Now())
+		Values(p.Profile.User.ID, p.Profile.User.Username, p.Profile.Email, p.Password, p.Profile.User.AvatarID, p.Profile.User.CreatedAt)
 
 	query, args, err := builder.ToSql()
 	if err != nil {

@@ -26,12 +26,12 @@ func runServer(t *testing.T, cfg *config.TestConfig) {
 	defer stop()
 
 	authClient := userspb.NewUsersAuthServiceClient(conn)
-	profileClient := userspb.NewUsersProfileServiceClient(conn)
 	socialClient := userspb.NewUsersSocialServiceClient(conn)
+	profileClient := userspb.NewUsersProfileServiceClient(conn)
 	adminClient := userspb.NewUsersAdminServiceClient(conn)
 
 	modules.AuthServiceTest(t, authClient, cfg)
-	modules.ProfileServiceTest(t, profileClient, cfg)
 	modules.SocialServiceTest(t, socialClient, cfg)
+	modules.ProfileServiceTest(t, profileClient, cfg)
 	modules.AdminServiceTest(t, adminClient, cfg)
 }

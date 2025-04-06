@@ -1,4 +1,4 @@
-# users-service
+# Users-Service
 Users service that store users profiles data and manages authentication and authorization  
 
 ## 🧪 Code Coverage

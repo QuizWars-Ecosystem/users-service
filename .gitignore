@@ -9,6 +9,7 @@
 *.dylib
 .idea
 out.svg
+cover.svg
 
 # Test binary, built with `go test -c`
 *.test

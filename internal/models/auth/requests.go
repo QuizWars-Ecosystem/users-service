@@ -5,6 +5,7 @@ import (
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 	"github.com/google/uuid"
+	"time"
 )
 
 var _ abstractions.Requestable[ProfileWithCredentials, *userspb.RegisterRequest] = (*ProfileWithCredentials)(nil)
@@ -12,9 +13,10 @@ var _ abstractions.Requestable[ProfileWithCredentials, *userspb.RegisterRequest]
 func (p ProfileWithCredentials) Request(req *userspb.RegisterRequest) (*ProfileWithCredentials, error) {
 	p.Profile = &profile.Profile{
 		User: &profile.User{
-			ID:       uuid.New().String(),
-			AvatarID: req.GetAvatarId(),
-			Username: req.GetUsername(),
+			ID:        uuid.New().String(),
+			AvatarID:  req.GetAvatarId(),
+			Username:  req.GetUsername(),
+			CreatedAt: time.Now(),
 		},
 		Email: req.GetEmail(),
 	}

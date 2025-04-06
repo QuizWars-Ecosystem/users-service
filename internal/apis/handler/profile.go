@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 	"go.uber.org/zap"
