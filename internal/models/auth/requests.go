@@ -1,11 +1,12 @@
 package auth
 
 import (
+	"time"
+
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 	"github.com/google/uuid"
-	"time"
 )
 
 var _ abstractions.Requestable[ProfileWithCredentials, *userspb.RegisterRequest] = (*ProfileWithCredentials)(nil)

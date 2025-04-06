@@ -1,10 +1,11 @@
 package modules
 
 import (
+	"testing"
+
 	jw "github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
 	testerror "github.com/QuizWars-Ecosystem/go-common/pkg/testing/errors"
 	"github.com/stretchr/testify/require"
-	"testing"
 
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 	"github.com/QuizWars-Ecosystem/users-service/tests/integration_tests/config"

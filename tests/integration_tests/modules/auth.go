@@ -1,8 +1,9 @@
 package modules
 
 import (
-	jw "github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
 	"testing"
+
+	jw "github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
 
 	testerror "github.com/QuizWars-Ecosystem/go-common/pkg/testing/errors"
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
@@ -10,9 +11,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-var (
-	jwt *jw.Service
-)
+var jwt *jw.Service
 
 func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *config.TestConfig) {
 	ctx := t.Context()

@@ -215,7 +215,6 @@ func (s *Social) BanFriend(ctx context.Context, userID string, friendID string) 
 	}
 
 	return nil
-
 }
 
 func (s *Social) UnbanFriend(ctx context.Context, userID string, friendID string) error {
