@@ -1,0 +1,397 @@
+
+<svg 
+	xmlns="http://www.w3.org/2000/svg" 
+	xmlns:xlink="http://www.w3.org/1999/xlink" 
+	viewBox="0 0 1080.000000 360.000000" 
+	style="background: white none repeat scroll 0% 0%;"
+>
+
+<g>
+	<rect x="20.000000" y="20.000000" width="1040.000000" height="320.000000" style="fill: rgb(254, 215, 130);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(28.000000,35.600000) scale(1.000000)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">github.com/QuizWars-Ecosystem/users-service/internal 38.1%</text>
+		
+</g>
+
+
+<g>
+	<rect x="28.000000" y="41.600000" width="711.046931" height="290.400000" style="fill: rgb(254, 213, 127);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(36.000000,57.200000) scale(1.000000)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">apis 37.7%</text>
+		
+</g>
+
+
+<g>
+	<rect x="747.046931" y="41.600000" width="188.216606" height="290.400000" style="fill: rgb(254, 232, 151);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(755.046931,57.200000) scale(1.000000)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">models 42.4%</text>
+		
+</g>
+
+
+<g>
+	<rect x="943.263538" y="41.600000" width="108.736462" height="290.400000" style="fill: rgb(254, 195, 111);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(951.263538,57.200000) scale(0.805004)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">server 34.0%</text>
+		
+</g>
+
+
+<g>
+	<rect x="395.416048" y="63.200000" width="206.921083" height="260.800000" style="fill: rgb(254, 208, 123);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(403.416048,78.800000) scale(1.000000)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">handler 36.7%</text>
+		
+</g>
+
+
+<g>
+	<rect x="610.337130" y="63.200000" width="120.709801" height="260.800000" style="fill: rgb(254, 238, 161);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(618.337130,78.800000) scale(0.839021)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">service 44.3%</text>
+		
+</g>
+
+
+<g>
+	<rect x="36.000000" y="63.200000" width="351.416048" height="260.800000" style="fill: rgb(254, 204, 119);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(44.000000,78.800000) scale(1.000000)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">store 35.8%</text>
+		
+</g>
+
+
+<g>
+	<rect x="755.046931" y="223.118987" width="163.768953" height="100.881013" style="fill: rgb(190, 227, 120);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(763.046931,238.718987) scale(1.000000)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">admin 65.6%</text>
+		
+</g>
+
+
+<g>
+	<rect x="926.815884" y="223.118987" width="0.447653" height="100.881013" style="fill: rgb(0, 104, 55);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+</g>
+
+
+<g>
+	<rect x="755.046931" y="63.200000" width="172.216606" height="151.918987" style="fill: rgb(250, 146, 79);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(763.046931,78.800000) scale(1.000000)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">profile 25.5%</text>
+		
+</g>
+
+
+<g>
+	<rect x="951.263538" y="63.200000" width="92.736462" height="143.557447" style="fill: rgb(165, 0, 38);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(959.263538,78.800000) scale(0.570956)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(255, 255, 255); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">server.go 0.0%</text>
+		
+</g>
+
+
+<g>
+	<rect x="951.263538" y="214.757447" width="92.736462" height="109.242553" style="fill: rgb(115, 195, 100);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(959.263538,230.357447) scale(0.614875)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">test.go 78.0%</text>
+		
+</g>
+
+
+<g>
+	<rect x="522.378656" y="84.800000" width="71.958474" height="129.844068" style="fill: rgb(25, 151, 79);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(530.378656,100.400000) scale(0.416358)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">admin.go 90.2%</text>
+		
+</g>
+
+
+<g>
+	<rect x="509.507292" y="222.644068" width="84.829839" height="90.460048" style="fill: rgb(106, 191, 99);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(517.507292,238.244068) scale(0.551521)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">auth.go 79.4%</text>
+		
+</g>
+
+
+<g>
+	<rect x="403.416048" y="84.800000" width="110.962608" height="129.844068" style="fill: rgb(165, 0, 38);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(411.416048,100.400000) scale(0.659463)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(255, 255, 255); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">profile.go 0.0%</text>
+		
+</g>
+
+
+<g>
+	<rect x="403.416048" y="222.644068" width="98.091244" height="93.355932" style="fill: rgb(165, 0, 38);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(411.416048,238.244068) scale(0.610798)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(255, 255, 255); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">social.go 0.0%</text>
+		
+</g>
+
+
+<g>
+	<rect x="618.337130" y="154.754717" width="104.709801" height="50.671698" style="fill: rgb(8, 122, 64);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(626.337130,170.354717) scale(0.660043)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(255, 255, 255); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">admin.go 96.2%</text>
+		
+</g>
+
+
+<g>
+	<rect x="618.337130" y="213.426415" width="102.409601" height="47.286792" style="fill: rgb(50, 161, 84);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(626.337130,229.026415) scale(0.692385)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">auth.go 87.5%</text>
+		
+</g>
+
+
+<g>
+	<rect x="618.337130" y="84.800000" width="104.709801" height="61.954717" style="fill: rgb(165, 0, 38);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(626.337130,100.400000) scale(0.616040)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(255, 255, 255); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">profile.go 0.0%</text>
+		
+</g>
+
+
+<g>
+	<rect x="618.337130" y="268.713208" width="102.409601" height="47.286792" style="fill: rgb(165, 0, 38);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(626.337130,284.313208) scale(0.642929)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(255, 255, 255); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">social.go 0.0%</text>
+		
+</g>
+
+
+<g>
+	<rect x="44.000000" y="84.800000" width="334.255858" height="231.200000" style="fill: rgb(254, 203, 118);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(52.000000,100.400000) scale(1.000000)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">db 35.6%</text>
+		
+</g>
+
+
+<g>
+	<rect x="763.046931" y="244.718987" width="63.500503" height="71.281013" style="fill: rgb(254, 234, 153);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(771.046931,260.318987) scale(0.329865)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">models.go 42.9%</text>
+		
+</g>
+
+
+<g>
+	<rect x="834.547434" y="244.718987" width="40.518198" height="71.281013" style="fill: rgb(109, 192, 99);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(842.547434,260.318987) scale(0.150234)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">requests.go 78.9%</text>
+		
+</g>
+
+
+<g>
+	<rect x="883.065633" y="244.718987" width="27.750252" height="71.281013" style="fill: rgb(17, 138, 73);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(891.065633,260.318987) scale(0.067999)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">responses.go 92.9%</text>
+		
+</g>
+
+
+<g>
+	<rect x="838.167294" y="187.010970" width="81.096244" height="20.108017" style="fill: rgb(165, 0, 38);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+</g>
+
+
+<g>
+	<rect x="763.046931" y="84.800000" width="67.120363" height="122.318987" style="fill: rgb(165, 0, 38);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(771.046931,100.400000) scale(0.332815)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(255, 255, 255); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">requests.go 0.0%</text>
+		
+</g>
+
+
+<g>
+	<rect x="838.167294" y="84.800000" width="81.096244" height="94.210970" style="fill: rgb(217, 239, 139);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(846.167294,100.400000) scale(0.376714)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">responses.go 60.0%</text>
+		
+</g>
+
+
+<g>
+	<rect x="52.000000" y="214.264327" width="181.117803" height="93.735673" style="fill: rgb(113, 194, 100);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(60.000000,229.864327) scale(1.000000)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">admin.go 78.3%</text>
+		
+</g>
+
+
+<g>
+	<rect x="241.117803" y="233.174194" width="129.138056" height="74.825806" style="fill: rgb(118, 196, 100);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(249.117803,248.774194) scale(0.906555)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(0, 0, 0); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">auth.go 77.6%</text>
+		
+</g>
+
+
+<g>
+	<rect x="52.000000" y="106.400000" width="181.117803" height="99.864327" style="fill: rgb(171, 6, 38);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(60.000000,122.000000) scale(1.000000)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(255, 255, 255); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">profile.go 1.1%</text>
+		
+</g>
+
+
+<g>
+	<rect x="241.117803" y="106.400000" width="129.138056" height="118.774194" style="fill: rgb(172, 7, 38);opacity:1;fill-opacity:1.00;stroke:rgb(128,128,128);stroke-width:1px;stroke-opacity:1.00;" />
+	
+<text 
+	data-notex="1" 
+	text-anchor="start"
+	transform="translate(249.117803,122.000000) scale(0.841801)"
+	style="font-family: Open Sans, verdana, arial, sans-serif !important; font-size: 12px; fill: rgb(255, 255, 255); fill-opacity: 1.00; white-space: pre;" 
+	data-math="N">social.go 1.3%</text>
+		
+</g>
+
+</svg>
