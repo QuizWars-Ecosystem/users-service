@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"google.golang.org/grpc/reflection"
 	"net"
 
 	"github.com/QuizWars-Ecosystem/go-common/pkg/clients"
@@ -72,6 +73,10 @@ func NewServer(ctx context.Context, cfg *config.Config) (*Server, error) {
 	userspb.RegisterUsersAuthServiceServer(grpcServer, hand)
 	userspb.RegisterUsersProfileServiceServer(grpcServer, hand)
 	userspb.RegisterUsersSocialServiceServer(grpcServer, hand)
+
+	if cfg.Local {
+		reflection.Register(grpcServer)
+	}
 
 	return &Server{
 		grpcServer: grpcServer,

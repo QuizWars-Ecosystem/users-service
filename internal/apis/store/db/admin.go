@@ -47,12 +47,6 @@ func (a *Admin) SearchUsers(ctx context.Context, filter *admin.SearchFilter) ([]
 			Where(squirrel.LtOrEq{"s.coins": filter.CoinsFilter.To})
 	}
 
-	if filter.CreatedAtFilter != nil {
-		builder = builder.
-			Where(squirrel.GtOrEq{"u.created_at": filter.CreatedAtFilter.From}).
-			Where(squirrel.LtOrEq{"u.created_at": filter.CreatedAtFilter.To})
-	}
-
 	if filter.DeletedAtFilter != nil {
 		builder = builder.
 			Where(squirrel.GtOrEq{"u.deleted_at": filter.DeletedAtFilter.From}).
