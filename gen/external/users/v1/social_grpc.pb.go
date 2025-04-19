@@ -20,13 +20,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UsersSocialService_AddFriend_FullMethodName     = "/users.v1.UsersSocialService/AddFriend"
-	UsersSocialService_AcceptFriend_FullMethodName  = "/users.v1.UsersSocialService/AcceptFriend"
-	UsersSocialService_RejectFriend_FullMethodName  = "/users.v1.UsersSocialService/RejectFriend"
-	UsersSocialService_RemoveFriend_FullMethodName  = "/users.v1.UsersSocialService/RemoveFriend"
-	UsersSocialService_ListFriends_FullMethodName   = "/users.v1.UsersSocialService/ListFriends"
-	UsersSocialService_BlockFriend_FullMethodName   = "/users.v1.UsersSocialService/BlockFriend"
-	UsersSocialService_UnblockFriend_FullMethodName = "/users.v1.UsersSocialService/UnblockFriend"
+	UsersSocialService_AddFriend_FullMethodName     = "/usersservice.v1.UsersSocialService/AddFriend"
+	UsersSocialService_AcceptFriend_FullMethodName  = "/usersservice.v1.UsersSocialService/AcceptFriend"
+	UsersSocialService_RejectFriend_FullMethodName  = "/usersservice.v1.UsersSocialService/RejectFriend"
+	UsersSocialService_RemoveFriend_FullMethodName  = "/usersservice.v1.UsersSocialService/RemoveFriend"
+	UsersSocialService_ListFriends_FullMethodName   = "/usersservice.v1.UsersSocialService/ListFriends"
+	UsersSocialService_BlockFriend_FullMethodName   = "/usersservice.v1.UsersSocialService/BlockFriend"
+	UsersSocialService_UnblockFriend_FullMethodName = "/usersservice.v1.UsersSocialService/UnblockFriend"
 )
 
 // UsersSocialServiceClient is the client API for UsersSocialService service.
@@ -311,7 +311,7 @@ func _UsersSocialService_UnblockFriend_Handler(srv interface{}, ctx context.Cont
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var UsersSocialService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "users.v1.UsersSocialService",
+	ServiceName: "usersservice.v1.UsersSocialService",
 	HandlerType: (*UsersSocialServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

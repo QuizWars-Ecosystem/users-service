@@ -20,7 +20,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	QuestionsClientService_GetCategories_FullMethodName = "/questions.v1.QuestionsClientService/GetCategories"
+	QuestionsClientService_GetCategories_FullMethodName = "/questionsservice.v1.QuestionsClientService/GetCategories"
 )
 
 // QuestionsClientServiceClient is the client API for QuestionsClientService service.
@@ -107,7 +107,7 @@ func _QuestionsClientService_GetCategories_Handler(srv interface{}, ctx context.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var QuestionsClientService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "questions.v1.QuestionsClientService",
+	ServiceName: "questionsservice.v1.QuestionsClientService",
 	HandlerType: (*QuestionsClientServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

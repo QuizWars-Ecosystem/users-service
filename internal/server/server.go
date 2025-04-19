@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"google.golang.org/grpc/reflection"
 	"net"
+
+	"google.golang.org/grpc/reflection"
 
 	"github.com/QuizWars-Ecosystem/go-common/pkg/clients"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/jwt"

@@ -167,7 +167,7 @@ func RegisterUsersProfileServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersProfileService/GetProfile", runtime.WithHTTPPathPattern("/users.v1.UsersProfileService/GetProfile"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersProfileService/GetProfile", runtime.WithHTTPPathPattern("/usersservice.v1.UsersProfileService/GetProfile"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -187,7 +187,7 @@ func RegisterUsersProfileServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersProfileService/UpdateProfile", runtime.WithHTTPPathPattern("/users.v1.UsersProfileService/UpdateProfile"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersProfileService/UpdateProfile", runtime.WithHTTPPathPattern("/usersservice.v1.UsersProfileService/UpdateProfile"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -207,7 +207,7 @@ func RegisterUsersProfileServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersProfileService/UpdateAvatar", runtime.WithHTTPPathPattern("/users.v1.UsersProfileService/UpdateAvatar"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersProfileService/UpdateAvatar", runtime.WithHTTPPathPattern("/usersservice.v1.UsersProfileService/UpdateAvatar"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -227,7 +227,7 @@ func RegisterUsersProfileServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersProfileService/ChangePassword", runtime.WithHTTPPathPattern("/users.v1.UsersProfileService/ChangePassword"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersProfileService/ChangePassword", runtime.WithHTTPPathPattern("/usersservice.v1.UsersProfileService/ChangePassword"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -247,7 +247,7 @@ func RegisterUsersProfileServiceHandlerServer(ctx context.Context, mux *runtime.
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersProfileService/DeleteAccount", runtime.WithHTTPPathPattern("/users.v1.UsersProfileService/DeleteAccount"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersProfileService/DeleteAccount", runtime.WithHTTPPathPattern("/usersservice.v1.UsersProfileService/DeleteAccount"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -305,7 +305,7 @@ func RegisterUsersProfileServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersProfileService/GetProfile", runtime.WithHTTPPathPattern("/users.v1.UsersProfileService/GetProfile"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersProfileService/GetProfile", runtime.WithHTTPPathPattern("/usersservice.v1.UsersProfileService/GetProfile"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -322,7 +322,7 @@ func RegisterUsersProfileServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersProfileService/UpdateProfile", runtime.WithHTTPPathPattern("/users.v1.UsersProfileService/UpdateProfile"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersProfileService/UpdateProfile", runtime.WithHTTPPathPattern("/usersservice.v1.UsersProfileService/UpdateProfile"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -339,7 +339,7 @@ func RegisterUsersProfileServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersProfileService/UpdateAvatar", runtime.WithHTTPPathPattern("/users.v1.UsersProfileService/UpdateAvatar"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersProfileService/UpdateAvatar", runtime.WithHTTPPathPattern("/usersservice.v1.UsersProfileService/UpdateAvatar"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -356,7 +356,7 @@ func RegisterUsersProfileServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersProfileService/ChangePassword", runtime.WithHTTPPathPattern("/users.v1.UsersProfileService/ChangePassword"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersProfileService/ChangePassword", runtime.WithHTTPPathPattern("/usersservice.v1.UsersProfileService/ChangePassword"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -373,7 +373,7 @@ func RegisterUsersProfileServiceHandlerClient(ctx context.Context, mux *runtime.
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersProfileService/DeleteAccount", runtime.WithHTTPPathPattern("/users.v1.UsersProfileService/DeleteAccount"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersProfileService/DeleteAccount", runtime.WithHTTPPathPattern("/usersservice.v1.UsersProfileService/DeleteAccount"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -390,11 +390,11 @@ func RegisterUsersProfileServiceHandlerClient(ctx context.Context, mux *runtime.
 }
 
 var (
-	pattern_UsersProfileService_GetProfile_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersProfileService", "GetProfile"}, ""))
-	pattern_UsersProfileService_UpdateProfile_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersProfileService", "UpdateProfile"}, ""))
-	pattern_UsersProfileService_UpdateAvatar_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersProfileService", "UpdateAvatar"}, ""))
-	pattern_UsersProfileService_ChangePassword_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersProfileService", "ChangePassword"}, ""))
-	pattern_UsersProfileService_DeleteAccount_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersProfileService", "DeleteAccount"}, ""))
+	pattern_UsersProfileService_GetProfile_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersProfileService", "GetProfile"}, ""))
+	pattern_UsersProfileService_UpdateProfile_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersProfileService", "UpdateProfile"}, ""))
+	pattern_UsersProfileService_UpdateAvatar_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersProfileService", "UpdateAvatar"}, ""))
+	pattern_UsersProfileService_ChangePassword_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersProfileService", "ChangePassword"}, ""))
+	pattern_UsersProfileService_DeleteAccount_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersProfileService", "DeleteAccount"}, ""))
 )
 
 var (

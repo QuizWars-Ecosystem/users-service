@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	QuestionsService_GetQuestions_FullMethodName     = "/questions.v1.QuestionsService/GetQuestions"
-	QuestionsService_GetQuestionBatch_FullMethodName = "/questions.v1.QuestionsService/GetQuestionBatch"
+	QuestionsService_GetQuestions_FullMethodName     = "/questionsservice.v1.QuestionsService/GetQuestions"
+	QuestionsService_GetQuestionBatch_FullMethodName = "/questionsservice.v1.QuestionsService/GetQuestionBatch"
 )
 
 // QuestionsServiceClient is the client API for QuestionsService service.
@@ -140,7 +140,7 @@ func _QuestionsService_GetQuestionBatch_Handler(srv interface{}, ctx context.Con
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var QuestionsService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "questions.v1.QuestionsService",
+	ServiceName: "questionsservice.v1.QuestionsService",
 	HandlerType: (*QuestionsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

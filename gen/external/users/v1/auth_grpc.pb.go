@@ -20,11 +20,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UsersAuthService_Register_FullMethodName          = "/users.v1.UsersAuthService/Register"
-	UsersAuthService_Login_FullMethodName             = "/users.v1.UsersAuthService/Login"
-	UsersAuthService_Logout_FullMethodName            = "/users.v1.UsersAuthService/Logout"
-	UsersAuthService_OAuthLogin_FullMethodName        = "/users.v1.UsersAuthService/OAuthLogin"
-	UsersAuthService_LinkOAuthProvider_FullMethodName = "/users.v1.UsersAuthService/LinkOAuthProvider"
+	UsersAuthService_Register_FullMethodName          = "/usersservice.v1.UsersAuthService/Register"
+	UsersAuthService_Login_FullMethodName             = "/usersservice.v1.UsersAuthService/Login"
+	UsersAuthService_Logout_FullMethodName            = "/usersservice.v1.UsersAuthService/Logout"
+	UsersAuthService_OAuthLogin_FullMethodName        = "/usersservice.v1.UsersAuthService/OAuthLogin"
+	UsersAuthService_LinkOAuthProvider_FullMethodName = "/usersservice.v1.UsersAuthService/LinkOAuthProvider"
 )
 
 // UsersAuthServiceClient is the client API for UsersAuthService service.
@@ -243,7 +243,7 @@ func _UsersAuthService_LinkOAuthProvider_Handler(srv interface{}, ctx context.Co
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var UsersAuthService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "users.v1.UsersAuthService",
+	ServiceName: "usersservice.v1.UsersAuthService",
 	HandlerType: (*UsersAuthServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

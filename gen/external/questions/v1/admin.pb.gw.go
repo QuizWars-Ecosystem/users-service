@@ -239,7 +239,7 @@ func RegisterQuestionsAdminServiceHandlerServer(ctx context.Context, mux *runtim
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/GetFilteredQuestions", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/GetFilteredQuestions"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/GetFilteredQuestions", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/GetFilteredQuestions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -259,7 +259,7 @@ func RegisterQuestionsAdminServiceHandlerServer(ctx context.Context, mux *runtim
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/CreateCategory", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/CreateCategory"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/CreateCategory", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/CreateCategory"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -279,7 +279,7 @@ func RegisterQuestionsAdminServiceHandlerServer(ctx context.Context, mux *runtim
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/CreateQuestion", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/CreateQuestion"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/CreateQuestion", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/CreateQuestion"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -299,7 +299,7 @@ func RegisterQuestionsAdminServiceHandlerServer(ctx context.Context, mux *runtim
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/UpdateCategory", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/UpdateCategory"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/UpdateCategory", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/UpdateCategory"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -319,7 +319,7 @@ func RegisterQuestionsAdminServiceHandlerServer(ctx context.Context, mux *runtim
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/UpdateQuestion", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/UpdateQuestion"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/UpdateQuestion", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/UpdateQuestion"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -339,7 +339,7 @@ func RegisterQuestionsAdminServiceHandlerServer(ctx context.Context, mux *runtim
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/UpdateQuestionOption", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/UpdateQuestionOption"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/UpdateQuestionOption", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/UpdateQuestionOption"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -359,7 +359,7 @@ func RegisterQuestionsAdminServiceHandlerServer(ctx context.Context, mux *runtim
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/DeleteQuestion", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/DeleteQuestion"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/DeleteQuestion", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/DeleteQuestion"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -379,7 +379,7 @@ func RegisterQuestionsAdminServiceHandlerServer(ctx context.Context, mux *runtim
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/DeleteQuestionOption", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/DeleteQuestionOption"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/DeleteQuestionOption", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/DeleteQuestionOption"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -437,7 +437,7 @@ func RegisterQuestionsAdminServiceHandlerClient(ctx context.Context, mux *runtim
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/GetFilteredQuestions", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/GetFilteredQuestions"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/GetFilteredQuestions", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/GetFilteredQuestions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -454,7 +454,7 @@ func RegisterQuestionsAdminServiceHandlerClient(ctx context.Context, mux *runtim
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/CreateCategory", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/CreateCategory"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/CreateCategory", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/CreateCategory"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -471,7 +471,7 @@ func RegisterQuestionsAdminServiceHandlerClient(ctx context.Context, mux *runtim
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/CreateQuestion", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/CreateQuestion"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/CreateQuestion", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/CreateQuestion"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -488,7 +488,7 @@ func RegisterQuestionsAdminServiceHandlerClient(ctx context.Context, mux *runtim
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/UpdateCategory", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/UpdateCategory"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/UpdateCategory", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/UpdateCategory"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -505,7 +505,7 @@ func RegisterQuestionsAdminServiceHandlerClient(ctx context.Context, mux *runtim
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/UpdateQuestion", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/UpdateQuestion"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/UpdateQuestion", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/UpdateQuestion"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -522,7 +522,7 @@ func RegisterQuestionsAdminServiceHandlerClient(ctx context.Context, mux *runtim
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/UpdateQuestionOption", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/UpdateQuestionOption"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/UpdateQuestionOption", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/UpdateQuestionOption"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -539,7 +539,7 @@ func RegisterQuestionsAdminServiceHandlerClient(ctx context.Context, mux *runtim
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/DeleteQuestion", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/DeleteQuestion"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/DeleteQuestion", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/DeleteQuestion"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -556,7 +556,7 @@ func RegisterQuestionsAdminServiceHandlerClient(ctx context.Context, mux *runtim
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questions.v1.QuestionsAdminService/DeleteQuestionOption", runtime.WithHTTPPathPattern("/questions.v1.QuestionsAdminService/DeleteQuestionOption"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questionsservice.v1.QuestionsAdminService/DeleteQuestionOption", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsAdminService/DeleteQuestionOption"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -573,14 +573,14 @@ func RegisterQuestionsAdminServiceHandlerClient(ctx context.Context, mux *runtim
 }
 
 var (
-	pattern_QuestionsAdminService_GetFilteredQuestions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questions.v1.QuestionsAdminService", "GetFilteredQuestions"}, ""))
-	pattern_QuestionsAdminService_CreateCategory_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questions.v1.QuestionsAdminService", "CreateCategory"}, ""))
-	pattern_QuestionsAdminService_CreateQuestion_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questions.v1.QuestionsAdminService", "CreateQuestion"}, ""))
-	pattern_QuestionsAdminService_UpdateCategory_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questions.v1.QuestionsAdminService", "UpdateCategory"}, ""))
-	pattern_QuestionsAdminService_UpdateQuestion_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questions.v1.QuestionsAdminService", "UpdateQuestion"}, ""))
-	pattern_QuestionsAdminService_UpdateQuestionOption_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questions.v1.QuestionsAdminService", "UpdateQuestionOption"}, ""))
-	pattern_QuestionsAdminService_DeleteQuestion_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questions.v1.QuestionsAdminService", "DeleteQuestion"}, ""))
-	pattern_QuestionsAdminService_DeleteQuestionOption_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questions.v1.QuestionsAdminService", "DeleteQuestionOption"}, ""))
+	pattern_QuestionsAdminService_GetFilteredQuestions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questionsservice.v1.QuestionsAdminService", "GetFilteredQuestions"}, ""))
+	pattern_QuestionsAdminService_CreateCategory_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questionsservice.v1.QuestionsAdminService", "CreateCategory"}, ""))
+	pattern_QuestionsAdminService_CreateQuestion_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questionsservice.v1.QuestionsAdminService", "CreateQuestion"}, ""))
+	pattern_QuestionsAdminService_UpdateCategory_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questionsservice.v1.QuestionsAdminService", "UpdateCategory"}, ""))
+	pattern_QuestionsAdminService_UpdateQuestion_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questionsservice.v1.QuestionsAdminService", "UpdateQuestion"}, ""))
+	pattern_QuestionsAdminService_UpdateQuestionOption_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questionsservice.v1.QuestionsAdminService", "UpdateQuestionOption"}, ""))
+	pattern_QuestionsAdminService_DeleteQuestion_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questionsservice.v1.QuestionsAdminService", "DeleteQuestion"}, ""))
+	pattern_QuestionsAdminService_DeleteQuestionOption_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questionsservice.v1.QuestionsAdminService", "DeleteQuestionOption"}, ""))
 )
 
 var (

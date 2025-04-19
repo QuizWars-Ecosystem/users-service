@@ -16,7 +16,6 @@ var (
 )
 
 func AdminServiceTest(t *testing.T, client userspb.UsersAdminServiceClient, _ *config.TestConfig) {
-
 	t.Run("admin.GetUserByIdentifier: access token not provided", func(t *testing.T) {
 		_, err := client.GetUserByIdentifier(emptyCtx, &userspb.GetUserByIdentifierRequest{
 			Identifier: &userspb.GetUserByIdentifierRequest_Email{

@@ -20,14 +20,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	QuestionsAdminService_GetFilteredQuestions_FullMethodName = "/questions.v1.QuestionsAdminService/GetFilteredQuestions"
-	QuestionsAdminService_CreateCategory_FullMethodName       = "/questions.v1.QuestionsAdminService/CreateCategory"
-	QuestionsAdminService_CreateQuestion_FullMethodName       = "/questions.v1.QuestionsAdminService/CreateQuestion"
-	QuestionsAdminService_UpdateCategory_FullMethodName       = "/questions.v1.QuestionsAdminService/UpdateCategory"
-	QuestionsAdminService_UpdateQuestion_FullMethodName       = "/questions.v1.QuestionsAdminService/UpdateQuestion"
-	QuestionsAdminService_UpdateQuestionOption_FullMethodName = "/questions.v1.QuestionsAdminService/UpdateQuestionOption"
-	QuestionsAdminService_DeleteQuestion_FullMethodName       = "/questions.v1.QuestionsAdminService/DeleteQuestion"
-	QuestionsAdminService_DeleteQuestionOption_FullMethodName = "/questions.v1.QuestionsAdminService/DeleteQuestionOption"
+	QuestionsAdminService_GetFilteredQuestions_FullMethodName = "/questionsservice.v1.QuestionsAdminService/GetFilteredQuestions"
+	QuestionsAdminService_CreateCategory_FullMethodName       = "/questionsservice.v1.QuestionsAdminService/CreateCategory"
+	QuestionsAdminService_CreateQuestion_FullMethodName       = "/questionsservice.v1.QuestionsAdminService/CreateQuestion"
+	QuestionsAdminService_UpdateCategory_FullMethodName       = "/questionsservice.v1.QuestionsAdminService/UpdateCategory"
+	QuestionsAdminService_UpdateQuestion_FullMethodName       = "/questionsservice.v1.QuestionsAdminService/UpdateQuestion"
+	QuestionsAdminService_UpdateQuestionOption_FullMethodName = "/questionsservice.v1.QuestionsAdminService/UpdateQuestionOption"
+	QuestionsAdminService_DeleteQuestion_FullMethodName       = "/questionsservice.v1.QuestionsAdminService/DeleteQuestion"
+	QuestionsAdminService_DeleteQuestionOption_FullMethodName = "/questionsservice.v1.QuestionsAdminService/DeleteQuestionOption"
 )
 
 // QuestionsAdminServiceClient is the client API for QuestionsAdminService service.
@@ -345,7 +345,7 @@ func _QuestionsAdminService_DeleteQuestionOption_Handler(srv interface{}, ctx co
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var QuestionsAdminService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "questions.v1.QuestionsAdminService",
+	ServiceName: "questionsservice.v1.QuestionsAdminService",
 	HandlerType: (*QuestionsAdminServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

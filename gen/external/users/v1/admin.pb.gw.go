@@ -143,7 +143,7 @@ func RegisterUsersAdminServiceHandlerServer(ctx context.Context, mux *runtime.Se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersAdminService/SearchUsers", runtime.WithHTTPPathPattern("/users.v1.UsersAdminService/SearchUsers"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersAdminService/SearchUsers", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAdminService/SearchUsers"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -163,7 +163,7 @@ func RegisterUsersAdminServiceHandlerServer(ctx context.Context, mux *runtime.Se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersAdminService/GetUserByIdentifier", runtime.WithHTTPPathPattern("/users.v1.UsersAdminService/GetUserByIdentifier"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersAdminService/GetUserByIdentifier", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAdminService/GetUserByIdentifier"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -183,7 +183,7 @@ func RegisterUsersAdminServiceHandlerServer(ctx context.Context, mux *runtime.Se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersAdminService/BanUser", runtime.WithHTTPPathPattern("/users.v1.UsersAdminService/BanUser"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersAdminService/BanUser", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAdminService/BanUser"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -203,7 +203,7 @@ func RegisterUsersAdminServiceHandlerServer(ctx context.Context, mux *runtime.Se
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersAdminService/UnbanUser", runtime.WithHTTPPathPattern("/users.v1.UsersAdminService/UnbanUser"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersAdminService/UnbanUser", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAdminService/UnbanUser"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -261,7 +261,7 @@ func RegisterUsersAdminServiceHandlerClient(ctx context.Context, mux *runtime.Se
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersAdminService/SearchUsers", runtime.WithHTTPPathPattern("/users.v1.UsersAdminService/SearchUsers"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersAdminService/SearchUsers", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAdminService/SearchUsers"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -278,7 +278,7 @@ func RegisterUsersAdminServiceHandlerClient(ctx context.Context, mux *runtime.Se
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersAdminService/GetUserByIdentifier", runtime.WithHTTPPathPattern("/users.v1.UsersAdminService/GetUserByIdentifier"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersAdminService/GetUserByIdentifier", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAdminService/GetUserByIdentifier"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -295,7 +295,7 @@ func RegisterUsersAdminServiceHandlerClient(ctx context.Context, mux *runtime.Se
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersAdminService/BanUser", runtime.WithHTTPPathPattern("/users.v1.UsersAdminService/BanUser"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersAdminService/BanUser", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAdminService/BanUser"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -312,7 +312,7 @@ func RegisterUsersAdminServiceHandlerClient(ctx context.Context, mux *runtime.Se
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersAdminService/UnbanUser", runtime.WithHTTPPathPattern("/users.v1.UsersAdminService/UnbanUser"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersAdminService/UnbanUser", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAdminService/UnbanUser"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -329,10 +329,10 @@ func RegisterUsersAdminServiceHandlerClient(ctx context.Context, mux *runtime.Se
 }
 
 var (
-	pattern_UsersAdminService_SearchUsers_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersAdminService", "SearchUsers"}, ""))
-	pattern_UsersAdminService_GetUserByIdentifier_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersAdminService", "GetUserByIdentifier"}, ""))
-	pattern_UsersAdminService_BanUser_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersAdminService", "BanUser"}, ""))
-	pattern_UsersAdminService_UnbanUser_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersAdminService", "UnbanUser"}, ""))
+	pattern_UsersAdminService_SearchUsers_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersAdminService", "SearchUsers"}, ""))
+	pattern_UsersAdminService_GetUserByIdentifier_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersAdminService", "GetUserByIdentifier"}, ""))
+	pattern_UsersAdminService_BanUser_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersAdminService", "BanUser"}, ""))
+	pattern_UsersAdminService_UnbanUser_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersAdminService", "UnbanUser"}, ""))
 )
 
 var (

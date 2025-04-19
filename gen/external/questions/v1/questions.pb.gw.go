@@ -95,7 +95,7 @@ func RegisterQuestionsServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questions.v1.QuestionsService/GetQuestions", runtime.WithHTTPPathPattern("/questions.v1.QuestionsService/GetQuestions"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questionsservice.v1.QuestionsService/GetQuestions", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsService/GetQuestions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -115,7 +115,7 @@ func RegisterQuestionsServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questions.v1.QuestionsService/GetQuestionBatch", runtime.WithHTTPPathPattern("/questions.v1.QuestionsService/GetQuestionBatch"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questionsservice.v1.QuestionsService/GetQuestionBatch", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsService/GetQuestionBatch"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -173,7 +173,7 @@ func RegisterQuestionsServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questions.v1.QuestionsService/GetQuestions", runtime.WithHTTPPathPattern("/questions.v1.QuestionsService/GetQuestions"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questionsservice.v1.QuestionsService/GetQuestions", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsService/GetQuestions"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -190,7 +190,7 @@ func RegisterQuestionsServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questions.v1.QuestionsService/GetQuestionBatch", runtime.WithHTTPPathPattern("/questions.v1.QuestionsService/GetQuestionBatch"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questionsservice.v1.QuestionsService/GetQuestionBatch", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsService/GetQuestionBatch"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -207,8 +207,8 @@ func RegisterQuestionsServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 }
 
 var (
-	pattern_QuestionsService_GetQuestions_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questions.v1.QuestionsService", "GetQuestions"}, ""))
-	pattern_QuestionsService_GetQuestionBatch_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questions.v1.QuestionsService", "GetQuestionBatch"}, ""))
+	pattern_QuestionsService_GetQuestions_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questionsservice.v1.QuestionsService", "GetQuestions"}, ""))
+	pattern_QuestionsService_GetQuestionBatch_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questionsservice.v1.QuestionsService", "GetQuestionBatch"}, ""))
 )
 
 var (

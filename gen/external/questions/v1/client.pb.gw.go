@@ -72,7 +72,7 @@ func RegisterQuestionsClientServiceHandlerServer(ctx context.Context, mux *runti
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questions.v1.QuestionsClientService/GetCategories", runtime.WithHTTPPathPattern("/questions.v1.QuestionsClientService/GetCategories"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/questionsservice.v1.QuestionsClientService/GetCategories", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsClientService/GetCategories"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -130,7 +130,7 @@ func RegisterQuestionsClientServiceHandlerClient(ctx context.Context, mux *runti
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questions.v1.QuestionsClientService/GetCategories", runtime.WithHTTPPathPattern("/questions.v1.QuestionsClientService/GetCategories"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/questionsservice.v1.QuestionsClientService/GetCategories", runtime.WithHTTPPathPattern("/questionsservice.v1.QuestionsClientService/GetCategories"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -147,7 +147,7 @@ func RegisterQuestionsClientServiceHandlerClient(ctx context.Context, mux *runti
 }
 
 var (
-	pattern_QuestionsClientService_GetCategories_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questions.v1.QuestionsClientService", "GetCategories"}, ""))
+	pattern_QuestionsClientService_GetCategories_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"questionsservice.v1.QuestionsClientService", "GetCategories"}, ""))
 )
 
 var (
