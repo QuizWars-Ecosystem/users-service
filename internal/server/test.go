@@ -12,7 +12,7 @@ import (
 	"github.com/QuizWars-Ecosystem/go-common/pkg/clients"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/log"
-	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
+	usersv1 "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 	"github.com/QuizWars-Ecosystem/users-service/internal/apis/handler"
 	"github.com/QuizWars-Ecosystem/users-service/internal/apis/service"
 	"github.com/QuizWars-Ecosystem/users-service/internal/apis/store"
@@ -50,10 +50,10 @@ func NewTestServer(ctx context.Context, cfg *config.Config) (*TestServer, error)
 
 	grpcServer := grpc.NewServer(grpc.ChainUnaryInterceptor())
 
-	userspb.RegisterUsersAdminServiceServer(grpcServer, hand)
-	userspb.RegisterUsersAuthServiceServer(grpcServer, hand)
-	userspb.RegisterUsersProfileServiceServer(grpcServer, hand)
-	userspb.RegisterUsersSocialServiceServer(grpcServer, hand)
+	usersv1.RegisterUsersAdminServiceServer(grpcServer, hand)
+	usersv1.RegisterUsersAuthServiceServer(grpcServer, hand)
+	usersv1.RegisterUsersProfileServiceServer(grpcServer, hand)
+	usersv1.RegisterUsersSocialServiceServer(grpcServer, hand)
 
 	return &TestServer{
 		grpcServer: grpcServer,

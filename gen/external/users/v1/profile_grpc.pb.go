@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: external/users/v1/profile.proto
 
-package v1
+package usersv1
 
 import (
 	context "context"
@@ -20,11 +20,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UsersProfileService_GetProfile_FullMethodName     = "/usersservice.v1.UsersProfileService/GetProfile"
-	UsersProfileService_UpdateProfile_FullMethodName  = "/usersservice.v1.UsersProfileService/UpdateProfile"
-	UsersProfileService_UpdateAvatar_FullMethodName   = "/usersservice.v1.UsersProfileService/UpdateAvatar"
-	UsersProfileService_ChangePassword_FullMethodName = "/usersservice.v1.UsersProfileService/ChangePassword"
-	UsersProfileService_DeleteAccount_FullMethodName  = "/usersservice.v1.UsersProfileService/DeleteAccount"
+	UsersProfileService_GetProfile_FullMethodName     = "/users.v1.UsersProfileService/GetProfile"
+	UsersProfileService_UpdateProfile_FullMethodName  = "/users.v1.UsersProfileService/UpdateProfile"
+	UsersProfileService_UpdateAvatar_FullMethodName   = "/users.v1.UsersProfileService/UpdateAvatar"
+	UsersProfileService_ChangePassword_FullMethodName = "/users.v1.UsersProfileService/ChangePassword"
+	UsersProfileService_DeleteAccount_FullMethodName  = "/users.v1.UsersProfileService/DeleteAccount"
 )
 
 // UsersProfileServiceClient is the client API for UsersProfileService service.
@@ -243,7 +243,7 @@ func _UsersProfileService_DeleteAccount_Handler(srv interface{}, ctx context.Con
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var UsersProfileService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "usersservice.v1.UsersProfileService",
+	ServiceName: "users.v1.UsersProfileService",
 	HandlerType: (*UsersProfileServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

@@ -2,11 +2,11 @@
 // source: external/users/v1/social.proto
 
 /*
-Package v1 is a reverse proxy.
+Package usersv1 is a reverse proxy.
 
 It translates gRPC into RESTful JSON APIs.
 */
-package v1
+package usersv1
 
 import (
 	"context"
@@ -215,7 +215,7 @@ func RegisterUsersSocialServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/AddFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/AddFriend"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersSocialService/AddFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/AddFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -235,7 +235,7 @@ func RegisterUsersSocialServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/AcceptFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/AcceptFriend"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersSocialService/AcceptFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/AcceptFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -255,7 +255,7 @@ func RegisterUsersSocialServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/RejectFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/RejectFriend"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersSocialService/RejectFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/RejectFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -275,7 +275,7 @@ func RegisterUsersSocialServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/RemoveFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/RemoveFriend"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersSocialService/RemoveFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/RemoveFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -295,7 +295,7 @@ func RegisterUsersSocialServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/ListFriends", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/ListFriends"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersSocialService/ListFriends", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/ListFriends"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -315,7 +315,7 @@ func RegisterUsersSocialServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/BlockFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/BlockFriend"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersSocialService/BlockFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/BlockFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -335,7 +335,7 @@ func RegisterUsersSocialServiceHandlerServer(ctx context.Context, mux *runtime.S
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/UnblockFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/UnblockFriend"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersSocialService/UnblockFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/UnblockFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -393,7 +393,7 @@ func RegisterUsersSocialServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/AddFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/AddFriend"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersSocialService/AddFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/AddFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -410,7 +410,7 @@ func RegisterUsersSocialServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/AcceptFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/AcceptFriend"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersSocialService/AcceptFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/AcceptFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -427,7 +427,7 @@ func RegisterUsersSocialServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/RejectFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/RejectFriend"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersSocialService/RejectFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/RejectFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -444,7 +444,7 @@ func RegisterUsersSocialServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/RemoveFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/RemoveFriend"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersSocialService/RemoveFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/RemoveFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -461,7 +461,7 @@ func RegisterUsersSocialServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/ListFriends", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/ListFriends"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersSocialService/ListFriends", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/ListFriends"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -478,7 +478,7 @@ func RegisterUsersSocialServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/BlockFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/BlockFriend"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersSocialService/BlockFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/BlockFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -495,7 +495,7 @@ func RegisterUsersSocialServiceHandlerClient(ctx context.Context, mux *runtime.S
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersSocialService/UnblockFriend", runtime.WithHTTPPathPattern("/usersservice.v1.UsersSocialService/UnblockFriend"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersSocialService/UnblockFriend", runtime.WithHTTPPathPattern("/users.v1.UsersSocialService/UnblockFriend"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -512,13 +512,13 @@ func RegisterUsersSocialServiceHandlerClient(ctx context.Context, mux *runtime.S
 }
 
 var (
-	pattern_UsersSocialService_AddFriend_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersSocialService", "AddFriend"}, ""))
-	pattern_UsersSocialService_AcceptFriend_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersSocialService", "AcceptFriend"}, ""))
-	pattern_UsersSocialService_RejectFriend_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersSocialService", "RejectFriend"}, ""))
-	pattern_UsersSocialService_RemoveFriend_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersSocialService", "RemoveFriend"}, ""))
-	pattern_UsersSocialService_ListFriends_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersSocialService", "ListFriends"}, ""))
-	pattern_UsersSocialService_BlockFriend_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersSocialService", "BlockFriend"}, ""))
-	pattern_UsersSocialService_UnblockFriend_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersSocialService", "UnblockFriend"}, ""))
+	pattern_UsersSocialService_AddFriend_0     = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersSocialService", "AddFriend"}, ""))
+	pattern_UsersSocialService_AcceptFriend_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersSocialService", "AcceptFriend"}, ""))
+	pattern_UsersSocialService_RejectFriend_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersSocialService", "RejectFriend"}, ""))
+	pattern_UsersSocialService_RemoveFriend_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersSocialService", "RemoveFriend"}, ""))
+	pattern_UsersSocialService_ListFriends_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersSocialService", "ListFriends"}, ""))
+	pattern_UsersSocialService_BlockFriend_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersSocialService", "BlockFriend"}, ""))
+	pattern_UsersSocialService_UnblockFriend_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersSocialService", "UnblockFriend"}, ""))
 )
 
 var (

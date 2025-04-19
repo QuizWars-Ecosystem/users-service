@@ -2,11 +2,11 @@
 // source: external/users/v1/auth.proto
 
 /*
-Package v1 is a reverse proxy.
+Package usersv1 is a reverse proxy.
 
 It translates gRPC into RESTful JSON APIs.
 */
-package v1
+package usersv1
 
 import (
 	"context"
@@ -167,7 +167,7 @@ func RegisterUsersAuthServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersAuthService/Register", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAuthService/Register"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersAuthService/Register", runtime.WithHTTPPathPattern("/users.v1.UsersAuthService/Register"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -187,7 +187,7 @@ func RegisterUsersAuthServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersAuthService/Login", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAuthService/Login"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersAuthService/Login", runtime.WithHTTPPathPattern("/users.v1.UsersAuthService/Login"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -207,7 +207,7 @@ func RegisterUsersAuthServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersAuthService/Logout", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAuthService/Logout"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersAuthService/Logout", runtime.WithHTTPPathPattern("/users.v1.UsersAuthService/Logout"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -227,7 +227,7 @@ func RegisterUsersAuthServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersAuthService/OAuthLogin", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAuthService/OAuthLogin"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersAuthService/OAuthLogin", runtime.WithHTTPPathPattern("/users.v1.UsersAuthService/OAuthLogin"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -247,7 +247,7 @@ func RegisterUsersAuthServiceHandlerServer(ctx context.Context, mux *runtime.Ser
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/usersservice.v1.UsersAuthService/LinkOAuthProvider", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAuthService/LinkOAuthProvider"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/users.v1.UsersAuthService/LinkOAuthProvider", runtime.WithHTTPPathPattern("/users.v1.UsersAuthService/LinkOAuthProvider"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -305,7 +305,7 @@ func RegisterUsersAuthServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersAuthService/Register", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAuthService/Register"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersAuthService/Register", runtime.WithHTTPPathPattern("/users.v1.UsersAuthService/Register"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -322,7 +322,7 @@ func RegisterUsersAuthServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersAuthService/Login", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAuthService/Login"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersAuthService/Login", runtime.WithHTTPPathPattern("/users.v1.UsersAuthService/Login"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -339,7 +339,7 @@ func RegisterUsersAuthServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersAuthService/Logout", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAuthService/Logout"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersAuthService/Logout", runtime.WithHTTPPathPattern("/users.v1.UsersAuthService/Logout"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -356,7 +356,7 @@ func RegisterUsersAuthServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersAuthService/OAuthLogin", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAuthService/OAuthLogin"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersAuthService/OAuthLogin", runtime.WithHTTPPathPattern("/users.v1.UsersAuthService/OAuthLogin"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -373,7 +373,7 @@ func RegisterUsersAuthServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/usersservice.v1.UsersAuthService/LinkOAuthProvider", runtime.WithHTTPPathPattern("/usersservice.v1.UsersAuthService/LinkOAuthProvider"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/users.v1.UsersAuthService/LinkOAuthProvider", runtime.WithHTTPPathPattern("/users.v1.UsersAuthService/LinkOAuthProvider"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -390,11 +390,11 @@ func RegisterUsersAuthServiceHandlerClient(ctx context.Context, mux *runtime.Ser
 }
 
 var (
-	pattern_UsersAuthService_Register_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersAuthService", "Register"}, ""))
-	pattern_UsersAuthService_Login_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersAuthService", "Login"}, ""))
-	pattern_UsersAuthService_Logout_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersAuthService", "Logout"}, ""))
-	pattern_UsersAuthService_OAuthLogin_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersAuthService", "OAuthLogin"}, ""))
-	pattern_UsersAuthService_LinkOAuthProvider_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"usersservice.v1.UsersAuthService", "LinkOAuthProvider"}, ""))
+	pattern_UsersAuthService_Register_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersAuthService", "Register"}, ""))
+	pattern_UsersAuthService_Login_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersAuthService", "Login"}, ""))
+	pattern_UsersAuthService_Logout_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersAuthService", "Logout"}, ""))
+	pattern_UsersAuthService_OAuthLogin_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersAuthService", "OAuthLogin"}, ""))
+	pattern_UsersAuthService_LinkOAuthProvider_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"users.v1.UsersAuthService", "LinkOAuthProvider"}, ""))
 )
 
 var (

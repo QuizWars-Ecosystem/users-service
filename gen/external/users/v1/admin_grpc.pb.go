@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: external/users/v1/admin.proto
 
-package v1
+package usersv1
 
 import (
 	context "context"
@@ -20,10 +20,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UsersAdminService_SearchUsers_FullMethodName         = "/usersservice.v1.UsersAdminService/SearchUsers"
-	UsersAdminService_GetUserByIdentifier_FullMethodName = "/usersservice.v1.UsersAdminService/GetUserByIdentifier"
-	UsersAdminService_BanUser_FullMethodName             = "/usersservice.v1.UsersAdminService/BanUser"
-	UsersAdminService_UnbanUser_FullMethodName           = "/usersservice.v1.UsersAdminService/UnbanUser"
+	UsersAdminService_SearchUsers_FullMethodName         = "/users.v1.UsersAdminService/SearchUsers"
+	UsersAdminService_GetUserByIdentifier_FullMethodName = "/users.v1.UsersAdminService/GetUserByIdentifier"
+	UsersAdminService_BanUser_FullMethodName             = "/users.v1.UsersAdminService/BanUser"
+	UsersAdminService_UnbanUser_FullMethodName           = "/users.v1.UsersAdminService/UnbanUser"
 )
 
 // UsersAdminServiceClient is the client API for UsersAdminService service.
@@ -209,7 +209,7 @@ func _UsersAdminService_UnbanUser_Handler(srv interface{}, ctx context.Context, 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var UsersAdminService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "usersservice.v1.UsersAdminService",
+	ServiceName: "users.v1.UsersAdminService",
 	HandlerType: (*UsersAdminServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
