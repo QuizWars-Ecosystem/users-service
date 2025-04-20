@@ -31,8 +31,8 @@ github.com/Masterminds/squirrel v1.5.4/go.mod h1:NNaOrjSoIDfDA40n7sr2tPNZRfjzjA4
 github.com/Microsoft/go-winio v0.6.2 h1:F2VQgta7ecxGYO8k3ZZz3RS8fVIXVxONVUPlNERoyfY=
 github.com/Microsoft/go-winio v0.6.2/go.mod h1:yd8OoFMLzJbo9gZq8j5qaps8bJ9aShtEA8Ipt1oGCvU=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
-github.com/QuizWars-Ecosystem/go-common v0.0.0-20250420144712-1b176bda66a5 h1:zxejYVgzymIzTKMBUi/hez5Hu8JupAfbioqQM1EpcRA=
-github.com/QuizWars-Ecosystem/go-common v0.0.0-20250420144712-1b176bda66a5/go.mod h1:cFT99iLmwFY7+OJPiTSTc6IIyl0M8E+IYNtmMVqSTWc=
+github.com/QuizWars-Ecosystem/go-common v0.0.0-20250420175129-434a049298e3 h1:SiZOFXn6iZLRcfnDyPm38nPOZOr//OEyJNYS1m9OHE4=
+github.com/QuizWars-Ecosystem/go-common v0.0.0-20250420175129-434a049298e3/go.mod h1:cFT99iLmwFY7+OJPiTSTc6IIyl0M8E+IYNtmMVqSTWc=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=

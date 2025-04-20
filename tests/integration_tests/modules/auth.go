@@ -17,7 +17,7 @@ var jwt *jw.Service
 func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *config.TestConfig) {
 	ctx := t.Context()
 
-	jwt = jw.NewService(cfg.ServiceConfig.JWT.Secret, cfg.ServiceConfig.JWT.AccessExpiration, cfg.ServiceConfig.JWT.RefreshExpiration)
+	jwt = jw.NewService(cfg.ServiceConfig.JWT)
 	emptyCtx = jwt.SetTokenInContext(ctx, "")
 	invalidCtx = jwt.SetTokenInContext(ctx, "invalid token")
 

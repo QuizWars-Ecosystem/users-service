@@ -21,7 +21,7 @@ func main() {
 
 	manager, err := config.NewManager[users.Config](path)
 	if err != nil {
-		slog.Error("Error loading config: ", err)
+		slog.Error("Error loading config: ", "error", err)
 		return
 	}
 
