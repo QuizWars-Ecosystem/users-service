@@ -32,7 +32,7 @@ type TestServer struct {
 func NewTestServer(ctx context.Context, cfg *config.Config) (*TestServer, error) {
 	cl := closer.NewCloser()
 
-	logger := log.NewLogger(cfg.Local, cfg.LogLevel)
+	logger := log.NewLogger(cfg.Local, cfg.Logger.Level)
 
 	dbOpts := clients.NewPostgresOptions(cfg.Postgres.URL)
 	dbOpts.WithConnectTimeout(time.Second * 20)
@@ -44,7 +44,7 @@ func NewTestServer(ctx context.Context, cfg *config.Config) (*TestServer, error)
 	}
 
 	storage := store.NewStore(db, logger.Zap())
-	jwtService := jwt.NewService(cfg.JWT.Secret, cfg.JWT.AccessExpiration, cfg.JWT.RefreshExpiration)
+	jwtService := jwt.NewService(cfg.JWT)
 	srv := service.NewService(storage, logger.Zap())
 	hand := handler.NewHandler(srv, jwtService, logger.Zap())
 
