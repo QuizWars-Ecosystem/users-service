@@ -39,6 +39,8 @@ func NewTestConfig() *TestConfig {
 				AccessExpiration:  time.Hour,
 				RefreshExpiration: time.Hour,
 			},
+			Postgres: &config.PostgresConfig{},
+			Redis:    &config.RedisConfig{},
 		},
 		Postgres: &postgresCfg,
 	}
