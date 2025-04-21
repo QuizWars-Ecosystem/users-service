@@ -9,7 +9,7 @@ import (
 )
 
 func (s *Service) AdminSearchUsers(ctx context.Context, filter *admin.SearchFilter) (*admin.SearchUsersResponse, error) {
-	users, amount, err := s.store.Admin.SearchUsers(ctx, filter)
+	users, amount, err := s.store.AdminSearchUsers(ctx, filter)
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +25,7 @@ func (s *Service) AdminSearchUsers(ctx context.Context, filter *admin.SearchFilt
 }
 
 func (s *Service) AdminGetUserByID(ctx context.Context, userID string) (*profile.UserAdmin, error) {
-	user, err := s.store.Admin.GetUserByID(ctx, userID)
+	user, err := s.store.AdminGetUserByID(ctx, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +34,7 @@ func (s *Service) AdminGetUserByID(ctx context.Context, userID string) (*profile
 }
 
 func (s *Service) AdminGetUserByUsername(ctx context.Context, username string) (*profile.UserAdmin, error) {
-	user, err := s.store.Admin.GetUserByUsername(ctx, username)
+	user, err := s.store.AdminGetUserByUsername(ctx, username)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (s *Service) AdminGetUserByUsername(ctx context.Context, username string) (
 }
 
 func (s *Service) AdminGetUserByEmail(ctx context.Context, email string) (*profile.UserAdmin, error) {
-	user, err := s.store.Admin.GetUserByEmail(ctx, email)
+	user, err := s.store.AdminGetUserByEmail(ctx, email)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (s *Service) AdminGetUserByEmail(ctx context.Context, email string) (*profi
 }
 
 func (s *Service) AdminUpdateUserRole(ctx context.Context, userID, role string) error {
-	err := s.store.Admin.UpdateUserRole(ctx, userID, role)
+	err := s.store.AdminUpdateUserRole(ctx, userID, role)
 	if err != nil {
 		return err
 	}
@@ -63,7 +63,7 @@ func (s *Service) AdminUpdateUserRole(ctx context.Context, userID, role string) 
 }
 
 func (s *Service) AdminBanUserByID(ctx context.Context, userID string) error {
-	err := s.store.Admin.BanUser(ctx, userID)
+	err := s.store.AdminBanUser(ctx, userID)
 	if err != nil {
 		return err
 	}
@@ -74,7 +74,7 @@ func (s *Service) AdminBanUserByID(ctx context.Context, userID string) error {
 }
 
 func (s *Service) AdminUnbanUserByID(ctx context.Context, userID string) error {
-	err := s.store.Admin.UnbanUser(ctx, userID)
+	err := s.store.AdminUnbanUser(ctx, userID)
 	if err != nil {
 		return err
 	}

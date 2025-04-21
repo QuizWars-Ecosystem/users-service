@@ -7,7 +7,7 @@ import (
 )
 
 func (s *Service) AddFriend(ctx context.Context, requesterID, recipientID string) error {
-	err := s.store.Social.AddFriend(ctx, requesterID, recipientID)
+	err := s.store.AddFriend(ctx, requesterID, recipientID)
 	if err != nil {
 		return err
 	}
@@ -16,7 +16,7 @@ func (s *Service) AddFriend(ctx context.Context, requesterID, recipientID string
 }
 
 func (s *Service) AcceptFriend(ctx context.Context, recipientID, requesterID string) error {
-	err := s.store.Social.AcceptFriend(ctx, recipientID, requesterID)
+	err := s.store.AcceptFriend(ctx, recipientID, requesterID)
 	if err != nil {
 		return err
 	}
@@ -25,7 +25,7 @@ func (s *Service) AcceptFriend(ctx context.Context, recipientID, requesterID str
 }
 
 func (s *Service) RejectFriend(ctx context.Context, recipientID, requesterID string) error {
-	err := s.store.Social.RejectFriend(ctx, recipientID, requesterID)
+	err := s.store.RejectFriend(ctx, recipientID, requesterID)
 	if err != nil {
 		return err
 	}
@@ -34,7 +34,7 @@ func (s *Service) RejectFriend(ctx context.Context, recipientID, requesterID str
 }
 
 func (s *Service) RemoveFriend(ctx context.Context, userID, friendID string) error {
-	err := s.store.Social.RemoveFriend(ctx, userID, friendID)
+	err := s.store.RemoveFriend(ctx, userID, friendID)
 	if err != nil {
 		return err
 	}
@@ -43,7 +43,7 @@ func (s *Service) RemoveFriend(ctx context.Context, userID, friendID string) err
 }
 
 func (s *Service) GetFriends(ctx context.Context, userID string) ([]*profile.Friend, error) {
-	friends, err := s.store.Social.GetFriends(ctx, userID)
+	friends, err := s.store.GetFriends(ctx, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (s *Service) GetFriends(ctx context.Context, userID string) ([]*profile.Fri
 }
 
 func (s *Service) BlockFriend(ctx context.Context, userID, friendID string) error {
-	err := s.store.Social.BanFriend(ctx, userID, friendID)
+	err := s.store.BanFriend(ctx, userID, friendID)
 	if err != nil {
 		return err
 	}
@@ -61,7 +61,7 @@ func (s *Service) BlockFriend(ctx context.Context, userID, friendID string) erro
 }
 
 func (s *Service) UnblockFriend(ctx context.Context, userID, friendID string) error {
-	err := s.store.Social.UnbanFriend(ctx, userID, friendID)
+	err := s.store.UnbanFriend(ctx, userID, friendID)
 	if err != nil {
 		return err
 	}

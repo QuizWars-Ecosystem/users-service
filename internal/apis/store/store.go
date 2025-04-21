@@ -6,20 +6,16 @@ import (
 	"go.uber.org/zap"
 )
 
+var _ IStore = (*Store)(nil)
+
 type Store struct {
-	Admin   *db.Admin
-	Auth    *db.Auth
-	Profile *db.Profile
-	Social  *db.Social
-	logger  *zap.Logger
+	db     *db.Database
+	logger *zap.Logger
 }
 
 func NewStore(pool *pgxpool.Pool, logger *zap.Logger) *Store {
 	return &Store{
-		Admin:   db.NewAdmin(pool, logger),
-		Auth:    db.NewAuth(pool, logger),
-		Profile: db.NewProfile(pool, logger),
-		Social:  db.NewSocial(pool, logger),
-		logger:  logger,
+		db:     db.NewDatabase(pool, logger),
+		logger: logger,
 	}
 }

@@ -2,8 +2,9 @@ package modules
 
 import (
 	"context"
-	"github.com/google/uuid"
 	"testing"
+
+	"github.com/google/uuid"
 
 	jw "github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
 

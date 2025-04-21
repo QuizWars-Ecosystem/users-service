@@ -9,7 +9,7 @@ import (
 )
 
 func (s *Service) GetSelfProfile(ctx context.Context, userID string) (*profile.Profile, error) {
-	prof, err := s.store.Profile.GetProfile(ctx, userID)
+	prof, err := s.store.GetProfile(ctx, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -18,7 +18,7 @@ func (s *Service) GetSelfProfile(ctx context.Context, userID string) (*profile.P
 }
 
 func (s *Service) GetProfileByID(ctx context.Context, userID string) (*profile.User, error) {
-	user, err := s.store.Profile.GetUserByID(ctx, userID)
+	user, err := s.store.GetUserByID(ctx, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -27,7 +27,7 @@ func (s *Service) GetProfileByID(ctx context.Context, userID string) (*profile.U
 }
 
 func (s *Service) GetProfileByUsername(ctx context.Context, username string) (*profile.User, error) {
-	user, err := s.store.Profile.GetUserByUsername(ctx, username)
+	user, err := s.store.GetUserByUsername(ctx, username)
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,7 @@ func (s *Service) GetProfileByUsername(ctx context.Context, username string) (*p
 }
 
 func (s *Service) UpdateProfile(ctx context.Context, userID string, req *profile.UpdateProfile) error {
-	err := s.store.Profile.UpdateProfile(ctx, userID, req)
+	err := s.store.UpdateProfile(ctx, userID, req)
 	if err != nil {
 		return err
 	}
@@ -45,7 +45,7 @@ func (s *Service) UpdateProfile(ctx context.Context, userID string, req *profile
 }
 
 func (s *Service) UpdateProfileAvatar(ctx context.Context, userID string, avatarID int32) error {
-	err := s.store.Profile.UpdateProfileAvatar(ctx, userID, avatarID)
+	err := s.store.UpdateProfileAvatar(ctx, userID, avatarID)
 	if err != nil {
 		return err
 	}
@@ -59,7 +59,7 @@ func (s *Service) UpdateProfilePassword(ctx context.Context, userID string, pass
 		return apperrors.Internal(err)
 	}
 
-	err = s.store.Profile.UpdateProfilePassword(ctx, userID, string(passHash))
+	err = s.store.UpdateProfilePassword(ctx, userID, string(passHash))
 	if err != nil {
 		return err
 	}
@@ -68,7 +68,7 @@ func (s *Service) UpdateProfilePassword(ctx context.Context, userID string, pass
 }
 
 func (s *Service) DeleteProfile(ctx context.Context, userID string) error {
-	err := s.store.Profile.DeleteProfile(ctx, userID)
+	err := s.store.DeleteProfile(ctx, userID)
 	if err != nil {
 		return err
 	}

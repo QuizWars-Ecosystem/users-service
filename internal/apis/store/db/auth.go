@@ -10,23 +10,9 @@ import (
 	"github.com/QuizWars-Ecosystem/go-common/pkg/dbx"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
-	"github.com/jackc/pgx/v5/pgxpool"
-	"go.uber.org/zap"
 )
 
-type Auth struct {
-	db     *pgxpool.Pool
-	logger *zap.Logger
-}
-
-func NewAuth(db *pgxpool.Pool, logger *zap.Logger) *Auth {
-	return &Auth{
-		db:     db,
-		logger: logger,
-	}
-}
-
-func (a *Auth) SaveProfile(ctx context.Context, p *auth.ProfileWithCredentials) (*profile.Profile, error) {
+func (db *Database) SaveProfile(ctx context.Context, p *auth.ProfileWithCredentials) (*profile.Profile, error) {
 	builder := dbx.StatementBuilder.
 		Insert("users").
 		Columns("id", "username", "email", "pass_hash", "avatar_id", "created_at").
@@ -37,7 +23,7 @@ func (a *Auth) SaveProfile(ctx context.Context, p *auth.ProfileWithCredentials) 
 		return nil, apperrors.Internal(err)
 	}
 
-	_, err = a.db.Exec(ctx, query, args...)
+	_, err = db.pool.Exec(ctx, query, args...)
 
 	if err == nil {
 		builder = dbx.StatementBuilder.
@@ -51,7 +37,7 @@ func (a *Auth) SaveProfile(ctx context.Context, p *auth.ProfileWithCredentials) 
 			return nil, apperrors.Internal(err)
 		}
 
-		_, err = a.db.Exec(ctx, query, args...)
+		_, err = db.pool.Exec(ctx, query, args...)
 		switch {
 		case dbx.IsForeignKeyViolation(err, "user_id"):
 			return nil, apperrors.BadRequestHidden(err, "user already exists")
@@ -72,7 +58,7 @@ func (a *Auth) SaveProfile(ctx context.Context, p *auth.ProfileWithCredentials) 
 	return p.Profile, nil
 }
 
-func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*auth.ProfileWithCredentials, error) {
+func (db *Database) GetProfileByUsername(ctx context.Context, username string) (*auth.ProfileWithCredentials, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.role", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -91,7 +77,7 @@ func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*auth
 		},
 	}
 
-	err = a.db.QueryRow(ctx, query, args...).
+	err = db.pool.QueryRow(ctx, query, args...).
 		Scan(
 			&p.Profile.User.ID,
 			&p.Profile.User.Username,
@@ -115,7 +101,7 @@ func (a *Auth) GetProfileByUsername(ctx context.Context, username string) (*auth
 	return &p, nil
 }
 
-func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*auth.ProfileWithCredentials, error) {
+func (db *Database) GetProfileByEmail(ctx context.Context, email string) (*auth.ProfileWithCredentials, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.pass_hash", "u.role", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -134,7 +120,7 @@ func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*auth.Profi
 		},
 	}
 
-	err = a.db.QueryRow(ctx, query, args...).
+	err = db.pool.QueryRow(ctx, query, args...).
 		Scan(
 			&p.Profile.User.ID,
 			&p.Profile.User.Username,
@@ -158,7 +144,7 @@ func (a *Auth) GetProfileByEmail(ctx context.Context, email string) (*auth.Profi
 	return &p, nil
 }
 
-func (a *Auth) SetLastLogin(ctx context.Context, userID string) error {
+func (db *Database) SetLastLogin(ctx context.Context, userID string) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("last_login_at", time.Now()).
@@ -170,7 +156,7 @@ func (a *Auth) SetLastLogin(ctx context.Context, userID string) error {
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := a.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 	switch {
 	case err != nil:
 		return apperrors.Internal(err)

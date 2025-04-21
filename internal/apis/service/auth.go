@@ -17,7 +17,7 @@ func (s *Service) Register(ctx context.Context, credits *auth.ProfileWithCredent
 
 	credits.Password = string(passHash)
 
-	prof, err := s.store.Auth.SaveProfile(ctx, credits)
+	prof, err := s.store.SaveProfile(ctx, credits)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func (s *Service) Register(ctx context.Context, credits *auth.ProfileWithCredent
 }
 
 func (s *Service) LoginByUsername(ctx context.Context, username, password string) (*auth.ProfileWithCredentials, error) {
-	prof, err := s.store.Auth.GetProfileByUsername(ctx, username)
+	prof, err := s.store.GetProfileByUsername(ctx, username)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func (s *Service) LoginByUsername(ctx context.Context, username, password string
 }
 
 func (s *Service) LoginByEmail(ctx context.Context, email, password string) (*auth.ProfileWithCredentials, error) {
-	prof, err := s.store.Auth.GetProfileByEmail(ctx, email)
+	prof, err := s.store.GetProfileByEmail(ctx, email)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (s *Service) LoginByEmail(ctx context.Context, email, password string) (*au
 }
 
 func (s *Service) Logout(ctx context.Context, userID string) error {
-	err := s.store.Auth.SetLastLogin(ctx, userID)
+	err := s.store.SetLastLogin(ctx, userID)
 	if err != nil {
 		return err
 	}

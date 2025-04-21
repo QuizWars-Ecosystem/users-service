@@ -2,6 +2,7 @@ package modules
 
 import (
 	"context"
+
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 )
 
