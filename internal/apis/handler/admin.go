@@ -75,19 +75,7 @@ func (h *Handler) UpdateUserRole(ctx context.Context, request *userspb.UpdateUse
 		return nil, apperrors.Forbidden(jwt.AuthPermissionDeniedError)
 	}
 
-	var role string
-	switch request.Role {
-	case userspb.Role_ROLE_USER:
-		role = string(jwt.User)
-	case userspb.Role_ROLE_ADMIN:
-		role = string(jwt.Admin)
-	case userspb.Role_ROLE_SUPER:
-		role = string(jwt.Super)
-	default:
-		role = string(jwt.User)
-	}
-
-	if err = h.service.AdminUpdateUserRole(ctx, request.GetUserId(), role); err != nil {
+	if err = h.service.AdminUpdateUserRole(ctx, request.GetUserId(), admin.RoleFromGRPCEnum(request.GetRole()).String()); err != nil {
 		return nil, err
 	}
 
