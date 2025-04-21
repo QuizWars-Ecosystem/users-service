@@ -7,6 +7,7 @@ import (
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
+	"github.com/QuizWars-Ecosystem/go-common/pkg/uuidx"
 	"go.uber.org/zap"
 
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
@@ -30,7 +31,7 @@ func (h *Handler) Register(ctx context.Context, request *userspb.RegisterRequest
 		return nil, err
 	}
 
-	token, err := h.jwt.GenerateToken(res.User.ID, string(jwt.User))
+	token, err := h.jwt.GenerateToken(res.User.ID.String(), string(jwt.User))
 	if err != nil {
 		return nil, apperrors.Internal(err)
 	}
@@ -63,7 +64,7 @@ func (h *Handler) Login(ctx context.Context, request *userspb.LoginRequest) (*us
 		return nil, err
 	}
 
-	token, err := h.jwt.GenerateToken(credits.Profile.User.ID, credits.Role)
+	token, err := h.jwt.GenerateToken(credits.Profile.User.ID.String(), credits.Role)
 	if err != nil {
 		return nil, apperrors.Internal(err)
 	}
@@ -75,7 +76,12 @@ func (h *Handler) Login(ctx context.Context, request *userspb.LoginRequest) (*us
 }
 
 func (h *Handler) Logout(ctx context.Context, request *userspb.LogoutRequest) (*emptypb.Empty, error) {
-	err := h.service.Logout(ctx, request.GetUserId())
+	userID, err := uuidx.Parse(request.GetUserId())
+	if err != nil {
+		return nil, err
+	}
+
+	err = h.service.Logout(ctx, userID)
 	if err != nil {
 		return nil, err
 	}

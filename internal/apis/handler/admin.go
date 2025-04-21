@@ -3,6 +3,9 @@ package handler
 import (
 	"context"
 
+	"github.com/QuizWars-Ecosystem/go-common/pkg/uuidx"
+	"github.com/google/uuid"
+
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
@@ -47,7 +50,12 @@ func (h *Handler) GetUserByIdentifier(ctx context.Context, request *userspb.GetU
 
 	switch request.Identifier.(type) {
 	case *userspb.GetUserByIdentifierRequest_UserId:
-		user, err = h.service.AdminGetUserByID(ctx, request.GetUserId())
+		var userID uuid.UUID
+		userID, err = uuidx.Parse(request.GetUserId())
+		if err != nil {
+			return nil, err
+		}
+		user, err = h.service.AdminGetUserByID(ctx, userID)
 	case *userspb.GetUserByIdentifierRequest_Username:
 		user, err = h.service.AdminGetUserByUsername(ctx, request.GetUsername())
 	case *userspb.GetUserByIdentifierRequest_Email:
@@ -76,7 +84,12 @@ func (h *Handler) UpdateUserRole(ctx context.Context, request *userspb.UpdateUse
 		return nil, apperrors.Forbidden(jwt.AuthPermissionDeniedError)
 	}
 
-	if err = h.service.AdminUpdateUserRole(ctx, request.GetUserId(), admin.RoleFromGRPCEnum(request.GetRole()).String()); err != nil {
+	userID, err := uuidx.Parse(request.GetUserId())
+	if err != nil {
+		return nil, err
+	}
+
+	if err = h.service.AdminUpdateUserRole(ctx, userID, admin.RoleFromGRPCEnum(request.GetRole()).String()); err != nil {
 		return nil, err
 	}
 
@@ -89,7 +102,12 @@ func (h *Handler) BanUser(ctx context.Context, request *userspb.BanUserRequest) 
 		return nil, err
 	}
 
-	err = h.service.AdminBanUserByID(ctx, request.GetUserId())
+	userID, err := uuidx.Parse(request.GetUserId())
+	if err != nil {
+		return nil, err
+	}
+
+	err = h.service.AdminBanUserByID(ctx, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +121,12 @@ func (h *Handler) UnbanUser(ctx context.Context, request *userspb.UnbanUserReque
 		return nil, err
 	}
 
-	err = h.service.AdminUnbanUserByID(ctx, request.GetUserId())
+	userID, err := uuidx.Parse(request.GetUserId())
+	if err != nil {
+		return nil, err
+	}
+
+	err = h.service.AdminUnbanUserByID(ctx, userID)
 	if err != nil {
 		return nil, err
 	}

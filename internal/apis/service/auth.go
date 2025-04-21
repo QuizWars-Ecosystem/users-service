@@ -3,6 +3,8 @@ package service
 import (
 	"context"
 
+	"github.com/google/uuid"
+
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/auth"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
@@ -51,7 +53,7 @@ func (s *Service) LoginByEmail(ctx context.Context, email, password string) (*au
 	return prof, nil
 }
 
-func (s *Service) Logout(ctx context.Context, userID string) error {
+func (s *Service) Logout(ctx context.Context, userID uuid.UUID) error {
 	err := s.store.SetLastLogin(ctx, userID)
 	if err != nil {
 		return err

@@ -3,8 +3,8 @@
 CREATE TYPE friend_status AS ENUM ('pending', 'accepted', 'blocked');
 
 CREATE TABLE IF NOT EXISTS friends (
-    user_id VARCHAR(36) NOT NULL REFERENCES users(id),
-    friend_id VARCHAR(36) NOT NULL REFERENCES users(id),
+    user_id UUID NOT NULL REFERENCES users(id),
+    friend_id UUID NOT NULL REFERENCES users(id),
     status friend_status NOT NULL DEFAULT 'pending',
     PRIMARY KEY (user_id, friend_id)
 );

@@ -3,13 +3,15 @@ package db
 import (
 	"context"
 
+	"github.com/google/uuid"
+
 	"github.com/Masterminds/squirrel"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/dbx"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 )
 
-func (db *Database) AddFriend(ctx context.Context, requesterID, recipientID string) error {
+func (db *Database) AddFriend(ctx context.Context, requesterID, recipientID uuid.UUID) error {
 	builder := dbx.StatementBuilder.
 		Insert("friends").
 		Columns("user_id", "friend_id").
@@ -35,7 +37,7 @@ func (db *Database) AddFriend(ctx context.Context, requesterID, recipientID stri
 	return nil
 }
 
-func (db *Database) AcceptFriend(ctx context.Context, recipientID, requesterID string) error {
+func (db *Database) AcceptFriend(ctx context.Context, recipientID, requesterID uuid.UUID) error {
 	builder := dbx.StatementBuilder.
 		Update("friends").
 		Set("status", "accepted").
@@ -55,7 +57,7 @@ func (db *Database) AcceptFriend(ctx context.Context, recipientID, requesterID s
 	return nil
 }
 
-func (db *Database) RejectFriend(ctx context.Context, recipientID, requesterID string) error {
+func (db *Database) RejectFriend(ctx context.Context, recipientID, requesterID uuid.UUID) error {
 	builder := dbx.StatementBuilder.
 		Delete("friends").
 		Where(squirrel.Eq{"friend_id": recipientID}).
@@ -81,7 +83,7 @@ func (db *Database) RejectFriend(ctx context.Context, recipientID, requesterID s
 	return nil
 }
 
-func (db *Database) RemoveFriend(ctx context.Context, userID string, friendID string) error {
+func (db *Database) RemoveFriend(ctx context.Context, userID, friendID uuid.UUID) error {
 	builder := dbx.StatementBuilder.
 		Delete("friends").
 		Where(
@@ -111,7 +113,7 @@ func (db *Database) RemoveFriend(ctx context.Context, userID string, friendID st
 	return nil
 }
 
-func (db *Database) GetFriends(ctx context.Context, userID string) ([]*profile.Friend, error) {
+func (db *Database) GetFriends(ctx context.Context, userID uuid.UUID) ([]*profile.Friend, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.avatar_id", "u.username", "db.rating", "u.created_at", "u.last_login_at", "f.status").
 		From("users u").
@@ -172,7 +174,7 @@ func (db *Database) GetFriends(ctx context.Context, userID string) ([]*profile.F
 	return friends, nil
 }
 
-func (db *Database) BanFriend(ctx context.Context, userID string, friendID string) error {
+func (db *Database) BanFriend(ctx context.Context, userID, friendID uuid.UUID) error {
 	builder := dbx.StatementBuilder.
 		Update("friends").
 		Set("status", "blocked").
@@ -203,7 +205,7 @@ func (db *Database) BanFriend(ctx context.Context, userID string, friendID strin
 	return nil
 }
 
-func (db *Database) UnbanFriend(ctx context.Context, userID string, friendID string) error {
+func (db *Database) UnbanFriend(ctx context.Context, userID, friendID uuid.UUID) error {
 	builder := dbx.StatementBuilder.
 		Update("friends").
 		Set("status", "accepted").

@@ -3,12 +3,14 @@ package service
 import (
 	"context"
 
+	"github.com/google/uuid"
+
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *Service) GetSelfProfile(ctx context.Context, userID string) (*profile.Profile, error) {
+func (s *Service) GetSelfProfile(ctx context.Context, userID uuid.UUID) (*profile.Profile, error) {
 	prof, err := s.store.GetProfile(ctx, userID)
 	if err != nil {
 		return nil, err
@@ -17,7 +19,7 @@ func (s *Service) GetSelfProfile(ctx context.Context, userID string) (*profile.P
 	return prof, nil
 }
 
-func (s *Service) GetProfileByID(ctx context.Context, userID string) (*profile.User, error) {
+func (s *Service) GetProfileByID(ctx context.Context, userID uuid.UUID) (*profile.User, error) {
 	user, err := s.store.GetUserByID(ctx, userID)
 	if err != nil {
 		return nil, err
@@ -35,7 +37,7 @@ func (s *Service) GetProfileByUsername(ctx context.Context, username string) (*p
 	return user, nil
 }
 
-func (s *Service) UpdateProfile(ctx context.Context, userID string, req *profile.UpdateProfile) error {
+func (s *Service) UpdateProfile(ctx context.Context, userID uuid.UUID, req *profile.UpdateProfile) error {
 	err := s.store.UpdateProfile(ctx, userID, req)
 	if err != nil {
 		return err
@@ -44,7 +46,7 @@ func (s *Service) UpdateProfile(ctx context.Context, userID string, req *profile
 	return nil
 }
 
-func (s *Service) UpdateProfileAvatar(ctx context.Context, userID string, avatarID int32) error {
+func (s *Service) UpdateProfileAvatar(ctx context.Context, userID uuid.UUID, avatarID int32) error {
 	err := s.store.UpdateProfileAvatar(ctx, userID, avatarID)
 	if err != nil {
 		return err
@@ -53,7 +55,7 @@ func (s *Service) UpdateProfileAvatar(ctx context.Context, userID string, avatar
 	return nil
 }
 
-func (s *Service) UpdateProfilePassword(ctx context.Context, userID string, password string) error {
+func (s *Service) UpdateProfilePassword(ctx context.Context, userID uuid.UUID, password string) error {
 	passHash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return apperrors.Internal(err)
@@ -67,7 +69,7 @@ func (s *Service) UpdateProfilePassword(ctx context.Context, userID string, pass
 	return nil
 }
 
-func (s *Service) DeleteProfile(ctx context.Context, userID string) error {
+func (s *Service) DeleteProfile(ctx context.Context, userID uuid.UUID) error {
 	err := s.store.DeleteProfile(ctx, userID)
 	if err != nil {
 		return err

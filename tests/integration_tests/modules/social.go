@@ -3,6 +3,8 @@ package modules
 import (
 	"testing"
 
+	"github.com/google/uuid"
+
 	jw "github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
 	testerror "github.com/QuizWars-Ecosystem/go-common/pkg/testing/errors"
 	"github.com/stretchr/testify/require"
@@ -15,14 +17,14 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	ctx := t.Context()
 
 	t.Run("social.AddFriend: not found", func(t *testing.T) {
-		testData := "test_id"
+		testID := uuid.New().String()
 		_, err := client.AddFriend(ctx, &userspb.AddFriendRequest{
-			RequesterId: testData,
+			RequesterId: testID,
 			RecipientId: martin.Id,
 		})
 
 		require.Error(t, err)
-		testerror.RequireNotFoundError(t, err, "user", "id", testData)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
 	t.Run("social.AddFriend: successful", func(t *testing.T) {
@@ -152,14 +154,14 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.BlockFriend: not found", func(t *testing.T) {
-		testData := "test_id"
+		testID := uuid.New().String()
 		_, err := client.BlockFriend(martinCtx, &userspb.BlockFriendRequest{
 			UserId:   martin.Id,
-			FriendId: testData,
+			FriendId: testID,
 		})
 
 		require.Error(t, err)
-		testerror.RequireNotFoundError(t, err, "user", "id", testData)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
 	t.Run("social.BlockFriend: successful", func(t *testing.T) {
@@ -202,14 +204,14 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.UnblockFriend: not found", func(t *testing.T) {
-		testData := "test_id"
+		testID := uuid.New().String()
 		_, err := client.BlockFriend(martinCtx, &userspb.BlockFriendRequest{
 			UserId:   martin.Id,
-			FriendId: testData,
+			FriendId: testID,
 		})
 
 		require.Error(t, err)
-		testerror.RequireNotFoundError(t, err, "user", "id", testData)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
 	t.Run("social.UnblockFriend: successful", func(t *testing.T) {
@@ -252,14 +254,14 @@ func SocialServiceTest(t *testing.T, client userspb.UsersSocialServiceClient, _ 
 	})
 
 	t.Run("social.RemoveFriend: not found", func(t *testing.T) {
-		testData := "test_id"
+		testID := uuid.New().String()
 		_, err := client.RemoveFriend(martinCtx, &userspb.RemoveFriendRequest{
 			RequesterId: martin.Id,
-			FriendId:    testData,
+			FriendId:    testID,
 		})
 
 		require.Error(t, err)
-		testerror.RequireNotFoundError(t, err, "user", "id", testData)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
 	t.Run("social.RemoveFriend: successful", func(t *testing.T) {

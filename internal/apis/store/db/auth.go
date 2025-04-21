@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/google/uuid"
+
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/auth"
 
 	"github.com/Masterminds/squirrel"
@@ -144,7 +146,7 @@ func (db *Database) GetProfileByEmail(ctx context.Context, email string) (*auth.
 	return &p, nil
 }
 
-func (db *Database) SetLastLogin(ctx context.Context, userID string) error {
+func (db *Database) SetLastLogin(ctx context.Context, userID uuid.UUID) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("last_login_at", time.Now()).

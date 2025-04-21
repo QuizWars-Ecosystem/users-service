@@ -102,12 +102,13 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 	})
 
 	t.Run("auth.Logout: not found", func(t *testing.T) {
+		testID := uuid.New().String()
 		_, err := client.Logout(ctx, &userspb.LogoutRequest{
-			UserId: martin.Id,
+			UserId: testID,
 		})
 
 		require.Error(t, err)
-		testerror.RequireNotFoundError(t, err, "user", "id", martin.Id)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
 	t.Run("auth.Logout: successful", func(t *testing.T) {
