@@ -133,5 +133,62 @@ jobs:
           docker tag $IMAGE:$TAG $IMAGE:latest
           docker push $IMAGE:$TAG
           docker push $IMAGE:latest
-  
-      
+
+  build-and-push-migrations:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    name: Build and Push DB Migrations
+    needs: release
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check for changes in migrations/
+        id: check_migrations
+        run: |
+          if git diff --quiet HEAD~1 HEAD -- migrations/; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Exit if no changes in migrations/
+        if: steps.check_migrations.outputs.changed == 'false'
+        run: |
+          echo "No changes in migrations/, skipping build."
+          exit 0
+
+      - name: Detect service name from repo
+        id: service_name
+        run: |
+          NAME=$(basename ${{ github.repository }})
+          NAME_CLEANED=$(echo $NAME | sed 's/-service//')
+          echo "name=$NAME_CLEANED" >> $GITHUB_OUTPUT
+
+      - name: Get latest tag
+        id: get_tag
+        run: |
+          TAG=$(git tag --sort=-creatordate | tail -n 1)
+          if [ -z "$TAG" ]; then
+            TAG="v1.0.0"
+          fi
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.QUIZWARS_DOCKER_USERNAME }}
+          password: ${{ secrets.QUIZWARS_DOCKER_PASSWORD }}
+
+      - name: Build and Push Migration Image
+        run: |
+          SERVICE=${{ steps.service_name.outputs.name }}
+          VERSION=${{ steps.get_tag.outputs.tag }}
+          IMAGE=davidmovas/quizwars-migrations:$SERVICE-$VERSION
+          docker build -f tern.dockerfile -t $IMAGE .
+          docker push $IMAGE
+          docker tag $IMAGE davidmovas/quizwars-migrations:$SERVICE-latest
+          docker push davidmovas/quizwars-migrations:$SERVICE-latest
+
+    
