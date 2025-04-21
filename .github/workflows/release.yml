@@ -22,13 +22,12 @@ jobs:
         with:
           go-version: 1.24.2
 
-      - name: Install go-semantic-release
-        run: go install github.com/go-semantic-release/semantic-release/cmd/semantic-release@latest
-
-      - name: Run semantic-release
+      - name: Use go-semantic-release
+        uses: go-semantic-release/action@v1
+        with:
+          hooks: goreleaser
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: semantic-release
 
       - name: Extract latest tag
         id: get_tag
@@ -53,4 +52,4 @@ jobs:
           docker build -t $IMAGE:$VERSION .
           docker tag $IMAGE:$VERSION $IMAGE:latest
           docker push $IMAGE:$VERSION
-          docker push $IMAGE:latest
+          docker push $IMAGE:latest 
