@@ -50,6 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     outputs:
       tag: ${{ steps.get_tag.outputs.tag }}
 
@@ -69,12 +70,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get latest tag (if created)
+      - name: Get latest tag or fallback
         id: get_tag
         run: |
           TAG=$(git tag --sort=-creatordate | tail -n 1)
+          if [ -z "$TAG" ]; then
+            TAG="v1.0.0"
+            echo "::notice ::No tag found, defaulting to $TAG"
+          fi
           echo "tag=$TAG"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release (if not exists)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.get_tag.outputs.tag }}
+        run: |
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            echo "Release $VERSION already exists, skipping creation."
+          else
+            gh release create "$VERSION" --generate-notes
+          fi
+
 
       - name: Create GitHub Release (if not exists)
         env:
@@ -108,7 +125,7 @@ jobs:
         run: |
           TAG=${{ needs.release.outputs.tag }}
           if [ -z "$TAG" ]; then
-            echo "No new release tag found. Skipping Docker build and push."
+            echo "No tag available for Docker image. Skipping push."
             exit 0
           fi
           IMAGE=davidmovas/quizwars-users-service
@@ -116,3 +133,5 @@ jobs:
           docker tag $IMAGE:$TAG $IMAGE:latest
           docker push $IMAGE:$TAG
           docker push $IMAGE:latest
+  
+      
