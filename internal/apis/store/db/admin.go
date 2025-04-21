@@ -238,6 +238,31 @@ func (a *Admin) GetUserByEmail(ctx context.Context, email string) (*profile.User
 	return &u, nil
 }
 
+func (a *Admin) UpdateUserRole(ctx context.Context, userID, role string) error {
+	builder := dbx.StatementBuilder.
+		Update("users").
+		Set("role", role).
+		Where(squirrel.Eq{"id": userID})
+
+	query, args, err := builder.ToSql()
+	if err != nil {
+		return apperrors.Internal(err)
+	}
+
+	cmd, err := a.db.Exec(ctx, query, args...)
+
+	switch {
+	case dbx.IsNoRows(err) || err == nil && cmd.RowsAffected() == 0:
+		return apperrors.NotFound("user", "id", userID)
+	case dbx.NotValidEnumType(err, "role"):
+		return apperrors.BadRequestHidden(err, "provided role is invalid")
+	case err != nil:
+		return apperrors.Internal(err)
+	}
+
+	return nil
+}
+
 func (a *Admin) BanUser(ctx context.Context, userID string) error {
 	builder := dbx.StatementBuilder.
 		Update("users").

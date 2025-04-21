@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	UsersAdminService_SearchUsers_FullMethodName         = "/usersservice.v1.UsersAdminService/SearchUsers"
 	UsersAdminService_GetUserByIdentifier_FullMethodName = "/usersservice.v1.UsersAdminService/GetUserByIdentifier"
+	UsersAdminService_UpdateUserRole_FullMethodName      = "/usersservice.v1.UsersAdminService/UpdateUserRole"
 	UsersAdminService_BanUser_FullMethodName             = "/usersservice.v1.UsersAdminService/BanUser"
 	UsersAdminService_UnbanUser_FullMethodName           = "/usersservice.v1.UsersAdminService/UnbanUser"
 )
@@ -32,6 +33,7 @@ const (
 type UsersAdminServiceClient interface {
 	SearchUsers(ctx context.Context, in *SearchUsersRequest, opts ...grpc.CallOption) (*SearchUsersResponse, error)
 	GetUserByIdentifier(ctx context.Context, in *GetUserByIdentifierRequest, opts ...grpc.CallOption) (*UserAdmin, error)
+	UpdateUserRole(ctx context.Context, in *UpdateUserRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	BanUser(ctx context.Context, in *BanUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	UnbanUser(ctx context.Context, in *UnbanUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
@@ -64,6 +66,16 @@ func (c *usersAdminServiceClient) GetUserByIdentifier(ctx context.Context, in *G
 	return out, nil
 }
 
+func (c *usersAdminServiceClient) UpdateUserRole(ctx context.Context, in *UpdateUserRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, UsersAdminService_UpdateUserRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *usersAdminServiceClient) BanUser(ctx context.Context, in *BanUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
@@ -90,6 +102,7 @@ func (c *usersAdminServiceClient) UnbanUser(ctx context.Context, in *UnbanUserRe
 type UsersAdminServiceServer interface {
 	SearchUsers(context.Context, *SearchUsersRequest) (*SearchUsersResponse, error)
 	GetUserByIdentifier(context.Context, *GetUserByIdentifierRequest) (*UserAdmin, error)
+	UpdateUserRole(context.Context, *UpdateUserRoleRequest) (*emptypb.Empty, error)
 	BanUser(context.Context, *BanUserRequest) (*emptypb.Empty, error)
 	UnbanUser(context.Context, *UnbanUserRequest) (*emptypb.Empty, error)
 }
@@ -106,6 +119,9 @@ func (UnimplementedUsersAdminServiceServer) SearchUsers(context.Context, *Search
 }
 func (UnimplementedUsersAdminServiceServer) GetUserByIdentifier(context.Context, *GetUserByIdentifierRequest) (*UserAdmin, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserByIdentifier not implemented")
+}
+func (UnimplementedUsersAdminServiceServer) UpdateUserRole(context.Context, *UpdateUserRoleRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserRole not implemented")
 }
 func (UnimplementedUsersAdminServiceServer) BanUser(context.Context, *BanUserRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BanUser not implemented")
@@ -169,6 +185,24 @@ func _UsersAdminService_GetUserByIdentifier_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UsersAdminService_UpdateUserRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersAdminServiceServer).UpdateUserRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UsersAdminService_UpdateUserRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersAdminServiceServer).UpdateUserRole(ctx, req.(*UpdateUserRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UsersAdminService_BanUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(BanUserRequest)
 	if err := dec(in); err != nil {
@@ -219,6 +253,10 @@ var UsersAdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserByIdentifier",
 			Handler:    _UsersAdminService_GetUserByIdentifier_Handler,
+		},
+		{
+			MethodName: "UpdateUserRole",
+			Handler:    _UsersAdminService_UpdateUserRole_Handler,
 		},
 		{
 			MethodName: "BanUser",

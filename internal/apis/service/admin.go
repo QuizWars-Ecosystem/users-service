@@ -51,6 +51,17 @@ func (s *Service) AdminGetUserByEmail(ctx context.Context, email string) (*profi
 	return user, nil
 }
 
+func (s *Service) AdminUpdateUserRole(ctx context.Context, userID, role string) error {
+	err := s.store.Admin.UpdateUserRole(ctx, userID, role)
+	if err != nil {
+		return err
+	}
+
+	s.logger.Info("user role updated", zap.String("user_id", userID))
+
+	return nil
+}
+
 func (s *Service) AdminBanUserByID(ctx context.Context, userID string) error {
 	err := s.store.Admin.BanUser(ctx, userID)
 	if err != nil {
