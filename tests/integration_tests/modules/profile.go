@@ -1,6 +1,7 @@
 package modules
 
 import (
+	"github.com/google/uuid"
 	"testing"
 
 	jw "github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
@@ -37,19 +38,19 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.GetProfile: by user id: not found", func(t *testing.T) {
-		testData := "test_id"
+		testID := uuid.New().String()
 		res, err := client.GetProfile(johnCtx, &userspb.GetProfileRequest{
 			Identifier: &userspb.GetProfileRequest_UserId{
-				UserId: testData,
+				UserId: testID,
 			},
 		})
 
 		require.Error(t, err)
 		require.Nil(t, res)
-		testerror.RequireNotFoundError(t, err, "user", "id", testData)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
-	t.Run("profile.GetProfile: by user username: not found", func(t *testing.T) {
+	t.Run("profile.GetProfile: by username: not found", func(t *testing.T) {
 		testData := "test_username"
 		res, err := client.GetProfile(johnCtx, &userspb.GetProfileRequest{
 			Identifier: &userspb.GetProfileRequest_Username{
@@ -204,14 +205,14 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.UpdateAvatar: not found", func(t *testing.T) {
-		testData := "test_id"
+		testID := uuid.New().String()
 		_, err := client.UpdateAvatar(johnAdminCtx, &userspb.UpdateAvatarRequest{
-			UserId:   testData,
+			UserId:   testID,
 			AvatarId: 5,
 		})
 
 		require.Error(t, err)
-		testerror.RequireNotFoundError(t, err, "user", "id", testData)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
 	t.Run("profile.UpdateAvatar: successful", func(t *testing.T) {
@@ -259,15 +260,15 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.ChangePassword: not found", func(t *testing.T) {
+		testID := uuid.New().String()
 		testData := "new_password"
-		testDataID := "test_id"
 		_, err := client.ChangePassword(johnAdminCtx, &userspb.ChangePasswordRequest{
-			UserId:   testDataID,
+			UserId:   testID,
 			Password: testData,
 		})
 
 		require.Error(t, err)
-		testerror.RequireNotFoundError(t, err, "user", "id", testDataID)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
 	t.Run("profile.ChangePassword: by admin: successful", func(t *testing.T) {
@@ -320,13 +321,13 @@ func ProfileServiceTest(t *testing.T, client userspb.UsersProfileServiceClient, 
 	})
 
 	t.Run("profile.DeleteAccount: not found", func(t *testing.T) {
-		testData := "test_id"
+		testID := uuid.New().String()
 		_, err := client.DeleteAccount(johnAdminCtx, &userspb.DeleteAccountRequest{
-			UserId: testData,
+			UserId: testID,
 		})
 
 		require.Error(t, err)
-		testerror.RequireNotFoundError(t, err, "user", "id", testData)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
 	t.Run("profile.DeleteAccount: by admin: successful", func(t *testing.T) {

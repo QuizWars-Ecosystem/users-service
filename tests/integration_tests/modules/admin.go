@@ -76,15 +76,15 @@ func AdminServiceTest(t *testing.T, client usersv1.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.GetUserByIdentifier: get by id: not found", func(t *testing.T) {
-		testData := "test_id"
+		testID := uuid.New().String()
 		_, err := client.GetUserByIdentifier(johnAdminCtx, &usersv1.GetUserByIdentifierRequest{
 			Identifier: &usersv1.GetUserByIdentifierRequest_UserId{
-				UserId: testData,
+				UserId: testID,
 			},
 		})
 
 		require.Error(t, err)
-		testerror.RequireNotFoundError(t, err, "user", "id", testData)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
 	t.Run("admin.GetUserByIdentifier: get by id: successful", func(t *testing.T) {
@@ -220,13 +220,13 @@ func AdminServiceTest(t *testing.T, client usersv1.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.BanUser: not found", func(t *testing.T) {
-		testData := "test_id"
+		testID := uuid.New().String()
 		_, err := client.BanUser(johnAdminCtx, &usersv1.BanUserRequest{
-			UserId: testData,
+			UserId: testID,
 		})
 
 		require.Error(t, err)
-		testerror.RequireNotFoundError(t, err, "user", "id", testData)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
 	t.Run("admin.BanUser: successful", func(t *testing.T) {
@@ -278,13 +278,13 @@ func AdminServiceTest(t *testing.T, client usersv1.UsersAdminServiceClient, _ *c
 	})
 
 	t.Run("admin.UnbanUser: not found", func(t *testing.T) {
-		testData := "test_id"
+		testID := uuid.New().String()
 		_, err := client.UnbanUser(johnAdminCtx, &usersv1.UnbanUserRequest{
-			UserId: testData,
+			UserId: testID,
 		})
 
 		require.Error(t, err)
-		testerror.RequireNotFoundError(t, err, "user", "id", testData)
+		testerror.RequireNotFoundError(t, err, "user", "id", testID)
 	})
 
 	t.Run("admin.UnbanUser: successful", func(t *testing.T) {
