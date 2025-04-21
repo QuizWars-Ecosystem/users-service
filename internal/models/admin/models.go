@@ -3,7 +3,7 @@ package admin
 import (
 	"time"
 
-	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
+	usersv1 "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 )
 
 const (
@@ -19,6 +19,12 @@ const (
 const (
 	ASC  Sort = "ASC"
 	DESC Sort = "DESC"
+)
+
+const (
+	User  Role = "user"
+	Admin Role = "admin"
+	Super Role = "super"
 )
 
 type Filter[T any] struct {
@@ -49,66 +55,98 @@ func (s Sort) String() string {
 	return string(s)
 }
 
-func (o Order) ToGRPCEnum() userspb.Order {
+func (o Order) ToGRPCEnum() usersv1.Order {
 	switch o {
 	case ID:
-		return userspb.Order_ORDER_ID
+		return usersv1.Order_ORDER_ID
 	case Username:
-		return userspb.Order_ORDER_USERNAME
+		return usersv1.Order_ORDER_USERNAME
 	case Email:
-		return userspb.Order_ORDER_EMAIL
+		return usersv1.Order_ORDER_EMAIL
 	case Rating:
-		return userspb.Order_ORDER_RATING
+		return usersv1.Order_ORDER_RATING
 	case Coins:
-		return userspb.Order_ORDER_COINS
+		return usersv1.Order_ORDER_COINS
 	case CreatedAt:
-		return userspb.Order_ORDER_CREATED_AT
+		return usersv1.Order_ORDER_CREATED_AT
 	case DeletedAt:
-		return userspb.Order_ORDER_DELETED_AT
+		return usersv1.Order_ORDER_DELETED_AT
 	default:
-		return userspb.Order_ORDER_USERNAME
+		return usersv1.Order_ORDER_USERNAME
 	}
 }
 
-func (s Sort) ToGRPCEnum() userspb.Sort {
+func (s Sort) ToGRPCEnum() usersv1.Sort {
 	switch s {
 	case ASC:
-		return userspb.Sort_SORT_ASC
+		return usersv1.Sort_SORT_ASC
 	case DESC:
-		return userspb.Sort_SORT_DESC
+		return usersv1.Sort_SORT_DESC
 	default:
-		return userspb.Sort_SORT_DESC
+		return usersv1.Sort_SORT_DESC
 	}
 }
 
-func orderFromGRPCEnum(status userspb.Order) Order {
+func orderFromGRPCEnum(status usersv1.Order) Order {
 	switch status {
-	case userspb.Order_ORDER_ID:
+	case usersv1.Order_ORDER_ID:
 		return ID
-	case userspb.Order_ORDER_USERNAME:
+	case usersv1.Order_ORDER_USERNAME:
 		return Username
-	case userspb.Order_ORDER_EMAIL:
+	case usersv1.Order_ORDER_EMAIL:
 		return Email
-	case userspb.Order_ORDER_RATING:
+	case usersv1.Order_ORDER_RATING:
 		return Rating
-	case userspb.Order_ORDER_COINS:
+	case usersv1.Order_ORDER_COINS:
 		return Coins
-	case userspb.Order_ORDER_CREATED_AT:
+	case usersv1.Order_ORDER_CREATED_AT:
 		return CreatedAt
-	case userspb.Order_ORDER_DELETED_AT:
+	case usersv1.Order_ORDER_DELETED_AT:
 		return DeletedAt
 	default:
 		return Username
 	}
 }
 
-func sortFromGRPCEnum(status userspb.Sort) Sort {
+func sortFromGRPCEnum(status usersv1.Sort) Sort {
 	switch status {
-	case userspb.Sort_SORT_ASC:
+	case usersv1.Sort_SORT_ASC:
 		return ASC
-	case userspb.Sort_SORT_DESC:
+	case usersv1.Sort_SORT_DESC:
 		return DESC
 	default:
 		return DESC
+	}
+}
+
+type Role string
+
+func (r Role) String() string {
+	return string(r)
+}
+
+func (r Role) ToGRPCEnum() usersv1.Role {
+	switch r {
+	case User:
+		return usersv1.Role_ROLE_USER
+	case Admin:
+		return usersv1.Role_ROLE_ADMIN
+	case Super:
+		return usersv1.Role_ROLE_SUPER
+	default:
+		return usersv1.Role_ROLE_USER
+	}
+}
+
+func RoleFromGRPCEnum(status usersv1.Role) Role {
+	switch status {
+	case usersv1.Role_ROLE_USER:
+		return User
+	case usersv1.Role_ROLE_ADMIN:
+		return Admin
+	case usersv1.Role_ROLE_SUPER:
+		return Super
+	default:
+		return User
 	}
 }

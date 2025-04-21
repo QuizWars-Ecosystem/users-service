@@ -10,23 +10,9 @@ import (
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/admin"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgxpool"
-	"go.uber.org/zap"
 )
 
-type Admin struct {
-	db     *pgxpool.Pool
-	logger *zap.Logger
-}
-
-func NewAdmin(db *pgxpool.Pool, logger *zap.Logger) *Admin {
-	return &Admin{
-		db:     db,
-		logger: logger,
-	}
-}
-
-func (a *Admin) SearchUsers(ctx context.Context, filter *admin.SearchFilter) ([]*profile.UserAdmin, int, error) {
+func (db *Database) AdminSearchUsers(ctx context.Context, filter *admin.SearchFilter) ([]*profile.UserAdmin, int, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at", "u.deleted_at").
 		From("users u").
@@ -65,7 +51,7 @@ func (a *Admin) SearchUsers(ctx context.Context, filter *admin.SearchFilter) ([]
 		return nil, 0, apperrors.Internal(err)
 	}
 
-	br := a.db.SendBatch(ctx, b)
+	br := db.pool.SendBatch(ctx, b)
 	defer func() {
 		_ = br.Close()
 	}()
@@ -115,7 +101,7 @@ func (a *Admin) SearchUsers(ctx context.Context, filter *admin.SearchFilter) ([]
 	return users, total, nil
 }
 
-func (a *Admin) GetUserByID(ctx context.Context, userID string) (*profile.UserAdmin, error) {
+func (db *Database) AdminGetUserByID(ctx context.Context, userID string) (*profile.UserAdmin, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at", "u.deleted_at").
 		From("users u").
@@ -133,7 +119,7 @@ func (a *Admin) GetUserByID(ctx context.Context, userID string) (*profile.UserAd
 		},
 	}
 
-	err = a.db.QueryRow(ctx, query, args...).
+	err = db.pool.QueryRow(ctx, query, args...).
 		Scan(
 			&u.Profile.User.ID,
 			&u.Profile.User.Username,
@@ -156,7 +142,7 @@ func (a *Admin) GetUserByID(ctx context.Context, userID string) (*profile.UserAd
 	return &u, nil
 }
 
-func (a *Admin) GetUserByUsername(ctx context.Context, username string) (*profile.UserAdmin, error) {
+func (db *Database) AdminGetUserByUsername(ctx context.Context, username string) (*profile.UserAdmin, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at", "u.deleted_at").
 		From("users u").
@@ -174,7 +160,7 @@ func (a *Admin) GetUserByUsername(ctx context.Context, username string) (*profil
 		},
 	}
 
-	err = a.db.QueryRow(ctx, query, args...).
+	err = db.pool.QueryRow(ctx, query, args...).
 		Scan(
 			&u.Profile.User.ID,
 			&u.Profile.User.Username,
@@ -197,7 +183,7 @@ func (a *Admin) GetUserByUsername(ctx context.Context, username string) (*profil
 	return &u, nil
 }
 
-func (a *Admin) GetUserByEmail(ctx context.Context, email string) (*profile.UserAdmin, error) {
+func (db *Database) AdminGetUserByEmail(ctx context.Context, email string) (*profile.UserAdmin, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at", "u.deleted_at").
 		From("users u").
@@ -215,7 +201,7 @@ func (a *Admin) GetUserByEmail(ctx context.Context, email string) (*profile.User
 		},
 	}
 
-	err = a.db.QueryRow(ctx, query, args...).
+	err = db.pool.QueryRow(ctx, query, args...).
 		Scan(
 			&u.Profile.User.ID,
 			&u.Profile.User.Username,
@@ -238,7 +224,32 @@ func (a *Admin) GetUserByEmail(ctx context.Context, email string) (*profile.User
 	return &u, nil
 }
 
-func (a *Admin) BanUser(ctx context.Context, userID string) error {
+func (db *Database) AdminUpdateUserRole(ctx context.Context, userID, role string) error {
+	builder := dbx.StatementBuilder.
+		Update("users").
+		Set("role", role).
+		Where(squirrel.Eq{"id": userID})
+
+	query, args, err := builder.ToSql()
+	if err != nil {
+		return apperrors.Internal(err)
+	}
+
+	cmd, err := db.pool.Exec(ctx, query, args...)
+
+	switch {
+	case dbx.IsNoRows(err) || err == nil && cmd.RowsAffected() == 0:
+		return apperrors.NotFound("user", "id", userID)
+	case dbx.NotValidEnumType(err, "role"):
+		return apperrors.BadRequestHidden(err, "provided role is invalid")
+	case err != nil:
+		return apperrors.Internal(err)
+	}
+
+	return nil
+}
+
+func (db *Database) AdminBanUser(ctx context.Context, userID string) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("deleted_at", time.Now()).
@@ -249,7 +260,7 @@ func (a *Admin) BanUser(ctx context.Context, userID string) error {
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := a.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 	switch {
 	case err != nil:
 		return apperrors.Internal(err)
@@ -260,7 +271,7 @@ func (a *Admin) BanUser(ctx context.Context, userID string) error {
 	return nil
 }
 
-func (a *Admin) UnbanUser(ctx context.Context, userID string) error {
+func (db *Database) AdminUnbanUser(ctx context.Context, userID string) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("deleted_at", nil).
@@ -271,7 +282,7 @@ func (a *Admin) UnbanUser(ctx context.Context, userID string) error {
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := a.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 	switch {
 	case err != nil:
 		return apperrors.Internal(err)

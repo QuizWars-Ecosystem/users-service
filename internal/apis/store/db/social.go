@@ -7,23 +7,9 @@ import (
 	"github.com/QuizWars-Ecosystem/go-common/pkg/dbx"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
-	"github.com/jackc/pgx/v5/pgxpool"
-	"go.uber.org/zap"
 )
 
-type Social struct {
-	db     *pgxpool.Pool
-	logger *zap.Logger
-}
-
-func NewSocial(db *pgxpool.Pool, logger *zap.Logger) *Social {
-	return &Social{
-		db:     db,
-		logger: logger,
-	}
-}
-
-func (s *Social) AddFriend(ctx context.Context, requesterID, recipientID string) error {
+func (db *Database) AddFriend(ctx context.Context, requesterID, recipientID string) error {
 	builder := dbx.StatementBuilder.
 		Insert("friends").
 		Columns("user_id", "friend_id").
@@ -35,7 +21,7 @@ func (s *Social) AddFriend(ctx context.Context, requesterID, recipientID string)
 		return apperrors.Internal(err)
 	}
 
-	_, err = s.db.Exec(ctx, query, args...)
+	_, err = db.pool.Exec(ctx, query, args...)
 
 	switch {
 	case dbx.IsForeignKeyViolation(err, "user_id"):
@@ -49,7 +35,7 @@ func (s *Social) AddFriend(ctx context.Context, requesterID, recipientID string)
 	return nil
 }
 
-func (s *Social) AcceptFriend(ctx context.Context, recipientID, requesterID string) error {
+func (db *Database) AcceptFriend(ctx context.Context, recipientID, requesterID string) error {
 	builder := dbx.StatementBuilder.
 		Update("friends").
 		Set("status", "accepted").
@@ -61,7 +47,7 @@ func (s *Social) AcceptFriend(ctx context.Context, recipientID, requesterID stri
 		return apperrors.Internal(err)
 	}
 
-	_, err = s.db.Exec(ctx, query, args...)
+	_, err = db.pool.Exec(ctx, query, args...)
 	if err != nil {
 		return apperrors.Internal(err)
 	}
@@ -69,7 +55,7 @@ func (s *Social) AcceptFriend(ctx context.Context, recipientID, requesterID stri
 	return nil
 }
 
-func (s *Social) RejectFriend(ctx context.Context, recipientID, requesterID string) error {
+func (db *Database) RejectFriend(ctx context.Context, recipientID, requesterID string) error {
 	builder := dbx.StatementBuilder.
 		Delete("friends").
 		Where(squirrel.Eq{"friend_id": recipientID}).
@@ -80,7 +66,7 @@ func (s *Social) RejectFriend(ctx context.Context, recipientID, requesterID stri
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := s.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 	switch {
 	case dbx.IsForeignKeyViolation(err, "user_id"):
 		return apperrors.NotFound("user", "id", recipientID)
@@ -95,7 +81,7 @@ func (s *Social) RejectFriend(ctx context.Context, recipientID, requesterID stri
 	return nil
 }
 
-func (s *Social) RemoveFriend(ctx context.Context, userID string, friendID string) error {
+func (db *Database) RemoveFriend(ctx context.Context, userID string, friendID string) error {
 	builder := dbx.StatementBuilder.
 		Delete("friends").
 		Where(
@@ -110,7 +96,7 @@ func (s *Social) RemoveFriend(ctx context.Context, userID string, friendID strin
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := s.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 	switch {
 	case dbx.IsForeignKeyViolation(err, "user_id"):
 		return apperrors.NotFound("user", "id", userID)
@@ -125,12 +111,12 @@ func (s *Social) RemoveFriend(ctx context.Context, userID string, friendID strin
 	return nil
 }
 
-func (s *Social) GetFriends(ctx context.Context, userID string) ([]*profile.Friend, error) {
+func (db *Database) GetFriends(ctx context.Context, userID string) ([]*profile.Friend, error) {
 	builder := dbx.StatementBuilder.
-		Select("u.id", "u.avatar_id", "u.username", "s.rating", "u.created_at", "u.last_login_at", "f.status").
+		Select("u.id", "u.avatar_id", "u.username", "db.rating", "u.created_at", "u.last_login_at", "f.status").
 		From("users u").
 		JoinClause("JOIN friends f ON (f.user_id = ? AND u.id = f.friend_id) OR (f.friend_id = ? AND u.id = f.user_id)", userID, userID).
-		Join("stats s ON s.user_id = u.id").
+		Join("stats db ON db.user_id = u.id").
 		Where(squirrel.Eq{"u.deleted_at": nil}).
 		Where(squirrel.NotEq{"u.id": userID}).
 		Where(squirrel.Or{
@@ -149,7 +135,7 @@ func (s *Social) GetFriends(ctx context.Context, userID string) ([]*profile.Frie
 
 	var friends []*profile.Friend
 
-	rows, err := s.db.Query(ctx, query, args...)
+	rows, err := db.pool.Query(ctx, query, args...)
 	if err != nil {
 		return nil, apperrors.Internal(err)
 	}
@@ -186,7 +172,7 @@ func (s *Social) GetFriends(ctx context.Context, userID string) ([]*profile.Frie
 	return friends, nil
 }
 
-func (s *Social) BanFriend(ctx context.Context, userID string, friendID string) error {
+func (db *Database) BanFriend(ctx context.Context, userID string, friendID string) error {
 	builder := dbx.StatementBuilder.
 		Update("friends").
 		Set("status", "blocked").
@@ -202,7 +188,7 @@ func (s *Social) BanFriend(ctx context.Context, userID string, friendID string) 
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := s.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 	switch {
 	case dbx.IsForeignKeyViolation(err, "user_id"):
 		return apperrors.NotFound("user", "id", userID)
@@ -217,7 +203,7 @@ func (s *Social) BanFriend(ctx context.Context, userID string, friendID string) 
 	return nil
 }
 
-func (s *Social) UnbanFriend(ctx context.Context, userID string, friendID string) error {
+func (db *Database) UnbanFriend(ctx context.Context, userID string, friendID string) error {
 	builder := dbx.StatementBuilder.
 		Update("friends").
 		Set("status", "accepted").
@@ -233,7 +219,7 @@ func (s *Social) UnbanFriend(ctx context.Context, userID string, friendID string
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := s.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 	switch {
 	case dbx.IsForeignKeyViolation(err, "user_id"):
 		return apperrors.NotFound("user", "id", userID)

@@ -3,6 +3,8 @@ package handler
 import (
 	"context"
 
+	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
+
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
@@ -62,6 +64,23 @@ func (h *Handler) GetUserByIdentifier(ctx context.Context, request *userspb.GetU
 	}
 
 	return result, nil
+}
+
+func (h *Handler) UpdateUserRole(ctx context.Context, request *userspb.UpdateUserRoleRequest) (*emptypb.Empty, error) {
+	claims, err := h.jwt.ValidateTokenWithContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if claims.Role != string(jwt.Super) {
+		return nil, apperrors.Forbidden(jwt.AuthPermissionDeniedError)
+	}
+
+	if err = h.service.AdminUpdateUserRole(ctx, request.GetUserId(), admin.RoleFromGRPCEnum(request.GetRole()).String()); err != nil {
+		return nil, err
+	}
+
+	return Empty, nil
 }
 
 func (h *Handler) BanUser(ctx context.Context, request *userspb.BanUserRequest) (*emptypb.Empty, error) {

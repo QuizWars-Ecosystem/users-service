@@ -8,23 +8,9 @@ import (
 	"github.com/QuizWars-Ecosystem/go-common/pkg/dbx"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
-	"github.com/jackc/pgx/v5/pgxpool"
-	"go.uber.org/zap"
 )
 
-type Profile struct {
-	db     *pgxpool.Pool
-	logger *zap.Logger
-}
-
-func NewProfile(db *pgxpool.Pool, logger *zap.Logger) *Profile {
-	return &Profile{
-		db:     db,
-		logger: logger,
-	}
-}
-
-func (p *Profile) GetProfile(ctx context.Context, userID string) (*profile.Profile, error) {
+func (db *Database) GetProfile(ctx context.Context, userID string) (*profile.Profile, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -41,7 +27,7 @@ func (p *Profile) GetProfile(ctx context.Context, userID string) (*profile.Profi
 		User: &profile.User{},
 	}
 
-	err = p.db.QueryRow(ctx, query, args...).
+	err = db.pool.QueryRow(ctx, query, args...).
 		Scan(
 			&prof.User.ID,
 			&prof.User.Username,
@@ -63,7 +49,7 @@ func (p *Profile) GetProfile(ctx context.Context, userID string) (*profile.Profi
 	return &prof, nil
 }
 
-func (p *Profile) GetUserByID(ctx context.Context, userID string) (*profile.User, error) {
+func (db *Database) GetUserByID(ctx context.Context, userID string) (*profile.User, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.avatar_id", "s.rating", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -78,7 +64,7 @@ func (p *Profile) GetUserByID(ctx context.Context, userID string) (*profile.User
 
 	var user profile.User
 
-	err = p.db.QueryRow(ctx, query, args...).
+	err = db.pool.QueryRow(ctx, query, args...).
 		Scan(
 			&user.ID,
 			&user.Username,
@@ -98,7 +84,7 @@ func (p *Profile) GetUserByID(ctx context.Context, userID string) (*profile.User
 	return &user, nil
 }
 
-func (p *Profile) GetUserByUsername(ctx context.Context, username string) (*profile.User, error) {
+func (db *Database) GetUserByUsername(ctx context.Context, username string) (*profile.User, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.avatar_id", "s.rating", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -113,7 +99,7 @@ func (p *Profile) GetUserByUsername(ctx context.Context, username string) (*prof
 
 	var user profile.User
 
-	err = p.db.QueryRow(ctx, query, args...).
+	err = db.pool.QueryRow(ctx, query, args...).
 		Scan(
 			&user.ID,
 			&user.Username,
@@ -133,7 +119,7 @@ func (p *Profile) GetUserByUsername(ctx context.Context, username string) (*prof
 	return &user, nil
 }
 
-func (p *Profile) UpdateProfile(ctx context.Context, userID string, request *profile.UpdateProfile) error {
+func (db *Database) UpdateProfile(ctx context.Context, userID string, request *profile.UpdateProfile) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Where(squirrel.Eq{"id": userID}).
@@ -148,7 +134,7 @@ func (p *Profile) UpdateProfile(ctx context.Context, userID string, request *pro
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := p.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 
 	switch {
 	case dbx.IsUniqueViolation(err, "username"):
@@ -162,7 +148,7 @@ func (p *Profile) UpdateProfile(ctx context.Context, userID string, request *pro
 	return nil
 }
 
-func (p *Profile) UpdateProfileAvatar(ctx context.Context, userID string, avatarID int32) error {
+func (db *Database) UpdateProfileAvatar(ctx context.Context, userID string, avatarID int32) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("avatar_id", avatarID).
@@ -174,7 +160,7 @@ func (p *Profile) UpdateProfileAvatar(ctx context.Context, userID string, avatar
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := p.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 
 	switch {
 	case err != nil:
@@ -186,7 +172,7 @@ func (p *Profile) UpdateProfileAvatar(ctx context.Context, userID string, avatar
 	return nil
 }
 
-func (p *Profile) UpdateProfilePassword(ctx context.Context, userID string, password string) error {
+func (db *Database) UpdateProfilePassword(ctx context.Context, userID string, password string) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("pass_hash", password).
@@ -198,7 +184,7 @@ func (p *Profile) UpdateProfilePassword(ctx context.Context, userID string, pass
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := p.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 
 	switch {
 	case err != nil:
@@ -210,7 +196,7 @@ func (p *Profile) UpdateProfilePassword(ctx context.Context, userID string, pass
 	return nil
 }
 
-func (p *Profile) SetProfileRating(ctx context.Context, userID string, rating int32) error {
+func (db *Database) SetProfileRating(ctx context.Context, userID string, rating int32) error {
 	builder := dbx.StatementBuilder.
 		Update("stats").
 		Set("rating", rating).
@@ -221,7 +207,7 @@ func (p *Profile) SetProfileRating(ctx context.Context, userID string, rating in
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := p.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 	switch {
 	case err != nil:
 		return apperrors.Internal(err)
@@ -232,7 +218,7 @@ func (p *Profile) SetProfileRating(ctx context.Context, userID string, rating in
 	return nil
 }
 
-func (p *Profile) SetProfileCoins(ctx context.Context, userID string, coins int64) error {
+func (db *Database) SetProfileCoins(ctx context.Context, userID string, coins int64) error {
 	builder := dbx.StatementBuilder.
 		Update("stats").
 		Set("coins", coins).
@@ -243,7 +229,7 @@ func (p *Profile) SetProfileCoins(ctx context.Context, userID string, coins int6
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := p.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 	switch {
 	case err != nil:
 		return apperrors.Internal(err)
@@ -254,7 +240,7 @@ func (p *Profile) SetProfileCoins(ctx context.Context, userID string, coins int6
 	return nil
 }
 
-func (p *Profile) DeleteProfile(ctx context.Context, userID string) error {
+func (db *Database) DeleteProfile(ctx context.Context, userID string) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("deleted_at", time.Now()).
@@ -265,7 +251,7 @@ func (p *Profile) DeleteProfile(ctx context.Context, userID string) error {
 		return apperrors.Internal(err)
 	}
 
-	cmd, err := p.db.Exec(ctx, query, args...)
+	cmd, err := db.pool.Exec(ctx, query, args...)
 
 	switch {
 	case err != nil:

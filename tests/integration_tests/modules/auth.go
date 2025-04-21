@@ -4,6 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"github.com/google/uuid"
+
 	jw "github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
 
 	testerror "github.com/QuizWars-Ecosystem/go-common/pkg/testing/errors"
@@ -20,6 +22,7 @@ func AuthServiceTest(t *testing.T, client userspb.UsersAuthServiceClient, cfg *c
 	jwt = jw.NewService(cfg.ServiceConfig.JWT)
 	emptyCtx = jwt.SetTokenInContext(ctx, "")
 	invalidCtx = jwt.SetTokenInContext(ctx, "invalid token")
+	superCtx, _ = jwt.GenerateTokenWithContext(ctx, uuid.New().String(), string(jw.Super))
 
 	t.Run("auth.Register: successful", func(t *testing.T) {
 		res, err := client.Register(ctx, &userspb.RegisterRequest{
@@ -308,53 +311,4 @@ var (
 	johnCtx        context.Context
 	johnAdminToken string
 	johnAdminCtx   context.Context
-)
-
-var (
-	martin = &userspb.Profile{
-		AvatarId: 2,
-		Username: "martin",
-		Email:    "martin@mail.com",
-	}
-	martinPassword = "pass123PASS!"
-	martinToken    string
-	martinCtx      context.Context
-)
-
-var (
-	lukas = &userspb.Profile{
-		AvatarId: 3,
-		Username: "lukas",
-		Email:    "lukas@outlook.com",
-	}
-	lukasPassword = "pass123PASS!"
-	lukasToken    string
-	lukasCtx      context.Context
-)
-
-var (
-	sonia = &userspb.Profile{
-		AvatarId: 2,
-		Username: "sonia",
-		Email:    "sonia@outlook.com",
-	}
-	soniaPassword = "pass123PASS!"
-	soniaToken    string
-	soniaCtx      context.Context
-)
-
-var (
-	masha = &userspb.Profile{
-		AvatarId: 2,
-		Username: "masha",
-		Email:    "masha@outlook.com",
-	}
-	mashaPassword = "pass123PASS!"
-	mashaToken    string
-	mashaCtx      context.Context
-)
-
-var (
-	emptyCtx   context.Context
-	invalidCtx context.Context
 )
