@@ -2,6 +2,7 @@ package store
 
 import (
 	"context"
+	"github.com/google/uuid"
 
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/auth"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
@@ -19,6 +20,6 @@ func (s *Store) GetProfileByEmail(ctx context.Context, email string) (*auth.Prof
 	return s.db.GetProfileByEmail(ctx, email)
 }
 
-func (s *Store) SetLastLogin(ctx context.Context, userID string) error {
+func (s *Store) SetLastLogin(ctx context.Context, userID uuid.UUID) error {
 	return s.db.SetLastLogin(ctx, userID)
 }

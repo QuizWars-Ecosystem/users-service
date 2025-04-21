@@ -2,9 +2,10 @@ package handler
 
 import (
 	"context"
-
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
+	"github.com/QuizWars-Ecosystem/go-common/pkg/uuidx"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
+	"github.com/google/uuid"
 	"go.uber.org/zap"
 
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
@@ -22,9 +23,15 @@ func (h *Handler) GetProfile(ctx context.Context, request *userspb.GetProfileReq
 
 	switch request.Identifier.(type) {
 	case *userspb.GetProfileRequest_UserId:
+		var userID uuid.UUID
+		userID, err = uuidx.Parse(request.GetUserId())
+		if err != nil {
+			return nil, err
+		}
+
 		if claims.UserID == request.GetUserId() {
 			var prof *profile.Profile
-			prof, err = h.service.GetSelfProfile(ctx, request.GetUserId())
+			prof, err = h.service.GetSelfProfile(ctx, userID)
 			if err != nil {
 				return nil, err
 			}
@@ -42,7 +49,7 @@ func (h *Handler) GetProfile(ctx context.Context, request *userspb.GetProfileReq
 			}, nil
 		}
 
-		res, err = h.service.GetProfileByID(ctx, request.GetUserId())
+		res, err = h.service.GetProfileByID(ctx, userID)
 		if err != nil {
 			return nil, err
 		}
@@ -81,7 +88,12 @@ func (h *Handler) UpdateProfile(ctx context.Context, request *userspb.UpdateProf
 		return nil, err
 	}
 
-	err = h.service.UpdateProfile(ctx, request.GetUserId(), req)
+	userID, err := uuidx.Parse(request.GetUserId())
+	if err != nil {
+		return nil, err
+	}
+
+	err = h.service.UpdateProfile(ctx, userID, req)
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +107,12 @@ func (h *Handler) UpdateAvatar(ctx context.Context, request *userspb.UpdateAvata
 		return nil, err
 	}
 
-	err = h.service.UpdateProfileAvatar(ctx, request.GetUserId(), request.GetAvatarId())
+	userID, err := uuidx.Parse(request.GetUserId())
+	if err != nil {
+		return nil, err
+	}
+
+	err = h.service.UpdateProfileAvatar(ctx, userID, request.GetAvatarId())
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +126,12 @@ func (h *Handler) ChangePassword(ctx context.Context, request *userspb.ChangePas
 		return nil, err
 	}
 
-	err = h.service.UpdateProfilePassword(ctx, request.GetUserId(), request.GetPassword())
+	userID, err := uuidx.Parse(request.GetUserId())
+	if err != nil {
+		return nil, err
+	}
+
+	err = h.service.UpdateProfilePassword(ctx, userID, request.GetPassword())
 	if err != nil {
 		return nil, err
 	}
@@ -123,7 +145,12 @@ func (h *Handler) DeleteAccount(ctx context.Context, request *userspb.DeleteAcco
 		return nil, err
 	}
 
-	err = h.service.DeleteProfile(ctx, request.GetUserId())
+	userID, err := uuidx.Parse(request.GetUserId())
+	if err != nil {
+		return nil, err
+	}
+
+	err = h.service.DeleteProfile(ctx, userID)
 	if err != nil {
 		return nil, err
 	}

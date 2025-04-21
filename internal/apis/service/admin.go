@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"github.com/google/uuid"
 
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/admin"
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
@@ -24,7 +25,7 @@ func (s *Service) AdminSearchUsers(ctx context.Context, filter *admin.SearchFilt
 	}, nil
 }
 
-func (s *Service) AdminGetUserByID(ctx context.Context, userID string) (*profile.UserAdmin, error) {
+func (s *Service) AdminGetUserByID(ctx context.Context, userID uuid.UUID) (*profile.UserAdmin, error) {
 	user, err := s.store.AdminGetUserByID(ctx, userID)
 	if err != nil {
 		return nil, err
@@ -51,35 +52,35 @@ func (s *Service) AdminGetUserByEmail(ctx context.Context, email string) (*profi
 	return user, nil
 }
 
-func (s *Service) AdminUpdateUserRole(ctx context.Context, userID, role string) error {
+func (s *Service) AdminUpdateUserRole(ctx context.Context, userID uuid.UUID, role string) error {
 	err := s.store.AdminUpdateUserRole(ctx, userID, role)
 	if err != nil {
 		return err
 	}
 
-	s.logger.Info("user role updated", zap.String("user_id", userID))
+	s.logger.Info("user role updated", zap.String("user_id", userID.String()))
 
 	return nil
 }
 
-func (s *Service) AdminBanUserByID(ctx context.Context, userID string) error {
+func (s *Service) AdminBanUserByID(ctx context.Context, userID uuid.UUID) error {
 	err := s.store.AdminBanUser(ctx, userID)
 	if err != nil {
 		return err
 	}
 
-	s.logger.Info("admin banned user", zap.String("user_id", userID))
+	s.logger.Info("admin banned user", zap.String("user_id", userID.String()))
 
 	return nil
 }
 
-func (s *Service) AdminUnbanUserByID(ctx context.Context, userID string) error {
+func (s *Service) AdminUnbanUserByID(ctx context.Context, userID uuid.UUID) error {
 	err := s.store.AdminUnbanUser(ctx, userID)
 	if err != nil {
 		return err
 	}
 
-	s.logger.Info("admin unbanned user", zap.String("user_id", userID))
+	s.logger.Info("admin unbanned user", zap.String("user_id", userID.String()))
 
 	return nil
 }

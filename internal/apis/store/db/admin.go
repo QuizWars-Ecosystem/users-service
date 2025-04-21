@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"time"
 
 	"github.com/Masterminds/squirrel"
@@ -101,7 +102,7 @@ func (db *Database) AdminSearchUsers(ctx context.Context, filter *admin.SearchFi
 	return users, total, nil
 }
 
-func (db *Database) AdminGetUserByID(ctx context.Context, userID string) (*profile.UserAdmin, error) {
+func (db *Database) AdminGetUserByID(ctx context.Context, userID uuid.UUID) (*profile.UserAdmin, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at", "u.deleted_at").
 		From("users u").
@@ -224,7 +225,7 @@ func (db *Database) AdminGetUserByEmail(ctx context.Context, email string) (*pro
 	return &u, nil
 }
 
-func (db *Database) AdminUpdateUserRole(ctx context.Context, userID, role string) error {
+func (db *Database) AdminUpdateUserRole(ctx context.Context, userID uuid.UUID, role string) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("role", role).
@@ -249,7 +250,7 @@ func (db *Database) AdminUpdateUserRole(ctx context.Context, userID, role string
 	return nil
 }
 
-func (db *Database) AdminBanUser(ctx context.Context, userID string) error {
+func (db *Database) AdminBanUser(ctx context.Context, userID uuid.UUID) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("deleted_at", time.Now()).
@@ -271,7 +272,7 @@ func (db *Database) AdminBanUser(ctx context.Context, userID string) error {
 	return nil
 }
 
-func (db *Database) AdminUnbanUser(ctx context.Context, userID string) error {
+func (db *Database) AdminUnbanUser(ctx context.Context, userID uuid.UUID) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("deleted_at", nil).

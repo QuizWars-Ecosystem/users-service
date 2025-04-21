@@ -3,6 +3,8 @@ package profile
 import (
 	"time"
 
+	"github.com/google/uuid"
+
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
 )
 
@@ -13,7 +15,7 @@ type Profile struct {
 }
 
 type User struct {
-	ID          string     `json:"id"`
+	ID          uuid.UUID  `json:"id"`
 	AvatarID    int32      `json:"avatar_id"`
 	Username    string     `json:"username"`
 	Rating      int32      `json:"rating"`

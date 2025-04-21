@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"time"
 
 	"github.com/Masterminds/squirrel"
@@ -10,7 +11,7 @@ import (
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/profile"
 )
 
-func (db *Database) GetProfile(ctx context.Context, userID string) (*profile.Profile, error) {
+func (db *Database) GetProfile(ctx context.Context, userID uuid.UUID) (*profile.Profile, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.email", "u.avatar_id", "s.rating", "s.coins", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -49,7 +50,7 @@ func (db *Database) GetProfile(ctx context.Context, userID string) (*profile.Pro
 	return &prof, nil
 }
 
-func (db *Database) GetUserByID(ctx context.Context, userID string) (*profile.User, error) {
+func (db *Database) GetUserByID(ctx context.Context, userID uuid.UUID) (*profile.User, error) {
 	builder := dbx.StatementBuilder.
 		Select("u.id", "u.username", "u.avatar_id", "s.rating", "u.created_at", "u.last_login_at").
 		From("users u").
@@ -119,7 +120,7 @@ func (db *Database) GetUserByUsername(ctx context.Context, username string) (*pr
 	return &user, nil
 }
 
-func (db *Database) UpdateProfile(ctx context.Context, userID string, request *profile.UpdateProfile) error {
+func (db *Database) UpdateProfile(ctx context.Context, userID uuid.UUID, request *profile.UpdateProfile) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Where(squirrel.Eq{"id": userID}).
@@ -148,7 +149,7 @@ func (db *Database) UpdateProfile(ctx context.Context, userID string, request *p
 	return nil
 }
 
-func (db *Database) UpdateProfileAvatar(ctx context.Context, userID string, avatarID int32) error {
+func (db *Database) UpdateProfileAvatar(ctx context.Context, userID uuid.UUID, avatarID int32) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("avatar_id", avatarID).
@@ -172,7 +173,7 @@ func (db *Database) UpdateProfileAvatar(ctx context.Context, userID string, avat
 	return nil
 }
 
-func (db *Database) UpdateProfilePassword(ctx context.Context, userID string, password string) error {
+func (db *Database) UpdateProfilePassword(ctx context.Context, userID uuid.UUID, password string) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("pass_hash", password).
@@ -196,7 +197,7 @@ func (db *Database) UpdateProfilePassword(ctx context.Context, userID string, pa
 	return nil
 }
 
-func (db *Database) SetProfileRating(ctx context.Context, userID string, rating int32) error {
+func (db *Database) SetProfileRating(ctx context.Context, userID uuid.UUID, rating int32) error {
 	builder := dbx.StatementBuilder.
 		Update("stats").
 		Set("rating", rating).
@@ -218,7 +219,7 @@ func (db *Database) SetProfileRating(ctx context.Context, userID string, rating 
 	return nil
 }
 
-func (db *Database) SetProfileCoins(ctx context.Context, userID string, coins int64) error {
+func (db *Database) SetProfileCoins(ctx context.Context, userID uuid.UUID, coins int64) error {
 	builder := dbx.StatementBuilder.
 		Update("stats").
 		Set("coins", coins).
@@ -240,7 +241,7 @@ func (db *Database) SetProfileCoins(ctx context.Context, userID string, coins in
 	return nil
 }
 
-func (db *Database) DeleteProfile(ctx context.Context, userID string) error {
+func (db *Database) DeleteProfile(ctx context.Context, userID uuid.UUID) error {
 	builder := dbx.StatementBuilder.
 		Update("users").
 		Set("deleted_at", time.Now()).

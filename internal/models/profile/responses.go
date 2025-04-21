@@ -11,7 +11,7 @@ var _ abstractions.Responseable[userspb.User] = (*User)(nil)
 func (u *User) Response() (*userspb.User, error) {
 	var res userspb.User
 
-	res.Id = u.ID
+	res.Id = u.ID.String()
 	res.Username = u.Username
 	res.AvatarId = u.AvatarID
 	res.Rating = u.Rating
@@ -29,7 +29,7 @@ var _ abstractions.Responseable[userspb.Profile] = (*Profile)(nil)
 func (p *Profile) Response() (*userspb.Profile, error) {
 	var res userspb.Profile
 
-	res.Id = p.User.ID
+	res.Id = p.User.ID.String()
 	res.Username = p.User.Username
 	res.AvatarId = p.User.AvatarID
 	res.Rating = p.User.Rating
@@ -50,7 +50,7 @@ var _ abstractions.Responseable[userspb.UserAdmin] = (*UserAdmin)(nil)
 func (u *UserAdmin) Response() (*userspb.UserAdmin, error) {
 	var res userspb.UserAdmin
 
-	res.Id = u.Profile.User.ID
+	res.Id = u.Profile.User.ID.String()
 	res.Username = u.Profile.User.Username
 	res.AvatarId = u.Profile.User.AvatarID
 	res.Rating = u.Profile.User.Rating

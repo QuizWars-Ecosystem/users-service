@@ -14,7 +14,7 @@ var _ abstractions.Requestable[ProfileWithCredentials, *userspb.RegisterRequest]
 func (p ProfileWithCredentials) Request(req *userspb.RegisterRequest) (*ProfileWithCredentials, error) {
 	p.Profile = &profile.Profile{
 		User: &profile.User{
-			ID:        uuid.New().String(),
+			ID:        uuid.New(),
 			AvatarID:  req.GetAvatarId(),
 			Username:  req.GetUsername(),
 			CreatedAt: time.Now(),

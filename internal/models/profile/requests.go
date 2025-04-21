@@ -3,6 +3,8 @@ package profile
 import (
 	"errors"
 
+	"github.com/google/uuid"
+
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	userspb "github.com/QuizWars-Ecosystem/users-service/gen/external/users/v1"
@@ -11,7 +13,12 @@ import (
 var _ abstractions.Requestable[User, *userspb.User] = (*User)(nil)
 
 func (u *User) Request(req *userspb.User) (*User, error) {
-	u.ID = req.GetId()
+	id, err := uuid.Parse(req.GetId())
+	if err != nil {
+		return nil, apperrors.BadRequestHidden(err, "invalid user id")
+	}
+
+	u.ID = id
 	u.AvatarID = req.GetAvatarId()
 	u.Username = req.GetUsername()
 	u.Rating = req.GetRating()
@@ -28,8 +35,13 @@ func (u *User) Request(req *userspb.User) (*User, error) {
 var _ abstractions.Requestable[Profile, *userspb.Profile] = (*Profile)(nil)
 
 func (p *Profile) Request(req *userspb.Profile) (*Profile, error) {
+	id, err := uuid.Parse(req.GetId())
+	if err != nil {
+		return nil, apperrors.BadRequestHidden(err, "invalid user id")
+	}
+
 	p.User = &User{
-		ID:        req.GetId(),
+		ID:        id,
 		Username:  req.GetUsername(),
 		AvatarID:  req.GetAvatarId(),
 		Rating:    req.GetRating(),
@@ -50,7 +62,12 @@ func (p *Profile) Request(req *userspb.Profile) (*Profile, error) {
 var _ abstractions.Requestable[UserAdmin, *userspb.UserAdmin] = (*UserAdmin)(nil)
 
 func (u *UserAdmin) Request(req *userspb.UserAdmin) (*UserAdmin, error) {
-	u.Profile.User.ID = req.GetId()
+	id, err := uuid.Parse(req.GetId())
+	if err != nil {
+		return nil, apperrors.BadRequestHidden(err, "invalid user id")
+	}
+
+	u.Profile.User.ID = id
 	u.Profile.User.AvatarID = req.GetAvatarId()
 	u.Profile.User.Username = req.GetUsername()
 	u.Profile.User.Rating = req.GetRating()
@@ -75,8 +92,13 @@ func (u *UserAdmin) Request(req *userspb.UserAdmin) (*UserAdmin, error) {
 var _ abstractions.Requestable[Friend, *userspb.Friend] = (*Friend)(nil)
 
 func (f *Friend) Request(req *userspb.Friend) (*Friend, error) {
+	id, err := uuid.Parse(req.GetUser().GetId())
+	if err != nil {
+		return nil, apperrors.BadRequestHidden(err, "invalid user id")
+	}
+
 	f.User = &User{
-		ID:        req.GetUser().GetId(),
+		ID:        id,
 		Username:  req.GetUser().GetUsername(),
 		AvatarID:  req.GetUser().GetAvatarId(),
 		Rating:    req.GetUser().GetRating(),
