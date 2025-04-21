@@ -121,6 +121,8 @@ func (h *Handler) UnbanUser(ctx context.Context, request *userspb.UnbanUserReque
 		return nil, err
 	}
 
+	//TODO: COMMENT
+
 	userID, err := uuidx.Parse(request.GetUserId())
 	if err != nil {
 		return nil, err
