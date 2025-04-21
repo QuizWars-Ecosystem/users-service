@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows: ["Integration Tests"]
+    types:
+      - completed
+
+jobs:
+  release:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.24.2
+
+      - name: Install go-semantic-release
+        run: go install github.com/go-semantic-release/semantic-release/cmd/semantic-release@latest
+
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: semantic-release -provider github
+
+      - name: Extract latest tag
+        id: get_tag
+        run: |
+          TAG=$(git describe --tags --abbrev=0)
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.QUIZWARS_DOCKER_USERNAME }}
+          password: ${{ secrets.QUIZWARS_DOCKER_PASSWORD }}
+
+      - name: Build & Push Docker image
+        run: |
+          IMAGE=quizwars/users-service
+          VERSION=${{ steps.get_tag.outputs.tag }}
+          docker build -t $IMAGE:$VERSION .
+          docker tag $IMAGE:$VERSION $IMAGE:latest
+          docker push $IMAGE:$VERSION
+          docker push $IMAGE:latest
