@@ -5,13 +5,13 @@ on:
     workflows: ["Integration Tests"]
     types:
       - completed
-permissions:
-  contents: write
 
 jobs:
   release:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
@@ -33,7 +33,11 @@ jobs:
       - name: Extract latest tag
         id: get_tag
         run: |
-          TAG=$(git describe --tags --abbrev=0)
+          TAG=$(git tag --sort=-creatordate | head -n 1)
+          if [ -z "$TAG" ]; then
+            TAG="0.0.1"
+          fi
+          echo "tag=$TAG"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
       - name: Log in to Docker Hub
