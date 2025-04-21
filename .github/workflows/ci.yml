@@ -78,6 +78,8 @@ jobs:
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
       - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION=${{ steps.get_tag.outputs.tag }}
           gh release create $VERSION ./dist/* --title "Release $VERSION" --notes "Release notes for $VERSION" 
