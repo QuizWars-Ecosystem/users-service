@@ -50,6 +50,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      tag: ${{ steps.get_tag.outputs.tag }}
 
     steps:
       - name: Checkout code
@@ -60,30 +62,31 @@ jobs:
         with:
           go-version: '1.24.2'
 
-      - name: Use go-semantic-release
+      - name: Run go-semantic-release
         uses: go-semantic-release/action@v1
         with:
           hooks: goreleaser
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract latest tag
+      - name: Get latest tag (if created)
         id: get_tag
         run: |
           TAG=$(git tag --sort=-creatordate | tail -n 1)
-          if [ -z "$TAG" ]; then
-            TAG="0.0.1"
-          fi
           echo "tag=$TAG"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
-      - name: Create GitHub Release
+      - name: Create GitHub Release (if not exists)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ steps.get_tag.outputs.tag }}
         run: |
-          gh release view "$VERSION" >/dev/null 2>&1 || \
-          gh release create "$VERSION" --generate-notes
+          if [ -n "$VERSION" ]; then
+            gh release view "$VERSION" >/dev/null 2>&1 || \
+            gh release create "$VERSION" --generate-notes
+          else
+            echo "No new tag created, skipping release step."
+          fi
 
   docker-push:
     needs: release
@@ -103,9 +106,13 @@ jobs:
 
       - name: Build & Push Docker image
         run: |
+          TAG=${{ needs.release.outputs.tag }}
+          if [ -z "$TAG" ]; then
+            echo "No new release tag found. Skipping Docker build and push."
+            exit 0
+          fi
           IMAGE=davidmovas/quizwars-users-service
-          VERSION=${{ needs.release.outputs.tag }}
-          docker build -t $IMAGE:$VERSION .
-          docker tag $IMAGE:$VERSION $IMAGE:latest
-          docker push $IMAGE:$VERSION
+          docker build -t $IMAGE:$TAG .
+          docker tag $IMAGE:$TAG $IMAGE:latest
+          docker push $IMAGE:$TAG
           docker push $IMAGE:latest
