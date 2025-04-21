@@ -77,12 +77,12 @@ jobs:
           echo "tag=$TAG"
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
-      - name: Create GitHub release
+      - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION=${{ steps.get_tag.outputs.tag }}
-          gh release create $VERSION ./dist/* --title "Release $VERSION" --notes "Release notes for $VERSION" 
+          gh release create "$VERSION" --title "Release $VERSION" --notes "Auto release $VERSION" 
 
   docker-push:
     needs: release
