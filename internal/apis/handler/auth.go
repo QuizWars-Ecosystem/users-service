@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"errors"
+
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/jwt"

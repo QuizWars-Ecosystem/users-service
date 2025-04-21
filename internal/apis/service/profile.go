@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+
 	"github.com/google/uuid"
 
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"

@@ -2,8 +2,9 @@ package db
 
 import (
 	"context"
-	"github.com/google/uuid"
 	"time"
+
+	"github.com/google/uuid"
 
 	"github.com/QuizWars-Ecosystem/users-service/internal/models/auth"
 

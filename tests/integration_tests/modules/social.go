@@ -1,8 +1,9 @@
 package modules
 
 import (
-	"github.com/google/uuid"
 	"testing"
+
+	"github.com/google/uuid"
 
 	jw "github.com/QuizWars-Ecosystem/go-common/pkg/jwt"
 	testerror "github.com/QuizWars-Ecosystem/go-common/pkg/testing/errors"
