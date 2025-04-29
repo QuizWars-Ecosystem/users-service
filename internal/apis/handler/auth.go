@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 	"errors"
+
 	"github.com/QuizWars-Ecosystem/users-service/internal/metrics"
 	"github.com/prometheus/client_golang/prometheus"
 	"google.golang.org/grpc/status"

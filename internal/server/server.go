@@ -4,13 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net"
+	"net/http"
+
 	manager "github.com/QuizWars-Ecosystem/go-common/pkg/config"
 	grpccommon "github.com/QuizWars-Ecosystem/go-common/pkg/grpcx/metrics"
 	"github.com/QuizWars-Ecosystem/users-service/internal/metrics"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"golang.org/x/sync/errgroup"
-	"net"
-	"net/http"
 
 	"google.golang.org/grpc/reflection"
 
