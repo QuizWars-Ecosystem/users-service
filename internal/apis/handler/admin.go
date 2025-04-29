@@ -2,11 +2,9 @@ package handler
 
 import (
 	"context"
-
+	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/uuidx"
 	"github.com/google/uuid"
-
-	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/jwt"

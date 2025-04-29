@@ -71,7 +71,7 @@ func (s *TestServer) Start() error {
 	var err error
 	s.listener, err = net.Listen("tcp", fmt.Sprintf(":%d", s.cfg.GRPCPort))
 	if err != nil {
-		z.Error("Failed to start listener", zap.String("name", s.cfg.Name), zap.Int("port", s.cfg.GRPCPort), zap.Error(err))
+		z.Error("Failed to start grpcListener", zap.String("name", s.cfg.Name), zap.Int("port", s.cfg.GRPCPort), zap.Error(err))
 		return err
 	}
 
@@ -96,7 +96,7 @@ func (s *TestServer) Shutdown(ctx context.Context) error {
 	}
 
 	if err := s.listener.Close(); err != nil && !errors.Is(err, net.ErrClosed) {
-		return fmt.Errorf("shutting down listener: %w", err)
+		return fmt.Errorf("shutting down grpcListener: %w", err)
 	}
 
 	if err := s.logger.Close(); err != nil && !isStdoutSyncErr(err) {

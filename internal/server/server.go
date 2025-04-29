@@ -4,9 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"net"
-
 	manager "github.com/QuizWars-Ecosystem/go-common/pkg/config"
+	grpccommon "github.com/QuizWars-Ecosystem/go-common/pkg/grpcx/metrics"
+	"github.com/QuizWars-Ecosystem/users-service/internal/metrics"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"golang.org/x/sync/errgroup"
+	"net"
+	"net/http"
 
 	"google.golang.org/grpc/reflection"
 
@@ -31,12 +35,14 @@ import (
 var _ abstractions.Server = (*Server)(nil)
 
 type Server struct {
-	grpcServer *grpc.Server
-	listener   net.Listener
-	consul     *consul.Consul
-	logger     *log.Logger
-	manager    *manager.Manager[config.Config]
-	closer     *closer.Closer
+	grpcServer   *grpc.Server
+	httpServer   *http.Server
+	grpcListener net.Listener
+	httpListener net.Listener
+	consul       *consul.Consul
+	logger       *log.Logger
+	manager      *manager.Manager[config.Config]
+	closer       *closer.Closer
 }
 
 func NewServer(ctx context.Context, manager *manager.Manager[config.Config]) (*Server, error) {
@@ -69,7 +75,11 @@ func NewServer(ctx context.Context, manager *manager.Manager[config.Config]) (*S
 	srv := service.NewService(storage, logger.Zap())
 	hand := handler.NewHandler(srv, jwtService, logger.Zap())
 
-	grpcServer := grpc.NewServer(grpc.ChainUnaryInterceptor())
+	grpcServer := grpc.NewServer(
+		grpc.ChainUnaryInterceptor(
+			grpccommon.ServerMetricsInterceptor(),
+		),
+	)
 
 	healthServer := health.NewServer()
 	healthServer.SetServingStatus(fmt.Sprintf("%s-%d", cfg.Name, cfg.GRPCPort), grpc_health_v1.HealthCheckResponse_SERVING)
@@ -82,12 +92,22 @@ func NewServer(ctx context.Context, manager *manager.Manager[config.Config]) (*S
 	usersv1.RegisterUsersProfileServiceServer(grpcServer, hand)
 	usersv1.RegisterUsersSocialServiceServer(grpcServer, hand)
 
+	metrics.Initialize()
+
+	metricsMux := http.NewServeMux()
+	metricsMux.Handle("/metrics", promhttp.Handler())
+	metricsServer := &http.Server{
+		Addr:    fmt.Sprintf(":%d", cfg.Metrics.Port),
+		Handler: metricsMux,
+	}
+
 	if cfg.Local {
 		reflection.Register(grpcServer)
 	}
 
 	return &Server{
 		grpcServer: grpcServer,
+		httpServer: metricsServer,
 		consul:     consulManager,
 		logger:     logger,
 		manager:    manager,
@@ -101,24 +121,45 @@ func (s *Server) Start() error {
 	cfg := s.manager.Config()
 	s.manager.Watch(z)
 
-	z.Info("Starting server", zap.String("name", cfg.Name), zap.Int("port", cfg.GRPCPort))
+	group := errgroup.Group{}
 
-	var err error
-	s.listener, err = net.Listen("tcp", fmt.Sprintf(":%d", cfg.GRPCPort))
-	if err != nil {
-		z.Error("Failed to start listener", zap.String("name", cfg.Name), zap.Int("port", cfg.GRPCPort), zap.Error(err))
-		return err
-	}
+	group.Go(func() error {
+		z.Info("Starting metrics server", zap.Int("port", cfg.Metrics.Port))
 
-	s.closer.PushIO(s.listener)
+		var err error
+		s.httpListener, err = net.Listen("tcp", fmt.Sprintf(":%d", cfg.Metrics.Port))
+		if err != nil {
+			z.Error("Error starting metrics server", zap.Error(err))
+			return err
+		}
 
-	err = s.consul.RegisterService()
+		s.closer.PushIO(s.httpListener)
+
+		return s.httpServer.Serve(s.httpListener)
+	})
+
+	group.Go(func() error {
+		z.Info("Starting server", zap.String("name", cfg.Name), zap.Int("port", cfg.GRPCPort))
+
+		var err error
+		s.grpcListener, err = net.Listen("tcp", fmt.Sprintf(":%d", cfg.GRPCPort))
+		if err != nil {
+			z.Error("Failed to start grpcListener", zap.String("name", cfg.Name), zap.Int("port", cfg.GRPCPort), zap.Error(err))
+			return err
+		}
+
+		s.closer.PushIO(s.grpcListener)
+
+		return s.grpcServer.Serve(s.grpcListener)
+	})
+
+	err := s.consul.RegisterService()
 	if err != nil {
 		z.Error("Failed to register service in consul registry", zap.String("name", cfg.Name), zap.Error(err))
 		return err
 	}
 
-	return s.grpcServer.Serve(s.listener)
+	return group.Wait()
 }
 
 func (s *Server) Shutdown(ctx context.Context) error {
@@ -129,6 +170,10 @@ func (s *Server) Shutdown(ctx context.Context) error {
 
 	stopChan := make(chan struct{})
 	go func() {
+		if err := s.httpServer.Shutdown(ctx); err != nil {
+			z.Error("Error shutting down metrics server", zap.Error(err))
+		}
+
 		s.grpcServer.GracefulStop()
 		close(stopChan)
 	}()
@@ -140,8 +185,12 @@ func (s *Server) Shutdown(ctx context.Context) error {
 		s.grpcServer.Stop()
 	}
 
-	if err := s.listener.Close(); err != nil && !errors.Is(err, net.ErrClosed) {
-		return fmt.Errorf("shutting down listener: %w", err)
+	if err := s.grpcListener.Close(); err != nil && !errors.Is(err, net.ErrClosed) {
+		return fmt.Errorf("shutting down grpc listener: %w", err)
+	}
+
+	if err := s.httpListener.Close(); err != nil && !errors.Is(err, net.ErrClosed) {
+		return fmt.Errorf("shutting down http listener: %w", err)
 	}
 
 	if err := s.logger.Close(); err != nil {
