@@ -3,6 +3,9 @@ package handler
 import (
 	"context"
 	"errors"
+	"github.com/QuizWars-Ecosystem/users-service/internal/metrics"
+	"github.com/prometheus/client_golang/prometheus"
+	"google.golang.org/grpc/status"
 
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
@@ -16,10 +19,16 @@ import (
 )
 
 func (h *Handler) Register(ctx context.Context, request *userspb.RegisterRequest) (*userspb.RegisterResponse, error) {
+	var err error
 	req, err := abstractions.MakeRequest[auth.ProfileWithCredentials](request)
 	if err != nil {
 		return nil, err
 	}
+
+	defer metrics.UserCreatedTotalCounter.WithLabelValues("server", status.Code(err).String()).Inc()
+	timer := prometheus.NewTimer(metrics.UsersCreationDurationHistogram.WithLabelValues("server"))
+	defer timer.ObserveDuration()
+	defer takeErrorMetric("server", err)
 
 	res, err := h.service.Register(ctx, req)
 	if err != nil {
@@ -47,6 +56,10 @@ func (h *Handler) Register(ctx context.Context, request *userspb.RegisterRequest
 func (h *Handler) Login(ctx context.Context, request *userspb.LoginRequest) (*userspb.LoginResponse, error) {
 	var credits *auth.ProfileWithCredentials
 	var err error
+
+	defer metrics.UsersLoginTotalCounter.WithLabelValues("server", status.Code(err).String()).Inc()
+	timer := prometheus.NewTimer(metrics.UsersLoginDurationHistogram.WithLabelValues("server"))
+	defer timer.ObserveDuration()
 
 	switch request.Identifier.(type) {
 	case *userspb.LoginRequest_Username:
@@ -86,6 +99,8 @@ func (h *Handler) Logout(ctx context.Context, request *userspb.LogoutRequest) (*
 		return nil, err
 	}
 
+	metrics.UserLogoutTotalCounter.Inc()
+
 	return Empty, nil
 }
 
@@ -95,4 +110,10 @@ func (h *Handler) OAuthLogin(_ context.Context, _ *userspb.OAuthLoginRequest) (*
 
 func (h *Handler) LinkOAuthProvider(_ context.Context, _ *userspb.LinkOAuthProviderRequest) (*emptypb.Empty, error) {
 	return Empty, apperrors.Internal(errors.New("not implemented"))
+}
+
+func takeErrorMetric(method string, err error) {
+	if err != nil {
+		metrics.UsersCreationErrorsCounter.WithLabelValues(method, status.Code(err).String()).Inc()
+	}
 }

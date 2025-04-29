@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"github.com/QuizWars-Ecosystem/users-service/internal/metrics"
 
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/uuidx"
@@ -137,6 +138,8 @@ func (h *Handler) ChangePassword(ctx context.Context, request *userspb.ChangePas
 		return nil, err
 	}
 
+	defer metrics.ProfileChangePasswordTotalCounter.Inc()
+
 	return Empty, nil
 }
 
@@ -157,6 +160,7 @@ func (h *Handler) DeleteAccount(ctx context.Context, request *userspb.DeleteAcco
 	}
 
 	h.logger.Debug("user deleted", zap.String("id", request.GetUserId()))
+	defer metrics.ProfileDeletionTotalCounter.Inc()
 
 	return Empty, nil
 }

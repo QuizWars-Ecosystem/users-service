@@ -3,9 +3,9 @@ package metrics
 import "github.com/prometheus/client_golang/prometheus"
 
 var (
-	UsersCreationCounter = prometheus.NewCounterVec(
+	UserCreatedTotalCounter = prometheus.NewCounterVec(
 		prometheus.CounterOpts{
-			Name: "user_create_total",
+			Name: "user_created_total",
 			Help: "Number of created users",
 		},
 		[]string{"method", "status"},
@@ -13,8 +13,9 @@ var (
 
 	UsersCreationDurationHistogram = prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
-			Name: "user_create_duration_seconds",
-			Help: "Duration of creating users",
+			Name:    "user_create_duration_seconds",
+			Help:    "Duration of creating users",
+			Buckets: prometheus.DefBuckets,
 		},
 		[]string{"method"},
 	)
@@ -37,8 +38,9 @@ var (
 
 	UsersLoginDurationHistogram = prometheus.NewHistogramVec(
 		prometheus.HistogramOpts{
-			Name: "user_login_duration_seconds",
-			Help: "Duration of login attempts",
+			Name:    "user_login_duration_seconds",
+			Help:    "Duration of login attempts",
+			Buckets: prometheus.DefBuckets,
 		},
 		[]string{"method"},
 	)
@@ -47,7 +49,8 @@ var (
 		prometheus.CounterOpts{
 			Name: "user_logout_total",
 			Help: "Number of total logout attempts",
-		})
+		},
+	)
 )
 
 var (
@@ -80,11 +83,12 @@ var (
 			Name: "admin_forbitten_actions_total",
 			Help: "Number of forbitten admin actions",
 		},
-		[]string{"method", "reason"})
+		[]string{"method", "reason"},
+	)
 )
 
 func Initialize() {
-	prometheus.MustRegister(UsersCreationCounter)
+	prometheus.MustRegister(UserCreatedTotalCounter)
 	prometheus.MustRegister(UsersCreationDurationHistogram)
 	prometheus.MustRegister(UsersCreationErrorsCounter)
 	prometheus.MustRegister(UsersLoginTotalCounter)

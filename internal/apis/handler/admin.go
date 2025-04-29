@@ -4,6 +4,7 @@ import (
 	"context"
 	apperrors "github.com/QuizWars-Ecosystem/go-common/pkg/error"
 	"github.com/QuizWars-Ecosystem/go-common/pkg/uuidx"
+	"github.com/QuizWars-Ecosystem/users-service/internal/metrics"
 	"github.com/google/uuid"
 
 	"github.com/QuizWars-Ecosystem/go-common/pkg/abstractions"
@@ -15,8 +16,11 @@ import (
 )
 
 func (h *Handler) SearchUsers(ctx context.Context, request *userspb.SearchUsersRequest) (*userspb.SearchUsersResponse, error) {
+	defer metrics.AdminActionsTotalCounter.WithLabelValues("SearchUsers").Inc()
+
 	err := h.jwt.ValidateRoleWithContext(ctx, string(jwt.Admin))
 	if err != nil {
+		metrics.AdminForbittenActionsTotalCounter.WithLabelValues("SearchUsers", err.Error()).Inc()
 		return nil, err
 	}
 
@@ -39,8 +43,11 @@ func (h *Handler) SearchUsers(ctx context.Context, request *userspb.SearchUsersR
 }
 
 func (h *Handler) GetUserByIdentifier(ctx context.Context, request *userspb.GetUserByIdentifierRequest) (*userspb.UserAdmin, error) {
+	defer metrics.AdminActionsTotalCounter.WithLabelValues("GetUserByIdentifier").Inc()
+
 	err := h.jwt.ValidateRoleWithContext(ctx, string(jwt.Admin))
 	if err != nil {
+		metrics.AdminForbittenActionsTotalCounter.WithLabelValues("GetUserByIdentifier", err.Error()).Inc()
 		return nil, err
 	}
 
@@ -73,8 +80,11 @@ func (h *Handler) GetUserByIdentifier(ctx context.Context, request *userspb.GetU
 }
 
 func (h *Handler) UpdateUserRole(ctx context.Context, request *userspb.UpdateUserRoleRequest) (*emptypb.Empty, error) {
+	defer metrics.AdminActionsTotalCounter.WithLabelValues("UpdateUserRole").Inc()
+
 	claims, err := h.jwt.ValidateTokenWithContext(ctx)
 	if err != nil {
+		metrics.AdminForbittenActionsTotalCounter.WithLabelValues("UpdateUserRole", err.Error()).Inc()
 		return nil, err
 	}
 
@@ -95,8 +105,11 @@ func (h *Handler) UpdateUserRole(ctx context.Context, request *userspb.UpdateUse
 }
 
 func (h *Handler) BanUser(ctx context.Context, request *userspb.BanUserRequest) (*emptypb.Empty, error) {
+	defer metrics.AdminActionsTotalCounter.WithLabelValues("BanUser").Inc()
+
 	err := h.jwt.ValidateRoleWithContext(ctx, string(jwt.Admin))
 	if err != nil {
+		metrics.AdminForbittenActionsTotalCounter.WithLabelValues("BanUser", err.Error()).Inc()
 		return nil, err
 	}
 
@@ -114,8 +127,11 @@ func (h *Handler) BanUser(ctx context.Context, request *userspb.BanUserRequest) 
 }
 
 func (h *Handler) UnbanUser(ctx context.Context, request *userspb.UnbanUserRequest) (*emptypb.Empty, error) {
+	defer metrics.AdminActionsTotalCounter.WithLabelValues("UnbanUser").Inc()
+
 	err := h.jwt.ValidateRoleWithContext(ctx, string(jwt.Admin))
 	if err != nil {
+		metrics.AdminForbittenActionsTotalCounter.WithLabelValues("UnbanUser", err.Error()).Inc()
 		return nil, err
 	}
 
