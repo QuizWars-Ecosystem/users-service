@@ -4,6 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/QuizWars-Ecosystem/go-common/pkg/grpcx/telemetry"
+	grpcrecovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
+	grpcprometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
+	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"net"
 	"net/http"
 
@@ -69,6 +73,8 @@ func NewServer(ctx context.Context, manager *manager.Manager[config.Config]) (*S
 		return nil, fmt.Errorf("error initializing postgres client: %w", err)
 	}
 
+	grpcprometheus.EnableHandlingTimeHistogram()
+
 	jwtService := jwt.NewService(cfg.JWT)
 	manager.Subscribe(jwtService.SectionKey(), func(cfg *config.Config) error { return jwtService.UpdateConfig(cfg.JWT) })
 
@@ -76,9 +82,23 @@ func NewServer(ctx context.Context, manager *manager.Manager[config.Config]) (*S
 	srv := service.NewService(storage, logger.Zap())
 	hand := handler.NewHandler(srv, jwtService, logger.Zap())
 
+	provider, err := telemetry.NewTracerProvider(ctx, cfg.Name, cfg.Telemetry.URL)
+	if err != nil {
+		logger.Zap().Error("error initializing telemetry tracer", zap.Error(err))
+	}
+
+	cl.PushCtx(provider.Shutdown)
+
 	grpcServer := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
+			grpcrecovery.UnaryServerInterceptor(),
 			grpccommon.ServerMetricsInterceptor(),
+			grpcprometheus.UnaryServerInterceptor,
+		),
+		grpc.StatsHandler(
+			otelgrpc.NewServerHandler(
+				otelgrpc.WithTracerProvider(provider),
+			),
 		),
 	)
 
