@@ -4,12 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net"
+	"net/http"
+	"time"
+
 	"github.com/QuizWars-Ecosystem/go-common/pkg/grpcx/telemetry"
 	grpcrecovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpcprometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
-	"net"
-	"net/http"
 
 	manager "github.com/QuizWars-Ecosystem/go-common/pkg/config"
 	grpccommon "github.com/QuizWars-Ecosystem/go-common/pkg/grpcx/metrics"
@@ -67,7 +69,18 @@ func NewServer(ctx context.Context, manager *manager.Manager[config.Config]) (*S
 
 	cl.Push(consulManager.Stop)
 
-	db, err := clients.NewPostgresClient(ctx, cfg.Postgres.URL, nil)
+	provider, err := telemetry.NewTracerProvider(ctx, cfg.Name, cfg.Telemetry.URL)
+	if err != nil {
+		logger.Zap().Error("error initializing telemetry tracer", zap.Error(err))
+	}
+
+	cl.PushCtx(provider.Shutdown)
+
+	db, err := clients.NewPostgresClient(ctx, cfg.Postgres.URL,
+		clients.NewPostgresOptions(cfg.Postgres.URL).
+			WithConnectTimeout(time.Second*10).
+			WithTracerProvider(provider),
+	)
 	if err != nil {
 		logger.Zap().Error("error initializing postgres client", zap.Error(err))
 		return nil, fmt.Errorf("error initializing postgres client: %w", err)
@@ -81,13 +94,6 @@ func NewServer(ctx context.Context, manager *manager.Manager[config.Config]) (*S
 	storage := store.NewStore(db, logger.Zap())
 	srv := service.NewService(storage, logger.Zap())
 	hand := handler.NewHandler(srv, jwtService, logger.Zap())
-
-	provider, err := telemetry.NewTracerProvider(ctx, cfg.Name, cfg.Telemetry.URL)
-	if err != nil {
-		logger.Zap().Error("error initializing telemetry tracer", zap.Error(err))
-	}
-
-	cl.PushCtx(provider.Shutdown)
 
 	grpcServer := grpc.NewServer(
 		grpc.ChainUnaryInterceptor(
